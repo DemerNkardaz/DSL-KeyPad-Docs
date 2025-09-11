@@ -49,4 +49,3 @@ function getCopyrightString() {
 console.log(getCopyrightString()); // Вывод: "© 2024-2025" (если текущий год 2025)
 
 
-
