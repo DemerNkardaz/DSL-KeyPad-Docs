@@ -71,11 +71,28 @@
 		<section class="root-container">
 			<header class="content-header">
 				<div class="content-header-title">
-					<div class="lambda-logo">λ</div>
+					<div class="lambda-logo">
+						<img src="./Media/SVG/Button_Icons/app.svg" alt="Application Logo">
+					</div>
 
 					<h1 id="main-title">DSL KeyPad <sup>α</sup></h1>
-
+					
 				</div>
+				
+				<div class="content-header-links">
+					<a href="https://github.com/DemerNkardaz/DSL-KeyPad" class="content-header-links__item" target="_blank" rel="noopener noreferrer">
+						<img src="https://github.com/favicon.ico" alt="GitHub">
+					</a>
+					<a href="https://sourceforge.net/projects/dsl-keypad/" class="content-header-links__item" target="_blank" rel="noopener noreferrer">
+						<img src="https://sourceforge.net/favicon.ico" alt="SourceForge">
+					</a>
+				</div>
+
+				<button class="download-large" type="button" onclick="DownloadLastRelease()">
+					Download
+				</button>
+
+
 				<nav class="content-header-navigation">
 				</nav>
 			</header>
@@ -217,6 +234,7 @@
 			</footer>
 		</section>
 		<script src="./Script/index.js"></script>
+		<script src="./Script/modules_index.js" type="module"></script>
 		<script src="./Script/classes.js"></script>
 		<script src="./Script/utils.js"></script>
 		<script src="./Script/page.js"></script>
