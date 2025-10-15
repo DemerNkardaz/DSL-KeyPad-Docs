@@ -33,11 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 	document.body.addEventListener('click', (event) => {
 		const target = event.target;
 
-		if (target.classList.contains('clickable')) {
-			console.log('Clickable element clicked:', target);
-			handleElementClick(target);
-		}
-
 
 
 		if (target.classList.contains('alternative-modes-header-tab-button') || target.closest('.alternative-modes-header-tab-button')) {
@@ -80,18 +75,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Handles a click event for a given element.
+ * @param {Element} element - The element that was clicked.
+ */
+/*******  6266ec16-d365-4614-99c8-fb3e5e98ecf1  *******/
 function handleElementClick(element) {
 	console.log('Handling click for element:', element);
 }
 
 
 
-// Пример использования:
-console.log(getUnicodeCharacters('1F600')); // Вывод: 😀
-console.log(getUnicodeCharacters('1F600', '1F601', '1F602')); // Вывод: 😀😁😂
-console.log(getUnicodeCharacters(0x1F600, 0x1F601)); // Вывод: 😀😁 (поддержка чисел сохраняется)
+// // Пример использования:
+// console.log(getUnicodeCharacters('1F600')); // Вывод: 😀
+// console.log(getUnicodeCharacters('1F600', '1F601', '1F602')); // Вывод: 😀😁😂
+// console.log(getUnicodeCharacters(0x1F600, 0x1F601)); // Вывод: 😀😁 (поддержка чисел сохраняется)
 
-// Пример использования:
-console.log(getUnicodeRange("1E000-1E006;1E008-1E018;1E01B-1E021;1E023-1E024;1E026-1E02A", "", "\u25CC")); 
-console.log(getUnicodeRange("2C00-2C5F"));
-console.log(getUnicodeRange("2C00-2C05", ", "));
+// // Пример использования:
+// console.log(getUnicodeRange("1E000-1E006;1E008-1E018;1E01B-1E021;1E023-1E024;1E026-1E02A", "", "\u25CC")); 
+// console.log(getUnicodeRange("2C00-2C5F"));
+// console.log(getUnicodeRange("2C00-2C05", ", "));

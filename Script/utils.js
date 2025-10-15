@@ -45,8 +45,6 @@ function getCopyrightString() {
 	return language === 'en' ? `&COPY;&emsp14;${startYear}${currentYear > startYear ? `-${currentYear}` : ''}&emsp14;Yalla Nkardaz` : `&COPY;&emsp14;Я&#769;лла&nbsp;Нкарда&#769;з,&emsp14;${startYear}${currentYear > startYear ? `–${currentYear}` : ''}`;
 }
 
-// Пример использования:
-console.log(getCopyrightString()); // Вывод: "© 2024-2025" (если текущий год 2025)
 
 
 function scatterText(text, elementId) {
@@ -187,8 +185,37 @@ function scatterText(text, elementId) {
   
   element.innerHTML = html;
 }
-
 function animateScatterCollapse(elementId, duration = 20000) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  
+  const collapseAnim = element.animate([
+    { width: '100%' },
+    { width: '0%' }
+  ], {
+    duration: duration,
+    easing: 'cubic-bezier(0.4, 0, 1, 1)',
+    fill: 'forwards'
+  });
+  
+  collapseAnim.onfinish = () => {
+    const spans = element.querySelectorAll('span');
+    spans.forEach(span => {
+      const currentLeft = parseFloat(span.style.left);
+      span.style.left = `${100 - currentLeft}%`;
+    });
+    
+    element.animate([
+      { width: '0%' },
+      { width: '100%' }
+    ], {
+      duration: duration,
+      easing: 'cubic-bezier(0, 0, 0.6, 1)',
+      fill: 'forwards'
+    });
+  };
+}
+function animateScatterCollapse2(elementId, duration = 20000) {
   const element = document.getElementById(elementId);
   if (!element) {
     console.error(`Элемент с id "${elementId}" не найден`);
