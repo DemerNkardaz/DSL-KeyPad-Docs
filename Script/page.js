@@ -75,12 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Handles a click event for a given element.
- * @param {Element} element - The element that was clicked.
- */
-/*******  6266ec16-d365-4614-99c8-fb3e5e98ecf1  *******/
 function handleElementClick(element) {
 	console.log('Handling click for element:', element);
 }
