@@ -56,6 +56,10 @@ function scatterText(text, elementId) {
     return;
   }
   
+	if (Array.isArray(text)) {
+		const randomIndex = Math.floor(Math.random() * text.length);
+		text = text[randomIndex];
+	}
   
   const chars = [...text];
   const totalChars = chars.length;

@@ -1,7 +1,17 @@
 const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
 const locale = new Intl.DateTimeFormat().resolvedOptions().locale;
 const language = SUPPORTED_LANGUAGES.includes(locale) ? locale : 'en-US';
-const randomLetters = "ǷÞꝨØŮÇǢꜨẞꟕƱẳᵶᾆἣϞѬꙊԘꙐѦЏꙞꚎ🜍♅⯠⯡☿🝻☯☰☶ᛗᛟᛉ";
+const randomLetters = [
+	"ǷÞꝨØŮÇǢꜨẞꟕƱẳᵶᾆἣϞѬꙊԘꙐѦЏꙞꚎ🜍♅⯠⯡☿🝻☯☰☶ᛗᛟᛉ", // Random
+	"🜁🜃🜂🜄🝇🝞🜲🜅🜆🜉🜊🜍🜏🜔🝁🜿🜶🝘🝗🝛🜩🜪🜾🜠🜑☿☉☾♁🝪🝩🜯🜥🜹🜘🜛", // Alchemy
+	"☉☾☿♀🜨♂♃♄♅♆⯠⯡⯢⯣⯤⯥⯦⯧♇⯓⯔⯕⯖⚳⯲⯰⯱🝻🝼🝽🝾🝿⯗⯘⚶⚷⯙⯚⚴⚵⚸⯝", // Astrology
+	"♈♉♊♋♌♍♎♏♐♑♒♓⛎︎☊☋☌☍⚹⚺⚻⚼℞⯳⯴⯵⯶⯷⯸🝴🝵🝶", // Zodiacs and second astrology
+	"☯︎⚋⚊⚏⚎⚍⚌☰☱☲☳☴☵☶☷䷀䷁䷂䷃䷄䷅䷆䷇䷈䷉", // Yijing
+	"🩠🩡🩡🩢🩢🩣🩣🩤🩤🩥🩥🩦🩦🩦🩦🩦🩧🩨🩨🩩🩩🩪🩪🩫🩫🩬🩬🩭🩭🩭🩭🩭", // Xiangqi
+	"♚♛♜♜♝♝♞♞♟♟♟♟♟♟♟♟🩉🩑🩒🩓", // Chess
+	"¤₠₳¢₵₡$₯֏߾€₣₲₭₾₦£₶₷₽₴₤₺₹₩¥円元₫₮₸₪₱₿", // Wallets
+	"ᚨᛒᛞᛖᚠᚷᚺᛁᛇᛃᚲᛚᛗᚾᛜᛟᛈᚱᛊᛏᚦᚹᛉᚪᚫᚳᛠᚸᚻᛄᛡᛤᛣᛝᚩᛢᛋᛥᚣᛮᛯᛰ", // Runes
+];
 
 const hellenicPairs = {
 	'α': 'Alpha',
