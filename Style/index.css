@@ -263,11 +263,21 @@ a {
 		display: flex;
 		align-items: center;
 		gap: 1em;
+		transition: all 150ms ease;
+		-webkit-user-select: none;
+		user-select: none;
+		color: var(--text-light);
 
 		&>.content-header-title-text {
 			font-size: 1.75rem;
 			font-weight: 700;
 			margin: 0;
+		}
+		
+		&:hover {
+			text-decoration: none;
+			cursor: pointer;
+			filter: brightness(1.2);
 		}
 	}
 
@@ -361,12 +371,17 @@ a {
 	border-bottom: 1px solid var(--border-ultra-dark);	
 }
 
-.download-large {
+.btn-large {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.35em;
+	padding-inline: 2em;
 	background-color: var(--accent-gold);
 	border: 2px solid var(--accent-pale-gold);
 	color: var(--text-dark);
-	width: 176px;
-	height: 48px;
+	min-width: 150px;
+	height: 40px;
 	cursor: pointer;
 	border-radius: 2.5px;
 	text-align: center;
@@ -383,6 +398,10 @@ a {
 	&:active {
 		background-color: var(--accent-gold);
 		border-color: var(--accent-pale-gold);
+	}
+
+	&>img {
+		height: 22px;
 	}
 }
 
@@ -454,7 +473,7 @@ a {
 .alternative-mode-icon {
 	grid-row: 1;
 	grid-column: 1;
-	width: 128px;
+	width: 58px;
 	height: 128px;
 	display: flex;
 	align-items: center;
@@ -469,6 +488,7 @@ a {
 		object-fit: contain;
 	}
 }
+
 .alternative-mode-title-container {
 	grid-row: 1;
 	grid-column: 2;
