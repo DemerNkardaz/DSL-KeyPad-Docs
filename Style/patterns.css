@@ -1,0 +1,41 @@
+.pattern-diagonal-wavy-lines {
+	--s: 100px;
+	--c1: #333;
+	--c2: #2C2C2C;
+		
+	--_g: #0000 24%,
+		var(--c2) 26% 34%, var(--c1) 36% 44%,
+		var(--c2) 46% 54%, var(--c1) 56% 64%,
+		var(--c2) 66% 74%, #0000 76%;
+	background:
+		radial-gradient(100% 100% at 100% 0, var(--_g)),
+		radial-gradient(100% 100% at 0 100%, var(--_g)),
+		radial-gradient(var(--c2) 14%, var(--c1) 16%) calc(var(--s)/2) calc(var(--s)/2);
+	background-size: var(--s) var(--s);
+}
+
+.pattern-overlapping-cubes {
+		--s: 84px;
+		--c1: rgb(40, 40, 40);
+		--c2: rgb(30, 30, 30);
+		--c3: rgb(60, 60, 60);
+
+		--_g: 0 120deg, #0000 0;
+		background:
+			conic-gradient(at calc(250%/3) calc(100%/3), var(--c3) var(--_g)),
+			conic-gradient(from -120deg at calc(50%/3) calc(100%/3), var(--c2) var(--_g)),
+			conic-gradient(from 120deg at calc(100%/3) calc(250%/3), var(--c1) var(--_g)),
+			conic-gradient(from 120deg at calc(200%/3) calc(250%/3), var(--c1) var(--_g)),
+			conic-gradient(from -180deg at calc(100%/3) 50%, var(--c2) 60deg, var(--c1) var(--_g)),
+			conic-gradient(from 60deg at calc(200%/3) 50%, var(--c1) 60deg, var(--c3) var(--_g)),
+			conic-gradient(from -60deg at 50% calc(100%/3), var(--c1) 120deg, var(--c2) 0 240deg, var(--c3) 0);
+		background-size: calc(var(--s)*sqrt(3)) var(--s);
+}
+
+.wavy-border {
+  --mask:
+    radial-gradient(81.55px at 50% calc(100% - 64px),#000 99%,#0000 101%) calc(50% - 64px) 0/128px 100%,
+    radial-gradient(81.55px at 50% calc(100% + 64px),#0000 99%,#000 101%) 50% calc(100% - 32px)/128px 100% repeat-x;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+}

@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 	await loadLocale(language);
 	document.documentElement.setAttribute('lang', language);
 
+	scatterText(randomLetters, "random-letters");
+
 	const mainTitle = document.querySelector('#main-title');
 	const mainTitleVersion = document.querySelector('#main-title-version');
 	const maintitleStatus = document.querySelector('#main-title-status');

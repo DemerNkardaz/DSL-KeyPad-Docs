@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&display=swap');
+
 @import './utilitary.css';
+@import './patterns.css';
 @import './dropdown.css';
 @import './lambda_logo.css';
 :root {
@@ -12,13 +17,17 @@
 	--text-gray: #ccc;
 	--text-dark: #333;
 	--text-light: #eee;
+	--text-semi-light: #777;
+	--text-semi-dark: #444;
 	--accent-orange-gold: #f7ad01;
 	--accent-gold: #ffd700;
 	--accent-pale-gold: #ffe761;
 	--accent-dark-gold: #aa6b39;
 	--background-dark: #333333;
+	--background-ultra-dark: #222222;
 	--background-light: #eeeeee;
 	--border-dark: #444444;
+	--border-ultra-dark: #222222;
 	--border-light: #dddddd;
 }
 
@@ -81,8 +90,10 @@ body, html {
 	width: 100%;
 	/* Основные параметры шрифта */
 	font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+	color: var(--text-light);
 	font-size: 12pt;
 	line-height: 1.45;
+	background-color: var(--background-ultra-dark);
 }
 
 body {
@@ -99,6 +110,15 @@ a {
 	&:hover {
 		text-decoration: underline;
 		color: var(--accent-color-light);
+	}
+}
+
+.a-golden {
+	color: var(--accent-gold);
+
+	&:hover {
+		text-decoration: underline;
+		color: var(--accent-pale-gold);
 	}
 }
 
@@ -236,8 +256,7 @@ a {
 	width: 100%;
 	height: 64px;
 	background-color: var(--background-dark);
-	border-bottom: 1px solid var(--border-color);
-	/* border-radius: 0 0 8px 8px; */
+	border-bottom: 1px solid var(--border-ultra-dark);
 	padding-inline: 15rem;
 	align-items: center;
 	color: white;
@@ -252,7 +271,6 @@ a {
 			font-size: 1.75rem;
 			font-weight: 700;
 			margin: 0;
-			color: var(--text-light);
 		}
 	}
 
@@ -279,7 +297,6 @@ a {
 				}
 
 				&>p {
-					color: var(--text-light);
 					white-space: nowrap;
 				}
 		}
@@ -288,11 +305,31 @@ a {
 
 .content-intershow {
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+
 	width: 100%;
 	height: 576px;
-	border-bottom: 1px solid var(--border-color);
+	border-bottom: 1px solid var(--border-ultra-dark);
 	/* border-radius: 0 0 8px 8px; */
 	padding-inline: 15rem;
+	
+	&>.content-intershow-gradient {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, transparent 90%);
+	}
+
+	&>.content-intershow-random-letters {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		font-family: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', serif;
+		color: color-mix(in srgb, var(--text-light), var(--text-dark) 80%);
+	}
 
 	&>.content-intershow-header {
 		position: absolute;
@@ -302,23 +339,29 @@ a {
 		gap: 1em;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, 50%);
+		transform: translate(-50%, 35%);
 		
 		&>h1 {
 			display: flex;
 			gap: 0.25em;
 			font-size: 3rem;
 			font-weight: 700;
-			/* color: var(--text-light); */
 			margin: 0;
 		}
 		&>p {
 			font-size: 1.45rem;
 			font-weight: 400;
-			/* color: var(--text-light); */
 			margin: 0;
 		}
 	}
+
+}
+
+.content-intershow-bottom {
+	width: 100%;
+	height: 64px;
+	background-color: var(--background-dark);
+	border-bottom: 1px solid var(--border-ultra-dark);	
 }
 
 .download-large {
@@ -350,16 +393,18 @@ a {
 	font-family: 'Not Sans', sans-serif;
 	width: 100%;
 	padding: 1rem;
-	background-color: #f5f5f5;
-	border-top: 1px solid var(--border-color);
+	background-color: var(--background-dark);
+	border-top: 1px solid var(--border-ultra-dark);
 	border-radius: 0 0 8px 8px;
 	padding-inline: 2em;
+	color: var(--text-semi-light);
 }
 
 .content-container {
+	position: relative;
 	width: 100%;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: stretch;
 }
 

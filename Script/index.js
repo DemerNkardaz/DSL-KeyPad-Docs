@@ -1,6 +1,7 @@
 const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
 const locale = new Intl.DateTimeFormat().resolvedOptions().locale;
 const language = SUPPORTED_LANGUAGES.includes(locale) ? locale : 'en-US';
+const randomLetters = "ǷÞꝨØŮÇǢꜨẞꟕƱẳᵶᾆἣϞѬꙊԘꙐѦЏꙞꚎ🜍♅⯠⯡☿🝻☯☰☶ᛗᛟᛉ";
 
 const hellenicPairs = {
 	'α': 'Alpha',
