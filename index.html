@@ -75,20 +75,20 @@
 						<img src="./Media/SVG/Button_Icons/app.svg" alt="Application Logo">
 					</div>
 
-					<h1 id="main-title">DSL KeyPad <sup>α</sup></h1>
+					<p class="content-header-title-text" title="Diacritics-Spaces-Letters KeyPad">DSL KeyPad</p>
 					
 				</div>
 				
 				<div class="content-header-links">
-					<a href="https://github.com/DemerNkardaz/DSL-KeyPad" class="content-header-links__item" target="_blank" rel="noopener noreferrer">
-						<img src="https://github.com/favicon.ico" alt="GitHub">
+					<a href="https://github.com/DemerNkardaz/DSL-KeyPad" class="content-header-links__item" target="_blank" rel="noopener noreferrer" title="GitHub Repository">
+						<img src="./Media/SVG/Resources/github-mark-white.svg" alt="GitHub">
 					</a>
-					<a href="https://sourceforge.net/projects/dsl-keypad/" class="content-header-links__item" target="_blank" rel="noopener noreferrer">
-						<img src="https://sourceforge.net/favicon.ico" alt="SourceForge">
+					<a href="https://sourceforge.net/projects/dsl-keypad/" class="content-header-links__item" target="_blank" rel="noopener noreferrer" title="SourceForge Project Page">
+						<img src="https://sourceforge.net/sflogo.php?type=18&amp;group_id=3872678" alt="SourceForge">
 					</a>
 				</div>
 
-				<button class="download-large" type="button" onclick="DownloadLastRelease()">
+				<button class="download-large" id="btn-download-latest" type="button" data-locale="dictionary.download">
 					Download
 				</button>
 
@@ -96,6 +96,15 @@
 				<nav class="content-header-navigation">
 				</nav>
 			</header>
+			<div class="content-intershow">
+					
+				<div class="content-intershow-header">
+					<h1 id="main-title">DSL KeyPad<span id="main-title-version"></span><span id="main-title-status"></span></h1>
+					<p data-locale="title.description">
+						
+					</p>
+				</div>
+				</div>
 			<main class="content-container">
 				<nav class="content-list">
 					<ul>
@@ -235,6 +244,7 @@
 		</section>
 		<script src="./Script/index.js"></script>
 		<script src="./Script/classes.js"></script>
+		<script src="./Script/locale.js"></script>
 		<script src="./Script/utils.js"></script>
 		<script src="./Script/page.js"></script>
 	</body>

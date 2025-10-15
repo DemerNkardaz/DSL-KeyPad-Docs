@@ -1,0 +1,36 @@
+{
+	"dictionary": {
+		"download": "Download",
+		"version": "Version",
+		"status": "Status"
+	},
+	"hellenic_alphabet": {
+		"alpha": "Alpha",
+		"beta": "Beta",
+		"gamma": "Gamma",
+		"delta": "Delta",
+		"epsilon": "Epsilon",
+		"zeta": "Zeta",
+		"eta": "Eta",
+		"theta": "Theta",
+		"iota": "Iota",
+		"kappa": "Kappa",
+		"lambda": "Lambda",
+		"mu": "Mu",
+		"nu": "Nu",
+		"xi": "Xi",
+		"omicron": "Omicron",
+		"pi": "Pi",
+		"rho": "Rho",
+		"sigma": "Sigma",
+		"tau": "Tau",
+		"upsilon": "Upsilon",
+		"phi": "Phi",
+		"chi": "Chi",
+		"psi": "Psi",
+		"omega": "Omega"
+	},
+	"title": {
+		"description": "Thousands Unicode symbols: <span class='underline-dot question' title='Ænglisċ sprǣċ, Français, Tiếng Việt, Hànyǔ Pīnyīn, Norrœnt mál, Føroyskt mál, Bokmål, Español, Język polski, Čeština, Limba Română, [ … ]'>Latin</span>, <span class='underline-dot question' title='Словѣньскъ ѩꙁꙑкъ, Ли́мба Рꙋмѫнѣскъ, Українська мова, Қазақ тілі, Забони тоҷикӣ, Аԥсуа бызшәа (Аҧсуа бызꚗа), Итәмәӈин крвэԓхатас, Хуэйзў йүян, Азәрбајҹанҹа, Башҡорт теле, Чӑваш чӗлхи, Эвэды̄ турэ̄н, [ … ]'>Cyrillic</span>, <span class='underline-dot question' title='ᚨᛒᛞᛖᚠᚷᚺᛁᛇᛃᚲᛚᛗᚾᛜᛟᛈᚱᛊᛏᚦᚹᛉ ᚪᚫᚳᛠᚸᚻᛄᛡᛤᛣᛝᚩᛢᛋᛥᚣ [ … ]'>Runes</span>, <span class='underline-dot question' title='Ⰳⰾⰰⰳⱁⰾⰻⱌⰰ [ … ]'>Glagolitic</span>, <span class='underline-dot question' title='∅≠≈−∸±∓∔⩱⩲×÷⋇⩫≦≱⨊∈∆∇∭∯⨋ [ … ]'>Mathematical symbols</span>, <span class='underline-dot question' title='🜁🜃🜂🜄🝇🝢🜲🜅🜆🜊🜋🜍🜎🜏🜷🝁🝋🝛🜠🜑☿☉ [ … ]'>Alchemy</span> and much <span class='underline-dot question' title='☯︎⚋⚊☰☱☲☳☴☵☶☷䷀䷁䷂䷃, ♔♕♖♗♘♙, ♠♥♦♣, ₠₳₡€₣₩¥₫₮₸, ℀℁⅍℅℆℄⅊, ⸻ ⸺ — –, «»„“”, ⸮¡¿‽⸘, ⮄⮆⮅⮇⬱⇶ [ … ]'>more</span> become easily accessible with DSL KeyPad."
+	}
+}

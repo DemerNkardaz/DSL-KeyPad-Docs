@@ -1,6 +1,30 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 	console.log('Page loaded and DOM is ready.');
+	await loadLocale(language);
 	document.documentElement.setAttribute('lang', language);
+
+	const mainTitle = document.querySelector('#main-title');
+	const mainTitleVersion = document.querySelector('#main-title-version');
+	const maintitleStatus = document.querySelector('#main-title-status');
+
+	const buttonDownloadLatest = document.querySelector('#btn-download-latest');
+	buttonDownloadLatest.addEventListener('click', DownloadLastRelease);
+
+	const info = await releaseInfoPromise;
+	
+	if (info.success) {
+		buttonDownloadLatest.setAttribute('title', `Download ${info.name}`);
+		let infoStatus = returnHellenicStatus(info.name);
+		textStatus = infoStatus !== null ? `${infoStatus}` : '';
+		localizedStatus = infoStatus !== null ? `${infoStatus.toLowerCase()}` : '';
+
+		mainTitleVersion.textContent = ` ${info.version}`;
+		maintitleStatus.textContent = '';
+		maintitleStatus.setAttribute('data-locale', `hellenic_alphabet.${localizedStatus}`);
+	} else {
+		buttonDownloadLatest.setAttribute('title', 'Download DSL KeyPad');
+		console.warn('Не удалось загрузить информацию о версии');
+	}
 	
 
 	document.body.addEventListener('click', (event) => {
@@ -40,12 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 
-	document.querySelectorAll('details').forEach((el) => {
+	document.querySelectorAll('details').forEach(async (el) => {
 		if (!el.open) {
 			el.classList.add('closed');
 		}
 		new Accordion(el);
 	});
+
+
+	const elements = document.querySelectorAll('[data-locale]');
+	elements.forEach(localizeElement);
 
 });
 

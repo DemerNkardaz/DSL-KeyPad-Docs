@@ -1,0 +1,11 @@
+.underline {
+	text-decoration: underline;
+}
+
+.underline-dot {
+	text-decoration: underline dotted;
+}
+
+.question {
+	cursor: help;
+}
