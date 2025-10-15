@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	document.documentElement.setAttribute('lang', language);
 
 	scatterText(randomLetters, "random-letters");
+	animateScatterCollapseLoop('random-letters');
 
 	const mainTitle = document.querySelector('#main-title');
 	const mainTitleVersion = document.querySelector('#main-title-version');

@@ -183,3 +183,40 @@ function scatterText(text, elementId) {
   
   element.innerHTML = html;
 }
+
+function animateScatterCollapse(elementId, duration = 20000) {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    console.error(`Элемент с id "${elementId}" не найден`);
+    return;
+  }
+  
+  const spans = element.querySelectorAll('span');
+  if (spans.length === 0) {
+    console.warn('Нет спанов для анимации');
+    return;
+  }
+  
+  element.style.transition = `width ${duration}ms cubic-bezier(0.4, 0, 1, 1)`;
+  element.style.width = '0%';
+  
+  setTimeout(() => {
+    spans.forEach(span => {
+      const currentLeft = parseFloat(span.style.left);
+      const newLeft = 100 - currentLeft;
+      span.style.left = `${newLeft.toFixed(2)}%`;
+    });
+    
+    element.style.transition = `width ${duration}ms cubic-bezier(0, 0, 0.6, 1)`;
+    element.style.width = '100%';
+    
+  }, duration);
+}
+
+function animateScatterCollapseLoop(elementId, duration = 20000) {
+  animateScatterCollapse(elementId, duration);
+  
+  setInterval(() => {
+    animateScatterCollapse(elementId, duration);
+  }, duration * 2);
+}
