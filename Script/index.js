@@ -2,7 +2,7 @@ const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
 const locale = new Intl.DateTimeFormat().resolvedOptions().locale;
 const language = SUPPORTED_LANGUAGES.includes(locale) ? locale : 'en-US';
 const randomLetters = [
-	"ǷÞꝨØŮÇǢꜨẞꟕƱẳᵶᾆἣϞѬꙊԘꙐѦЏꙞꚎ🜍♅⯠⯡☿🝻☯☰☶ᛗᛟᛉ", // Random
+	"ǷÞꝨØŮÇǢꜨẞꟕƱẳᵶᾆἣϞѬꙊԘꙐѦЏꙞꚎ🜍♅⯠⯡☿🝻☯☰☶ᛗᛟᛉ☥⚚☤⸙☧", // Random
 	"🜁🜃🜂🜄🝇🝞🜲🜅🜆🜉🜊🜍🜏🜔🝁🜿🜶🝘🝗🝛🜩🜪🜾🜠🜑☿☉☾♁🝪🝩🜯🜥🜹🜘🜛", // Alchemy
 	"☉☾☿♀🜨♂♃♄♅♆⯠⯡⯢⯣⯤⯥⯦⯧♇⯓⯔⯕⯖⚳⯲⯰⯱🝻🝼🝽🝾🝿⯗⯘⚶⚷⯙⯚⚴⚵⚸⯝", // Astrology
 	"♈♉♊♋♌♍♎♏♐♑♒♓⛎︎☊☋☌☍⚹⚺⚻⚼℞⯳⯴⯵⯶⯷⯸🝴🝵🝶", // Zodiacs and second astrology
@@ -11,6 +11,13 @@ const randomLetters = [
 	"♚♛♜♜♝♝♞♞♟♟♟♟♟♟♟♟🩉🩑🩒🩓", // Chess
 	"¤₠₳¢₵₡$₯֏߾€₣₲₭₾₦£₶₷₽₴₤₺₹₩¥円元₫₮₸₪₱₿", // Wallets
 	"ᚨᛒᛞᛖᚠᚷᚺᛁᛇᛃᚲᛚᛗᚾᛜᛟᛈᚱᛊᛏᚦᚹᛉᚪᚫᚳᛠᚸᚻᛄᛡᛤᛣᛝᚩᛢᛋᛥᚣᛮᛯᛰ", // Runes
+	"ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰊⰉⰋⰌⰍⰎⰏⰐⰑⰒⰓⰔⰕⰫⰖⰗⰘⰙⰚⰜⰝⰞⰛⰟⰠⰡⰦⰢⰣⰤⰧⰨⰩⰪⰬ", // Glagolitic
+	"𐰀𐰃𐰆𐰇𐰲𐰢𐰭𐰯𐱁𐰔𐰡𐰨𐰪𐰦𐱈𐰉𐰋𐰑𐰓𐰞𐰠𐰣𐰤𐰺𐰼𐰽𐰾𐱃𐱅𐰖𐰘𐰍𐰏𐰴𐰚𐰸𐰜𐰶𐰱𐰿𐰰𐱇", // Old Turkic Orkhon
+	"𐌰𐌱𐌳𐌴𐍆𐌲𐌷𐍈𐌹𐌺𐌻𐌼𐌽𐍉𐍀𐌵𐍂𐍃𐍄𐌸𐌿𐍅𐍇𐌾𐌶𐍁𐍊", // Gothic
+	"ࠀࠏࠁࠅࠃࠐࠂࠄࠇࠊࠋࠌࠍࠒࠓࠔࠑࠎࠕࠈࠉࠆ࠾࠰࠼࠽࠱࠲࠻࠳࠴࠵࠶࠸࠹࠺࠷", // Samaritan
+	"ЈЇѶЎӰӮҚѮѪꙚѦѰӨѠӢӤꚖꚎҨҺҰЋЂӁꙐꙞѲЉѢѤꙒѬѨꙈ",
+	"ꜲÆꜴꜶꜸꜼȸꭡﬀﬁﬂﬄﬃĲ℔ŒꝎȢﬅﬆꜨᵫẞꝠ",
+	"ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯↁↂↇↈ"
 ];
 
 const hellenicPairs = {

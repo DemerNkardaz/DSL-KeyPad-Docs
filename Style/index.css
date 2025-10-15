@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Samaritan&family=Noto+Sans+Symbols+2&family=Noto+Sans+Symbols:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import './utilitary.css';
 @import './patterns.css';
@@ -327,7 +324,7 @@ a {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		font-family: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', serif;
+		font-family: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Noto Sans Samaritan', serif;
 		color: color-mix(in srgb, var(--text-light), var(--text-dark) 80%);
 	}
 
