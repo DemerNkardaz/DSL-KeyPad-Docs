@@ -1,3 +1,15 @@
+.text-small {
+	font-size: 0.75rem;
+}
+
+.title-small {
+	font-size: 1rem;
+}
+
+.italic {
+	font-style: italic;
+}
+
 .underline {
 	text-decoration: underline;
 }

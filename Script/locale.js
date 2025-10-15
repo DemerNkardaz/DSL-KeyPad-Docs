@@ -20,7 +20,12 @@ function getNestedValue(obj, path) {
 function localizeElement(element) {
   const path = element.getAttribute('data-locale');
   const addSpace = element.getAttribute('data-locale-space') === 'True';
-  const translation = getNestedValue(localeData, path);
+	let translation = getNestedValue(localeData, path);
+	
+	if (Array.isArray(translation)) {
+		translation = translation.join('');
+	}
+
   if (translation !== undefined) {
     element.innerHTML = addSpace ? ` ${translation}` : translation;
   }
