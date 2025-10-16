@@ -26,6 +26,7 @@
 	--border-dark: #444444;
 	--border-ultra-dark: #222222;
 	--border-light: #dddddd;
+	--fonts-serif: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Noto Sans Samaritan', serif;
 }
 
 
@@ -102,11 +103,13 @@ body {
 
 a {
 	text-decoration: none;
-	color: var(--accent-color);
+	/* color: var(--accent-color); */
+	color: var(--accent-gold);
 
 	&:hover {
 		text-decoration: underline;
-		color: var(--accent-color-light);
+		/* color: var(--accent-color-light); */
+		color: var(--accent-pale-gold);
 	}
 }
 
@@ -322,7 +325,7 @@ a {
 	border-bottom: 1px solid var(--border-ultra-dark);
 	/* border-radius: 0 0 8px 8px; */
 	padding-inline: 15rem;
-	
+
 	&>.content-intershow-gradient {
 		position: absolute;
 		width: 100%;
@@ -334,7 +337,7 @@ a {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		font-family: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Noto Sans Samaritan', serif;
+		font-family: var(--fonts-serif);
 		color: color-mix(in srgb, var(--text-light), var(--text-dark) 80%);
 	}
 
@@ -342,12 +345,15 @@ a {
 		position: absolute;
 		display: flex;
 		flex-direction: column;
+		justify-content: flex-end;
 		width: 60rem;
+		height: 100%;
 		gap: 1em;
-		top: 50%;
+		bottom: 0;
 		left: 50%;
-		transform: translate(-50%, 35%);
-		
+		transform: translateX(-50%);
+		margin-block-end: 1.5rem;
+
 		&>h1 {
 			display: flex;
 			gap: 0.25em;
@@ -355,10 +361,22 @@ a {
 			font-weight: 700;
 			margin: 0;
 		}
-		&>p {
+
+		& p {
 			font-size: 1.45rem;
 			font-weight: 400;
 			margin: 0;
+		}
+
+		&>.content-intershow-header-random-letter {
+			margin-block-end: 5rem;
+
+			&>p:first-child {
+				font-family: var(--fonts-serif);
+				/* font-weight: 700; */
+				font-size: 8rem;
+				line-height: 1.1em;
+			}
 		}
 	}
 

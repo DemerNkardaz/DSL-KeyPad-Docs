@@ -4,15 +4,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 	document.documentElement.setAttribute('lang', language);
 
 	scatterText(randomLetters, "random-letters");
-	animateScatterCollapseLoop('random-letters');
+	setTimeout(() => animateScatterCollapseLoop('random-letters'), 8000);
 
 	const mainTitle = document.querySelector('#main-title');
 	const mainTitleVersion = document.querySelector('#main-title-version');
 	const maintitleStatus = document.querySelector('#main-title-status');
-
 	const buttonDownloadLatest = document.querySelector('#btn-download-latest');
 	buttonDownloadLatest.addEventListener('click', DownloadLastRelease);
-
+	
 	const info = await releaseInfoPromise;
 	
 	if (info.success) {
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		let infoStatus = returnHellenicStatus(info.name);
 		textStatus = infoStatus !== null ? `${infoStatus}` : '';
 		localizedStatus = infoStatus !== null ? `${infoStatus.toLowerCase()}` : '';
-
+		
 		mainTitleVersion.textContent = ` ${info.version}`;
 		maintitleStatus.textContent = '';
 		maintitleStatus.setAttribute('data-locale', `hellenic_alphabet.${localizedStatus}`);
@@ -29,6 +28,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 		console.warn('Не удалось загрузить информацию о версии');
 	}
 	
+	const intershowRandomLetter = document.querySelector('.content-intershow-header-random-letter');
+	const intershowRandomLetterkeys = Object.keys(titleRandomLetters);
+	const intershowRandomLetterRandomKey = intershowRandomLetterkeys[Math.floor(Math.random() * intershowRandomLetterkeys.length)];
+
+	const intershowRandomLetterP1 = intershowRandomLetter.querySelector('p:first-child');
+	const intershowRandomLetterP2 = intershowRandomLetter.querySelector('p:last-child');
+	intershowRandomLetterP1.textContent = intershowRandomLetterRandomKey;
+	intershowRandomLetterP2.setAttribute('data-locale', 'random_letter.' + titleRandomLetters[intershowRandomLetterRandomKey]);
+
+
 
 	document.body.addEventListener('click', (event) => {
 		const target = event.target;
