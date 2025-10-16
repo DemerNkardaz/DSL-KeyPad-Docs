@@ -125,6 +125,136 @@
 		"vulcanus": [
 			"Вулкан",
 			"<br>[ <a href='https://ru.wikipedia.org/wiki/Ураническая_астрология' target='_blank' rel='noopener noreferrer'>Ураническая астрология</a> ]"
+		],
+		"ankh": [
+			"<a href='https://ru.wikipedia.org/wiki/Анх' target='_blank' rel='noopener noreferrer'>Анх</a>",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древний_Египет' target='_blank' rel='noopener noreferrer'>Древний Египет</a> ]"
+		],
+		"caduceus": [
+			"<a href='https://ru.wikipedia.org/wiki/Кадуцей' target='_blank' rel='noopener noreferrer'>Кадуцей</a>",
+			"<br>[ ",
+			"<a href='https://ru.wikipedia.org/wiki/Древняя_Греция' target='_blank' rel='noopener noreferrer'>Древняя Греция</a>",
+			", ",
+			"<a href='https://ru.wikipedia.org/wiki/Древний_Рим' target='_blank' rel='noopener noreferrer'>Древний Рим</a>",
+			" ]"
+		],
+		"korean_won": [
+			"<a href='https://ru.wikipedia.org/wiki/Южнокорейская_вона' target='_blank' rel='noopener noreferrer'>Корейский вона</a>",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Республика_Корея' target='_blank' rel='noopener noreferrer'>Республика Корея</a> ]"
+		],
+		"japanese_yen": [
+			"<a href='https://ru.wikipedia.org/wiki/Иена' target='_blank' rel='noopener noreferrer'>Японская иена</a>",
+			" / ",
+			"<a href='https://ru.wikipedia.org/wiki/Китайский_юань' target='_blank' rel='noopener noreferrer'>Китайский юань</a>",
+			"<br>[ ",
+			"<a href='https://ru.wikipedia.org/wiki/Япония' target='_blank' rel='noopener noreferrer'>Япония</a>",
+			", ",
+			"<a href='https://ru.wikipedia.org/wiki/Китайская_Народная_Республика' target='_blank' rel='noopener noreferrer'>Китай</a>",
+			" ]"
+		],
+		"benzene_ring": [
+			"<a href='https://ru.wikipedia.org/wiki/Бензол' target='_blank' rel='noopener noreferrer'>Бензол</a>",
+			"<br>[ ",
+			"<a href='https://ru.wikipedia.org/wiki/Химия' target='_blank' rel='noopener noreferrer'>Химия</a>",
+			" ]"
+		],
+		"abkhazian_tswe": [
+			"<br>Цвэ",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Абхазская_письменность#Кириллица_Услара' target='_blank' rel='noopener noreferrer'>Кириллица Услара (Абхазия)</a> ]"
+		],
+		"romanian_yn": [
+			"<br>Ын",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Валахо-молдавская_азбука' target='_blank' rel='noopener noreferrer'>Валахо-молдавская кириллица</a> ]"
+		],
+		"thorn": [
+			"Торн",
+			"<br>[ ",
+			"<a href='https://ru.wikipedia.org/wiki/Древнеанглийский' target='_blank' rel='noopener noreferrer'>Древнеанглийский</a>",
+			", ",
+			"<a href='https://ru.wikipedia.org/wiki/Исландский_язык' target='_blank' rel='noopener noreferrer'>Исландский</a>",
+			" ]"
+		],
+		"egyptological_yod": [
+			"Йод",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Транслитерация_египетских_текстов' target='_blank' rel='noopener noreferrer'>Египтологическая транслитерация</a> ]"
+		],
+		"omega_psili_perispomeni_prosgegrammeni": [
+			"Омега с псили, периспомени и просгеграммени",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древнегреческий_язык' target='_blank' rel='noopener noreferrer'>Древнегреческий</a> ]"
+		],
+		"samaritan_alaf": [
+			"Алаф",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Самаритянское_письмо' target='_blank' rel='noopener noreferrer'>Самаритянский</a> ]"
+		],
+		"algiz": [
+			"Альгиз",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Руны' target='_blank' rel='noopener noreferrer'>Старший Футарк</a> ]"
+		],
+		"fehu": [
+			"Феху",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Руны' target='_blank' rel='noopener noreferrer'>Старший Футарк</a> ]"
+		],
+		"othala": [
+			"Одал",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Руны' target='_blank' rel='noopener noreferrer'>Старший Футарк</a> ]"
+		],
+		"tvimadur": [
+			"Твимадур",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Рунический_календарь' target='_blank' rel='noopener noreferrer'>Рунический календарь</a> ]"
+		],
+		"orkhon_aeb": [
+			"Ябь",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древнетюркское_письмо#Орхонский_репертуар' target='_blank' rel='noopener noreferrer'>Орхонский репертуар Древнетюркского</a> ]"
+		],
+		"orkhon_at": [
+			"Ат",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древнетюркское_письмо#Орхонский_репертуар' target='_blank' rel='noopener noreferrer'>Орхонский репертуар Древнетюркского</a> ]"
+		],
+		"yenisei_aeb": [
+			"Ябь",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древнетюркское_письмо#Енисейский_репертуар' target='_blank' rel='noopener noreferrer'>Енисейский репертуар Древнетюркского</a> ]"
+		],
+		"yenisei_at": [
+			"Ат",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Древнетюркское_письмо#Енисейский_репертуар' target='_blank' rel='noopener noreferrer'>Енисейский репертуар Древнетюркского</a> ]"
+		],
+		"ipa_near_close_near_back_rounded_vowel": [
+			"Ненапряжённый огублённый гласный заднего ряда верхнего подъёма",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Международный_фонетический_алфавит' target='_blank' rel='noopener noreferrer'>Международный фонетический алфавит</a> ]"
+		],
+		"ipa_epiglottal_polsive": [
+			"Эпиглоттальный взрывной согласный",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Международный_фонетический_алфавит' target='_blank' rel='noopener noreferrer'>Международный фонетический алфавит</a> ]"
+		],
+		"chess_knight_queen": [
+			"Конь-Ферзь",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Шахматы' target='_blank' rel='noopener noreferrer'>Шахматы</a> ]"
+		],
+		"card_queen_of_hearts": [
+			"Червонная дама",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Игральные_карты' target='_blank' rel='noopener noreferrer'>Игральные карты</a> ]"
+		],
+		"card_knight_of_clubs": [
+			"Трефовый кавалер",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Игральные_карты' target='_blank' rel='noopener noreferrer'>Игральные карты</a> ]"
+		],
+		"xiangqi_jiang": [
+			"Фигура ",
+			"<span class='underline-dot question' title='將 [jiàng]'>Цзян</span> ",
+			"(Генерал)",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Сянци' target='_blank' rel='noopener noreferrer'>Сянци</a> ]"
+		],
+		"xiangqi_shuai": [
+			"Фигура ",
+			"<span class='underline-dot question' title='帥 [shuài]'>Шуай</span> ",
+			"(Маршал)",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Сянци' target='_blank' rel='noopener noreferrer'>Сянци</a> ]"
+		],
+		"xiangqi_xiang": [
+			"Фигура ",
+			"<span class='underline-dot question' title='相 [xiàng]'>Сян</span> ",
+			"(Министр)",
+			"<br>[ <a href='https://ru.wikipedia.org/wiki/Сянци' target='_blank' rel='noopener noreferrer'>Сянци</a> ]"
 		]
 	}
 }

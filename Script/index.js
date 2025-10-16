@@ -1,6 +1,12 @@
 const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
-const locale = new Intl.DateTimeFormat().resolvedOptions().locale;
-const language = SUPPORTED_LANGUAGES.includes(locale) ? locale : 'en-US';
+
+const urlLang = new URLSearchParams(window.location.search).get('tl');
+const browserLocale = new Intl.DateTimeFormat().resolvedOptions().locale;
+
+const language = 
+  (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) ? urlLang :
+  SUPPORTED_LANGUAGES.includes(browserLocale) ? browserLocale :
+  'en-US';
 
 const randomLetters = [
 	"\u01F7\u00DE\uA768\u00D8\u016E\u00C7\u01E2\uA728\u1E9E\uA7D5\u01B1\u1EB3\u1D76\u1F86\u1F23\u03DE\u046C\uA64A\u0518\uA650\u0466\u040F\uA65E\uA68E\uD83D\uDF0D\u2645\u2BE0\u2BE1\u263F\uD83D\uDF7B\u262F\u2630\u2636\u16D7\u16DF\u16C9\u2625\u269A\u2624\u2E19\u2627", // Random
@@ -38,6 +44,33 @@ const titleRandomLetters = {
 	"\u2BE1": "hades",
 	"\u2BE0": "cupido",
 	"\u2BE6": "vulcanus",
+	"\u2625": "ankh",
+	"\u269A\u2624": "caduceus",
+	"\u20A9": "korean_won",
+	"\u00A5": "japanese_yen",
+	"\u232C": "benzene_ring",
+	"\uA68E": "abkhazian_tswe",
+	"\uA65E": "romanian_yn",
+	"\u00DE": "thorn",
+	"\uA7BC": "egyptological_yod",
+	"\u1FAE": "omega_psili_perispomeni_prosgegrammeni",
+	"\u0800": "samaritan_alaf",
+	"\u16C9": "algiz",
+	"\u16A0": "fehu",
+	"\u16DF": "othala",
+	"\u16EF": "tvimadur",
+	"\uD803\uDC0B": "orkhon_aeb",
+	"\uD803\uDC43": "orkhon_at",
+	"\uD803\uDC0C": "yenisei_aeb",
+	"\uD803\uDC44": "yenisei_at",
+	"\u028A": "ipa_near_close_near_back_rounded_vowel",
+	"\u02A1": "ipa_epiglottal_polsive",
+	"\uD83E\uDE51": "chess_knight_queen",
+	"\uD83C\uDCBD": "card_queen_of_hearts",
+	"\uD83C\uDCDC": "card_knight_of_clubs",
+	"\uD83E\uDE67": "xiangqi_jiang",
+	"\uD83E\uDE60": "xiangqi_shuai",
+	"\uD83E\uDE62": "xiangqi_xiang",
 }
 
 const hellenicPairs = {

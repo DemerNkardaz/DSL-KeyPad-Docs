@@ -369,6 +369,10 @@ a {
 		}
 
 		&>.content-intershow-header-random-letter {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+
 			margin-block-end: 5rem;
 
 			&>p:first-child {

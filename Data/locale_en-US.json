@@ -42,5 +42,218 @@
 			"<br>",
 			"<span class='italic title-small'>*Requires <a class='a-golden' href='https://www.autohotkey.com/' target='_blank' rel='noopener noreferrer'>AutoHotkey v2</a> installation.</span>"
 		]
+	},
+	"random_letter": {
+		"big_yus_iotified": "Big Yus Iotified<br>[ <a href='https://en.wikipedia.org/wiki/Cyrillic_script' target='_blank' rel='noopener noreferrer'>Cyrillic</a> ]",
+		"yin_yang": "Yīn Yáng<br>[ <a href='https://en.wikipedia.org/wiki/Tao' target='_blank' rel='noopener noreferrer'>Dào</a> ]",
+		"trigram_dui": [
+			"Trigram ",
+			"<span class='underline-dot question' title='兌 [duì]'>Duì</span> ",
+			"(Lake)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Bagua' target='_blank' rel='noopener noreferrer'>Eight Trigrams</a> ]"
+		],
+		"trigram_xun": [
+			"Trigram ",
+			"<span class='underline-dot question' title='巽 [xùn]'>Xùn</span> ",
+			"(Wind)<br>[ <a href='https://en.wikipedia.org/wiki/Bagua' target='_blank' rel='noopener noreferrer'>Eight Trigrams</a> ]"
+		],
+		"trigram_kan": [
+			"Trigram ",
+			"<span class='underline-dot question' title='坎 [kǎn]'>Kǎn</span> ",
+			"(Water)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Bagua' target='_blank' rel='noopener noreferrer'>Eight Trigrams</a> ]"
+		],
+		"hexagram_tai": [
+			"Hexagram ",
+			"<span class='underline-dot question' title='泰 [tài]'>Tài</span> ",
+			"(Peace)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/List_of_hexagrams_of_the_I_Ching' target='_blank' rel='noopener noreferrer'>Sixty-four Hexagrams</a> ]"
+		],
+		"hexagram_li": [
+			"Hexagram ",
+			"<span class='underline-dot question' title='離 [lí]'>Lí</span> ",
+			"(Radiance)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/List_of_hexagrams_of_the_I_Ching' target='_blank' rel='noopener noreferrer'>Sixty-four Hexagrams</a> ]"
+		],
+		"tetragram_shang": [
+			"Tetragram ",
+			"<span class='underline-dot question' title='上 [shàng]'>Shàng</span> ",
+			"(Ascension)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Taixuanjing' target='_blank' rel='noopener noreferrer'>Eighty-one Tetragrams</a> ]"
+		],
+		"tetragram_le": [
+			"Tetragram ",
+			"<span class='underline-dot question' title='乐 [lè]'>Lè</span> ",
+			"(Joy)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Taixuanjing' target='_blank' rel='noopener noreferrer'>Eighty-one Tetragrams</a> ]"
+		],
+		"copper_venus": [
+			"<a href='https://en.wikipedia.org/wiki/Copper' target='_blank' rel='noopener noreferrer'>Copper</a>",
+			" / ",
+			"<a href='https://en.wikipedia.org/wiki/Venus' target='_blank' rel='noopener noreferrer'>Venus</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Alchemy' target='_blank' rel='noopener noreferrer'>Alchemy</a>",
+			", ",
+			"<a href='https://en.wikipedia.org/wiki/Astrology' target='_blank' rel='noopener noreferrer'>Astrology</a>",
+			" ]"
+		],
+		"iron_mars": [
+			"<a href='https://en.wikipedia.org/wiki/Iron' target='_blank' rel='noopener noreferrer'>Iron</a>",
+			" / ",
+			"<a href='https://en.wikipedia.org/wiki/Mars' target='_blank' rel='noopener noreferrer'>Mars</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Alchemy' target='_blank' rel='noopener noreferrer'>Alchemy</a>",
+			", ",
+			"<a href='https://en.wikipedia.org/wiki/Astrology' target='_blank' rel='noopener noreferrer'>Astrology</a>",
+			" ]"
+		],
+		"sulfur": [
+			"<a href='https://en.wikipedia.org/wiki/Sulfur' target='_blank' rel='noopener noreferrer'>Sulfur</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Alchemy' target='_blank' rel='noopener noreferrer'>Alchemy</a>",
+			" ]"
+		],
+		"hades": [
+			"Hades",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Hamburg_School_of_Astrology' target='_blank' rel='noopener noreferrer'>Uranian Astrology</a> ]"
+		],
+		"cupido": [
+			"Cupido",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Hamburg_School_of_Astrology' target='_blank' rel='noopener noreferrer'>Uranian Astrology</a> ]"
+		],
+		"vulcanus": [
+			"Vulcanus",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Hamburg_School_of_Astrology' target='_blank' rel='noopener noreferrer'>Uranian Astrology</a> ]"
+		],
+		"ankh": [
+			"<a href='https://en.wikipedia.org/wiki/Ankh' target='_blank' rel='noopener noreferrer'>Ankh</a>",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Ancient_Egypt' target='_blank' rel='noopener noreferrer'>Ancient Egypt</a> ]"
+		],
+		"caduceus": [
+			"<a href='https://en.wikipedia.org/wiki/Caduceus' target='_blank' rel='noopener noreferrer'>Caduceus</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Ancient_Greece' target='_blank' rel='noopener noreferrer'>Ancient Greece</a>",
+			", ",
+			"<a href='https://en.wikipedia.org/wiki/Ancient_Rome' target='_blank' rel='noopener noreferrer'>Ancient Rome</a>",
+			" ]"
+		],
+		"korean_won": [
+			"<a href='https://en.wikipedia.org/wiki/South_Korean_won' target='_blank' rel='noopener noreferrer'>South Korean Won</a>",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/South_Korea' target='_blank' rel='noopener noreferrer'>South Korea</a> ]"
+		],
+		"japanese_yen": [
+			"<a href='https://en.wikipedia.org/wiki/Japanese_yen' target='_blank' rel='noopener noreferrer'>Japanese Yen</a>",
+			" / ",
+			"<a href='https://en.wikipedia.org/wiki/Renminbi' target='_blank' rel='noopener noreferrer'>Chinese Yuan</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Japan' target='_blank' rel='noopener noreferrer'>Japan</a>",
+			", ",
+			"<a href='https://en.wikipedia.org/wiki/China' target='_blank' rel='noopener noreferrer'>China</a>",
+			" ]"
+		],
+		"benzene_ring": [
+			"<a href='https://en.wikipedia.org/wiki/Benzene' target='_blank' rel='noopener noreferrer'>Benzene</a>",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Chemistry' target='_blank' rel='noopener noreferrer'>Chemistry</a>",
+			" ]"
+		],
+		"abkhazian_tswe": [
+			"<br>Tswe",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Abkhaz_alphabet' target='_blank' rel='noopener noreferrer'>Uslar Cyrillic (Abkhazia)</a> ]"
+		],
+		"romanian_yn": [
+			"<br>Yn",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Romanian_Cyrillic_alphabet' target='_blank' rel='noopener noreferrer'>Romanian Cyrillic</a> ]"
+		],
+		"thorn": [
+			"Thorn",
+			"<br>[ ",
+			"<a href='https://en.wikipedia.org/wiki/Old_English' target='_blank' rel='noopener noreferrer'>Old English</a>",
+			", ",
+			"<a href='https://en.wikipedia.org/wiki/Icelandic_language' target='_blank' rel='noopener noreferrer'>Icelandic</a>",
+			" ]"
+		],
+		"egyptological_yod": [
+			"Yod",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Transliteration_of_Ancient_Egyptian' target='_blank' rel='noopener noreferrer'>Egyptological Transliteration</a> ]"
+		],
+		"omega_psili_perispomeni_prosgegrammeni": [
+			"Omega with Psili, Perispomeni and Prosgegrammeni",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Ancient_Greek' target='_blank' rel='noopener noreferrer'>Ancient Greek</a> ]"
+		],
+		"samaritan_alaf": [
+			"Alaf",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Samaritan_script' target='_blank' rel='noopener noreferrer'>Samaritan</a> ]"
+		],
+		"algiz": [
+			"Algiz",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Elder_Futhark' target='_blank' rel='noopener noreferrer'>Elder Futhark</a> ]"
+		],
+		"fehu": [
+			"Fehu",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Elder_Futhark' target='_blank' rel='noopener noreferrer'>Elder Futhark</a> ]"
+		],
+		"othala": [
+			"Othala",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Elder_Futhark' target='_blank' rel='noopener noreferrer'>Elder Futhark</a> ]"
+		],
+		"tvimadur": [
+			"Tvímánuður",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Runic_calendar' target='_blank' rel='noopener noreferrer'>Runic Calendar</a> ]"
+		],
+		"orkhon_aeb": [
+			"Aeb",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Old_Turkic_script' target='_blank' rel='noopener noreferrer'>Orkhon Variant of Old Turkic</a> ]"
+		],
+		"orkhon_at": [
+			"At",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Old_Turkic_script' target='_blank' rel='noopener noreferrer'>Orkhon Variant of Old Turkic</a> ]"
+		],
+		"yenisei_aeb": [
+			"Aeb",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Old_Turkic_script' target='_blank' rel='noopener noreferrer'>Yenisei Variant of Old Turkic</a> ]"
+		],
+		"yenisei_at": [
+			"At",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Old_Turkic_script' target='_blank' rel='noopener noreferrer'>Yenisei Variant of Old Turkic</a> ]"
+		],
+		"ipa_near_close_near_back_rounded_vowel": [
+			"Near-close near-back rounded vowel",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/International_Phonetic_Alphabet' target='_blank' rel='noopener noreferrer'>International Phonetic Alphabet</a> ]"
+		],
+		"ipa_epiglottal_polsive": [
+			"Epiglottal plosive",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/International_Phonetic_Alphabet' target='_blank' rel='noopener noreferrer'>International Phonetic Alphabet</a> ]"
+		],
+		"chess_knight_queen": [
+			"Knight-Queen",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Chess' target='_blank' rel='noopener noreferrer'>Chess</a> ]"
+		],
+		"card_queen_of_hearts": [
+			"Queen of Hearts",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Playing_card' target='_blank' rel='noopener noreferrer'>Playing Cards</a> ]"
+		],
+		"card_knight_of_clubs": [
+			"Knight of Clubs",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Playing_card' target='_blank' rel='noopener noreferrer'>Playing Cards</a> ]"
+		],
+		"xiangqi_jiang": [
+			"Piece ",
+			"<span class='underline-dot question' title='將 [jiàng]'>Jiàng</span> ",
+			"(General)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Xiangqi' target='_blank' rel='noopener noreferrer'>Xiàngqí</a> ]"
+		],
+		"xiangqi_shuai": [
+			"Piece ",
+			"<span class='underline-dot question' title='帥 [shuài]'>Shuài</span> ",
+			"(Marshal)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Xiangqi' target='_blank' rel='noopener noreferrer'>Xiàngqí</a> ]"
+		],
+		"xiangqi_xiang": [
+			"Piece ",
+			"<span class='underline-dot question' title='相 [xiàng]'>Xiàng</span> ",
+			"(Minister)",
+			"<br>[ <a href='https://en.wikipedia.org/wiki/Xiangqi' target='_blank' rel='noopener noreferrer'>Xiàngqí</a> ]"
+		]
 	}
 }
