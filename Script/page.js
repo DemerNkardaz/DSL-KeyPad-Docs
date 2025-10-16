@@ -82,6 +82,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 	const elements = document.querySelectorAll('[data-locale]');
 	elements.forEach(localizeElement);
 
+
+
+	const temporaryInvisibleTexts = document.querySelectorAll('.text-invisible');
+	temporaryInvisibleTexts.forEach((el) => el.classList.remove('text-invisible'));
+	
 });
 
 function handleElementClick(element) {

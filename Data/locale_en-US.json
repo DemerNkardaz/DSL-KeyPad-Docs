@@ -43,6 +43,9 @@
 			"<span class='italic title-small'>*Requires <a class='a-golden' href='https://www.autohotkey.com/' target='_blank' rel='noopener noreferrer'>AutoHotkey v2</a> installation.</span>"
 		]
 	},
+	"content": {
+		"metas": "Windows | Free & Open Source | Customizable | MIT License"
+	},
 	"random_letter": {
 		"big_yus_iotified": "Big Yus Iotified<br>[ <a href='https://en.wikipedia.org/wiki/Cyrillic_script' target='_blank' rel='noopener noreferrer'>Cyrillic</a> ]",
 		"yin_yang": "Yīn Yáng<br>[ <a href='https://en.wikipedia.org/wiki/Tao' target='_blank' rel='noopener noreferrer'>Dào</a> ]",

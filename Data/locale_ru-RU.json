@@ -44,6 +44,9 @@
 			"<span class='italic title-small'>*Требует установки <a class='a-golden' href='https://www.autohotkey.com/' target='_blank' rel='noopener noreferrer'>AutoHotkey v2</a>.</span>"
 		]
 	},
+	"content": {
+		"metas": "Windows | Открытое и свободное ПО | Кастомизируемое | Лицензия MIT"
+	},
 	"random_letter": {
 		"big_yus_iotified": "Большой Юс Йотированный<br>[ <a href='https://ru.wikipedia.org/wiki/Кириллица' target='_blank' rel='noopener noreferrer'>Кириллица</a> ]",
 		"yin_yang": "Инь и Ян<br>[ <a href='https://ru.wikipedia.org/wiki/Дао' target='_blank' rel='noopener noreferrer'>Дао</a> ]",

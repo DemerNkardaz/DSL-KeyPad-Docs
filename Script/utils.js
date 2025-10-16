@@ -42,7 +42,7 @@ function getUnicodeRange(ranges, separator = "", prefix = "") {
 function getCopyrightString() {
 	const startYear = 2024;
 	const currentYear = new Date().getFullYear();
-	return language === 'en' ? `&COPY;&emsp14;${startYear}${currentYear > startYear ? `-${currentYear}` : ''}&emsp14;Yalla Nkardaz` : `&COPY;&emsp14;Я&#769;лла&nbsp;Нкарда&#769;з,&emsp14;${startYear}${currentYear > startYear ? `–${currentYear}` : ''}`;
+	return language === 'ru-RU' ? `&COPY;&emsp14;Я&#769;лла&nbsp;Нкарда&#769;з,&emsp14;${startYear}${currentYear > startYear ? `–${currentYear}` : ''}` : `&COPY;&emsp14;${startYear}${currentYear > startYear ? `-${currentYear}` : ''}&emsp14;Yalla Nkardaz`;
 }
 
 
