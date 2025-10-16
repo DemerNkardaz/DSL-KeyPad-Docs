@@ -108,9 +108,7 @@ function returnHellenicStatus(string) {
 const releaseInfoPromise = getLatestReleaseInfo();
 let releaseInfoCache = null;
 
-releaseInfoPromise.then(info => {
-  releaseInfoCache = info;
-});
+releaseInfoPromise.then(info => {releaseInfoCache = info});
 
 async function getLatestReleaseInfo() {
   try {
@@ -126,10 +124,9 @@ async function getLatestReleaseInfo() {
     const latestVersion = jsdelivrData.versions[0];
     
     if (!latestVersion) {
-      throw new Error('Не найдено ни одной версии');
+      throw new Error('No latest version found');
     }
     
-    // Получаем имя через GitHub API (60 запросов/час)
     let releaseName = `DSL KeyPad ${latestVersion}`;
     try {
       const githubResponse = await fetch(
@@ -140,9 +137,7 @@ async function getLatestReleaseInfo() {
         const githubData = await githubResponse.json();
         releaseName = githubData.name || releaseName;
       }
-    } catch (error) {
-      console.warn('Не удалось получить имя релиза с GitHub:', error);
-    }
+    } catch (error) {}
     
     return {
       success: true,
@@ -152,7 +147,6 @@ async function getLatestReleaseInfo() {
     };
     
   } catch (error) {
-    console.error('Ошибка получения информации о релизе:', error.message);
     return {
       success: false,
       error: error.message
@@ -160,17 +154,12 @@ async function getLatestReleaseInfo() {
   }
 }
 
-// Теперь можно использовать синхронно
 function DownloadLastRelease() {
   if (!releaseInfoCache) {
-    console.error('Информация о релизе ещё загружается');
-    alert('Пожалуйста, подождите загрузки информации о релизе');
     return false;
   }
   
   if (!releaseInfoCache.success) {
-    console.error('Не удалось получить информацию о релизе:', releaseInfoCache.error);
-    alert('Не удалось получить информацию о последнем релизе');
     return false;
   }
   
@@ -182,6 +171,5 @@ function DownloadLastRelease() {
   
   link.click();
   
-  console.log(`Начато скачивание релиза ${releaseInfoCache.version}`);
   return false;
 }

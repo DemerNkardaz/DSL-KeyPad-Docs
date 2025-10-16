@@ -49,10 +49,9 @@ function getCopyrightString() {
 
 function scatterText(text, elementId) {
   const element = document.getElementById(elementId);
-  if (!element) {
-    console.error(`Элемент с id "${elementId}" не найден`);
-    return;
-  }
+	if (!element) {
+		return;
+	}
   
 	if (Array.isArray(text)) {
 		const randomIndex = Math.floor(Math.random() * text.length);
