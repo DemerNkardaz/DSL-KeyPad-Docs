@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 	setTimeout(() => animateScatterCollapseLoop('random-letters'), 8000);
 
 	const mainTitle = document.querySelector('#main-title');
-	const mainTitleVersion = document.querySelector('#main-title-version');
-	const maintitleStatus = document.querySelector('#main-title-status');
 	const buttonDownloadLatest = document.querySelector('#btn-download-latest');
 	buttonDownloadLatest.addEventListener('click', DownloadLastRelease);
 	
@@ -19,10 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 		let infoStatus = returnHellenicStatus(info.name);
 		textStatus = infoStatus !== null ? `${infoStatus}` : '';
 		localizedStatus = infoStatus !== null ? `${infoStatus.toLowerCase()}` : '';
+
+		mainTitle.textContent = "DSL KeyPad" + (info.version !== '' ? ` ${info.version}` : '') + (localizedStatus !== '' ? ` ${readLocale(`hellenic_alphabet.${localizedStatus}`)}` : '');
 		
-		mainTitleVersion.textContent = ` ${info.version}`;
-		maintitleStatus.textContent = '';
-		maintitleStatus.setAttribute('data-locale', `hellenic_alphabet.${localizedStatus}`);
 	} else {
 		buttonDownloadLatest.setAttribute('title', 'Download DSL KeyPad');
 		console.warn('Не удалось загрузить информацию о версии');

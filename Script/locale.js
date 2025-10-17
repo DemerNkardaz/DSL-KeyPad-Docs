@@ -31,4 +31,14 @@ function localizeElement(element) {
   }
 }
 
+function readLocale(dataLocale) {
+	let translation = getNestedValue(localeData, dataLocale);
+	
+	if (Array.isArray(translation)) {
+		translation = translation.join('');
+	}
+	
+	return translation;
+}
+
 loadLocale(language);
