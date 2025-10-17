@@ -5,6 +5,7 @@
 @import './patterns.css';
 @import './dropdown.css';
 @import './lambda_logo.css';
+@import './generated_rings.css';
 :root {
   interpolate-size: allow-keywords;
 	--border-color: #e0e0e0;
@@ -353,6 +354,9 @@ a {
 
 	&>.content-intershow-random-letters {
 		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
 		height: 100%;
 		font-family: var(--fonts-serif);

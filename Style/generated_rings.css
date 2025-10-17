@@ -1,0 +1,25 @@
+.generated-ring-wrapper {
+	font-family: var(--fonts-serif);
+	position: relative;
+	width: 500px;
+	height: 500px;
+}
+
+.generated-ring-symbol {
+	position: absolute;
+	transform-origin: center;
+}
+
+@keyframes generated-ring-rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.generated-ring-animated {
+	animation: generated-ring-rotate 10s linear infinite;
+}

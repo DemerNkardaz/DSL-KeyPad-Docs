@@ -3,9 +3,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 	await loadLocale(language);
 	document.documentElement.setAttribute('lang', language);
 
-	scatterText(randomLetters, "random-letters");
-	setTimeout(() => animateScatterCollapseLoop('random-letters'), 8000);
-
 	const mainTitle = document.querySelector('#main-title');
 	const buttonDownloadLatest = document.querySelector('#btn-download-latest');
 	buttonDownloadLatest.addEventListener('click', DownloadLastRelease);
@@ -34,6 +31,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 	intershowRandomLetterP1.textContent = intershowRandomLetterRandomKey;
 	intershowRandomLetterP2.setAttribute('data-locale', 'random_letter.' + titleRandomLetters[intershowRandomLetterRandomKey]);
 
+	if (intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) {
+		titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey]();
+	} else {
+		scatterText(randomLetters, "random-letters");
+		setTimeout(() => animateScatterCollapseLoop('random-letters'), 8000);
+	}
 
 
 	document.body.addEventListener('click', (event) => {
