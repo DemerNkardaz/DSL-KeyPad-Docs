@@ -3,30 +3,30 @@ const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
 const urlParams = new URLSearchParams(window.location.search);
 
 function detectLanguage() {
-  const urlLang = urlParams.get('tl');
-  if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
-    return urlLang;
-  }
+	const urlLang = urlParams.get('tl');
+	if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
+		return urlLang;
+	}
 
-  const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage];
-  
-  for (const lang of browserLanguages) {
-    if (SUPPORTED_LANGUAGES.includes(lang)) {
-      return lang;
-    }
-  }
-  
-  for (const lang of browserLanguages) {
-    const baseLang = lang.split('-')[0];
-    const match = SUPPORTED_LANGUAGES.find(supported => 
-      supported.startsWith(baseLang)
-    );
-    if (match) {
-      return match;
-    }
-  }
-  
-  return 'en-US';
+	const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage];
+
+	for (const lang of browserLanguages) {
+		if (SUPPORTED_LANGUAGES.includes(lang)) {
+			return lang;
+		}
+	}
+
+	for (const lang of browserLanguages) {
+		const baseLang = lang.split('-')[0];
+		const match = SUPPORTED_LANGUAGES.find(supported =>
+			supported.startsWith(baseLang)
+		);
+		if (match) {
+			return match;
+		}
+	}
+
+	return 'en-US';
 }
 
 const language = detectLanguage();
@@ -51,7 +51,7 @@ const randomLetters = [
 ];
 
 const titleRandomLetters = {
-	// "\u046C": "big_yus_iotified",
+	"\u046C": "big_yus_iotified",
 	"\u262F\uFE0E": "yin_yang",
 	"\u2631": "trigram_dui",
 	"\u2634": "trigram_xun",
@@ -100,7 +100,7 @@ const YiJingRing = () => generateRings(
 		'\u262F',
 		'\u268C\u268E\u268F[ym:\u268D]',
 		'\u2630\u2634\u2635\u2636\u2637\u2633\u2632\u2631',
-		'\u4DC0\u4DC2\u4DC4\u4DC6\u4DC8\u4DCA\u4DCC\u4DCE\u4DD0\u4DD2\u4DD4\u4DD6\u4DD8\u4DDA\u4DDC\u4DDE\u4DE0\u4DE2\u4DE4\u4DE6\u4DC1\u4DC3\u4DC5\u4DC7\u4DC9\u4DCB\u4DCD\u4DCF\u4DD1\u4DD3\u4DD5\u4DD7\u4DD9\u4DDB\u4DDD\u4DDF\u4DE1\u4DE3\u4DE5'
+		'\u4DC0\u4DC2\u4DC4\u4DC6\u4DC8\u4DCA\u4DCC\u4DCE\u4DD0\u4DD2\u4DD4\u4DD6\u4DD8\u4DDA\u4DDC\u4DDE\u4DE0\u4DE2\u4DE4\u4DE6\u4DE8\u4DEA\u4DEC\u4DEE\u4DF0\u4DF2\u4DF4\u4DF6\u4DF8\u4DFA\u4DFC\u4DFE\u4DC1\u4DC3\u4DC5\u4DC7\u4DC9\u4DCB\u4DCD\u4DCF\u4DD1\u4DD3\u4DD5\u4DD7\u4DD9\u4DDB\u4DDD\u4DDF\u4DE1\u4DE3\u4DE5\u4DE7\u4DE9\u4DEB\u4DED\u4DEF\u4DF1\u4DF3\u4DF5\u4DF7\u4DF9\u4DFB\u4DFD\u4DFF'
 	],
 	256,
 	'random-letters',
@@ -174,68 +174,68 @@ function returnHellenicStatus(string) {
 const releaseInfoPromise = getLatestReleaseInfo();
 let releaseInfoCache = null;
 
-releaseInfoPromise.then(info => {releaseInfoCache = info});
+releaseInfoPromise.then(info => { releaseInfoCache = info });
 
 async function getLatestReleaseInfo() {
-  try {
-    const jsdelivrResponse = await fetch(
-      'https://data.jsdelivr.com/v1/package/gh/DemerNkardaz/DSL-KeyPad'
-    );
-    
-    if (!jsdelivrResponse.ok) {
-      throw new Error(`jsDelivr API error: ${jsdelivrResponse.status}`);
-    }
-    
-    const jsdelivrData = await jsdelivrResponse.json();
-    const latestVersion = jsdelivrData.versions[0];
-    
-    if (!latestVersion) {
-      throw new Error('No latest version found');
-    }
-    
-    let releaseName = `DSL KeyPad ${latestVersion}`;
-    try {
-      const githubResponse = await fetch(
-        'https://api.github.com/repos/DemerNkardaz/DSL-KeyPad/releases/latest'
-      );
-      
-      if (githubResponse.ok) {
-        const githubData = await githubResponse.json();
-        releaseName = githubData.name || releaseName;
-      }
-    } catch (error) {}
-    
-    return {
-      success: true,
-      version: latestVersion,
-      name: releaseName,
-      downloadUrl: `https://github.com/DemerNkardaz/DSL-KeyPad/releases/download/${latestVersion}/DSL-KeyPad-${latestVersion}.zip`
-    };
-    
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message
-    };
-  }
+	try {
+		const jsdelivrResponse = await fetch(
+			'https://data.jsdelivr.com/v1/package/gh/DemerNkardaz/DSL-KeyPad'
+		);
+
+		if (!jsdelivrResponse.ok) {
+			throw new Error(`jsDelivr API error: ${jsdelivrResponse.status}`);
+		}
+
+		const jsdelivrData = await jsdelivrResponse.json();
+		const latestVersion = jsdelivrData.versions[0];
+
+		if (!latestVersion) {
+			throw new Error('No latest version found');
+		}
+
+		let releaseName = `DSL KeyPad ${latestVersion}`;
+		try {
+			const githubResponse = await fetch(
+				'https://api.github.com/repos/DemerNkardaz/DSL-KeyPad/releases/latest'
+			);
+
+			if (githubResponse.ok) {
+				const githubData = await githubResponse.json();
+				releaseName = githubData.name || releaseName;
+			}
+		} catch (error) { }
+
+		return {
+			success: true,
+			version: latestVersion,
+			name: releaseName,
+			downloadUrl: `https://github.com/DemerNkardaz/DSL-KeyPad/releases/download/${latestVersion}/DSL-KeyPad-${latestVersion}.zip`
+		};
+
+	} catch (error) {
+		return {
+			success: false,
+			error: error.message
+		};
+	}
 }
 
 function DownloadLastRelease() {
-  if (!releaseInfoCache) {
-    return false;
-  }
-  
-  if (!releaseInfoCache.success) {
-    return false;
-  }
-  
-  const link = document.createElement('a');
-  link.href = releaseInfoCache.downloadUrl;
-  link.download = `DSL-KeyPad-${releaseInfoCache.version}.zip`;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  
-  link.click();
-  
-  return false;
+	if (!releaseInfoCache) {
+		return false;
+	}
+
+	if (!releaseInfoCache.success) {
+		return false;
+	}
+
+	const link = document.createElement('a');
+	link.href = releaseInfoCache.downloadUrl;
+	link.download = `DSL-KeyPad-${releaseInfoCache.version}.zip`;
+	link.target = '_blank';
+	link.rel = 'noopener noreferrer';
+
+	link.click();
+
+	return false;
 }
