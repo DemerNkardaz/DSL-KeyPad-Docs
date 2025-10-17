@@ -225,83 +225,100 @@ function animateScatterCollapseLoop(elementId, duration = 20000) {
 }
 
 function generateRings(rings, baseFontSize = 72, containerName, mobileFontSize = null, baseRadius = 0.75) {
-	if (!containerName) {
-		return
-	}
-	
+	if (!containerName) return;
+
 	let fontSize = baseFontSize;
 	if (mobileFontSize && typeof mobileFontSize === 'object') {
 		const screenWidth = window.innerWidth;
 		const breakpoints = Object.keys(mobileFontSize).map(Number).sort((a, b) => b - a);
-		
 		for (const breakpoint of breakpoints) {
 			if (screenWidth <= breakpoint) {
 				fontSize = mobileFontSize[breakpoint];
 			}
 		}
 	}
-	
+
 	const container = document.getElementById(containerName);
 	container.innerHTML = '';
-	
+
 	const wrapper = document.createElement('div');
 	wrapper.className = 'generated-ring-wrapper';
 	container.appendChild(wrapper);
-	
+
 	const containerSize = 500;
 	const centerX = containerSize / 2;
 	const centerY = containerSize / 2;
-	
+
 	baseRadius = fontSize * baseRadius;
 	const radiusStep = fontSize * 0.55;
 
-	
+	function parseSymbols(ring) {
+		const symbols = [];
+		const regex = /\[([xy]{1,2}m):([^\]])\]|([\uD800-\uDBFF][\uDC00-\uDFFF]|.)/gu;
+		let match;
+		while ((match = regex.exec(ring)) !== null) {
+			if (match[1]) {
+				symbols.push({
+					symbol: match[2],
+					mirrorX: match[1].includes('xm') || match[1].includes('x'),
+					mirrorY: match[1].includes('ym') || match[1].includes('y'),
+				});
+			} else {
+				symbols.push({
+					symbol: match[3],
+					mirrorX: false,
+					mirrorY: false,
+				});
+			}
+		}
+		return symbols;
+	}
+
 	rings.forEach((ring, ringIndex) => {
-		const symbols = [...ring];
-		const symbolCount = symbols.length;
-		
+		const parsedSymbols = parseSymbols(ring);
+		const symbolCount = parsedSymbols.length;
+
 		if (ringIndex === 0 && symbolCount === 1) {
 			const ringContainer = document.createElement('div');
 			ringContainer.className = `generated-ring-of-${ringIndex}`;
-			ringContainer.style.position = 'absolute';
-			ringContainer.style.left = `${centerX}px`;
-			ringContainer.style.top = `${centerY}px`;
-			ringContainer.style.width = '0';
-			ringContainer.style.height = '0';
-			ringContainer.style.transformOrigin = 'center';
-			
+			Object.assign(ringContainer.style, {
+				position: 'absolute',
+				left: `${centerX}px`,
+				top: `${centerY}px`,
+				width: '0',
+				height: '0',
+				transformOrigin: 'center'
+			});
+
+			const { symbol, mirrorX, mirrorY } = parsedSymbols[0];
 			const symbolEl = document.createElement('div');
 			symbolEl.className = 'generated-ring-symbol';
-			symbolEl.textContent = symbols[0];
-			
-			const symbolFontSize = fontSize * 1;
-			symbolEl.style.fontSize = `${symbolFontSize}px`;
+			symbolEl.textContent = symbol;
+			symbolEl.style.fontSize = `${fontSize}px`;
 			symbolEl.style.lineHeight = '1';
-			
-			symbolEl.style.left = '0';
-			symbolEl.style.top = '0';
-			symbolEl.style.transform = 'translate(-50%, -50%)';
 			symbolEl.style.display = 'flex';
 			symbolEl.style.alignItems = 'center';
 			symbolEl.style.justifyContent = 'center';
-			
+			symbolEl.style.transform = `translate(-50%, -50%) scale(${mirrorX ? -1 : 1}, ${mirrorY ? -1 : 1})`;
+
 			ringContainer.appendChild(symbolEl);
 			wrapper.appendChild(ringContainer);
 		} else {
 			const radius = baseRadius + (ringIndex - (rings[0].split('').length === 1 ? 1 : 0)) * radiusStep;
-			
 			const symbolFontSize = fontSize * (1 / Math.sqrt(symbolCount)) * (1 + ringIndex * 0.15);
-			
+
 			const ringContainer = document.createElement('div');
 			ringContainer.className = `generated-ring-of-${ringIndex}`;
-			ringContainer.style.position = 'absolute';
-			ringContainer.style.left = `${centerX}px`;
-			ringContainer.style.top = `${centerY}px`;
-			ringContainer.style.width = '0';
-			ringContainer.style.height = '0';
-			ringContainer.style.transformOrigin = 'center';
-			
-			symbols.forEach((symbol, symbolIndex) => {
+			Object.assign(ringContainer.style, {
+				position: 'absolute',
+				left: `${centerX}px`,
+				top: `${centerY}px`,
+				width: '0',
+				height: '0',
+				transformOrigin: 'center'
+			});
+
+			parsedSymbols.forEach(({ symbol, mirrorX, mirrorY }, symbolIndex) => {
 				const symbolEl = document.createElement('div');
 				symbolEl.className = 'generated-ring-symbol';
 				symbolEl.textContent = symbol;
@@ -310,32 +327,33 @@ function generateRings(rings, baseFontSize = 72, containerName, mobileFontSize =
 				symbolEl.style.display = 'flex';
 				symbolEl.style.alignItems = 'center';
 				symbolEl.style.justifyContent = 'center';
-				
+
 				const angleStep = 360 / symbolCount;
 				const angle = symbolIndex * angleStep;
 				const angleRad = (angle - 90) * Math.PI / 180;
-				
 				const x = radius * Math.cos(angleRad);
 				const y = radius * Math.sin(angleRad);
-				
+
 				symbolEl.style.left = `${x}px`;
 				symbolEl.style.top = `${y}px`;
-				
-				symbolEl.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-				
+
+				let rotation = angle;
+				let mirrorRotation = '';
+				if (mirrorX && mirrorY) mirrorRotation = 'scale(-1, -1)';
+				else if (mirrorX) mirrorRotation = 'scale(-1, 1)';
+				else if (mirrorY) mirrorRotation = 'scale(1, -1)';
+
+				symbolEl.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) ${mirrorRotation}`;
 				ringContainer.appendChild(symbolEl);
 			});
-			
+
 			wrapper.appendChild(ringContainer);
 		}
 	});
-	
+
 	return {
-		animate: function(ringsToAnimate, duration = 10) {
-			if (!Array.isArray(ringsToAnimate)) {
-				ringsToAnimate = [ringsToAnimate];
-			}
-			
+		animate(ringsToAnimate, duration = 10) {
+			if (!Array.isArray(ringsToAnimate)) ringsToAnimate = [ringsToAnimate];
 			if (Array.isArray(duration)) {
 				ringsToAnimate.forEach((index, i) => {
 					const ringElement = wrapper.querySelector(`.generated-ring-of-${index}`);
@@ -349,7 +367,6 @@ function generateRings(rings, baseFontSize = 72, containerName, mobileFontSize =
 			} else {
 				const absDuration = Math.abs(duration);
 				const direction = duration < 0 ? 'reverse' : 'normal';
-				
 				ringsToAnimate.forEach(index => {
 					const ringElement = wrapper.querySelector(`.generated-ring-of-${index}`);
 					if (ringElement) {
@@ -357,21 +374,16 @@ function generateRings(rings, baseFontSize = 72, containerName, mobileFontSize =
 					}
 				});
 			}
-			
 			return this;
 		},
-		stop: function(ringsToStop) {
-			if (!Array.isArray(ringsToStop)) {
-				ringsToStop = [ringsToStop];
-			}
-			
+		stop(ringsToStop) {
+			if (!Array.isArray(ringsToStop)) ringsToStop = [ringsToStop];
 			ringsToStop.forEach(index => {
 				const ringElement = wrapper.querySelector(`.generated-ring-of-${index}`);
 				if (ringElement) {
 					ringElement.style.animation = 'none';
 				}
 			});
-			
 			return this;
 		}
 	};
