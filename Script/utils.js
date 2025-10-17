@@ -252,7 +252,7 @@ function generateRings(rings, baseFontSize = 72, containerName, mobileFontSize =
 	const centerX = containerSize / 2;
 	const centerY = containerSize / 2;
 	
-	baseRadius = baseFontSize * baseRadius;
+	baseRadius = fontSize * baseRadius;
 	const radiusStep = fontSize * 0.55;
 
 	
