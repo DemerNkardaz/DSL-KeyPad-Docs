@@ -1,13 +1,35 @@
+
 const SUPPORTED_LANGUAGES = ['en-US', 'ru-RU'];
+const urlParams = new URLSearchParams(window.location.search);
 
-const urlLang = new URLSearchParams(window.location.search).get('tl');
-const browserLocale = new Intl.DateTimeFormat().resolvedOptions().locale;
+function detectLanguage() {
+  const urlLang = urlParams.get('tl');
+  if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
+    return urlLang;
+  }
 
-const language = 
-  (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) ? urlLang :
-  SUPPORTED_LANGUAGES.includes(browserLocale) ? browserLocale :
-  'en-US';
+  const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage];
+  
+  for (const lang of browserLanguages) {
+    if (SUPPORTED_LANGUAGES.includes(lang)) {
+      return lang;
+    }
+  }
+  
+  for (const lang of browserLanguages) {
+    const baseLang = lang.split('-')[0];
+    const match = SUPPORTED_LANGUAGES.find(supported => 
+      supported.startsWith(baseLang)
+    );
+    if (match) {
+      return match;
+    }
+  }
+  
+  return 'en-US';
+}
 
+const language = detectLanguage();
 const randomLetters = [
 	"\u01F7\u00DE\uA768\u00D8\u016E\u00C7\u01E2\uA728\u1E9E\uA7D5\u01B1\u1EB3\u1D76\u1F86\u1F23\u03DE\u046C\uA64A\u0518\uA650\u0466\u040F\uA65E\uA68E\uD83D\uDF0D\u2645\u2BE0\u2BE1\u263F\uD83D\uDF7B\u262F\u2630\u2636\u16D7\u16DF\u16C9\u2625\u269A\u2624\u2E19\u2627", // Random
 	"\uD83D\uDF01\uD83D\uDF03\uD83D\uDF02\uD83D\uDF04\uD83D\uDF47\uD83D\uDF5E\uD83D\uDF32\uD83D\uDF05\uD83D\uDF06\uD83D\uDF09\uD83D\uDF0A\uD83D\uDF0D\uD83D\uDF0F\uD83D\uDF14\uD83D\uDF41\uD83D\uDF3F\uD83D\uDF36\uD83D\uDF58\uD83D\uDF57\uD83D\uDF5B\uD83D\uDF29\uD83D\uDF2A\uD83D\uDF3E\uD83D\uDF20\uD83D\uDF11\u263F\u2609\u263E\u2641\uD83D\uDF6A\uD83D\uDF69\uD83D\uDF2F\uD83D\uDF25\uD83D\uDF39\uD83D\uDF18\uD83D\uDF1B", // Alchemy

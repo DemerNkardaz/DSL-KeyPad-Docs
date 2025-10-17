@@ -5,12 +5,28 @@
 	}
 }
 
+.hidden-on-tablet {
+	@media screen and (max-width: 800px) {
+		display: none !important;
+	}
+}
+
+.hidden-on-mobile {
+	@media screen and (max-width: 600px) {
+		display: none !important;
+	}
+}
+
 .text-small {
 	font-size: 0.75rem;
 }
 
 .title-small {
 	font-size: 1rem;
+
+	@media screen and (max-width: 1024px) {
+		font-size: min(0.75rem, calc(0.15rem + 2.5vw));;
+	}
 }
 
 .italic {
