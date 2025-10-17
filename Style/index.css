@@ -407,11 +407,11 @@ a {
 			width: 90%;
 
 			&>h1 {
-				font-size: calc(1.5rem + 2.5vw);
+				font-size: calc(1.15rem + 2.5vw);
 			}
 
 			& p {
-				font-size: min(1.25rem, calc(0.25rem + 2.5vw));
+				font-size: min(1.35rem, calc(0.35rem + 2.5vw));
 			}
 
 			&>.content-intershow-header-random-letter {
@@ -420,13 +420,15 @@ a {
 					font-size: calc(5rem + 2.5vw);
 				}
 			}
-			
 		}
-	}
 
+	}
+	
 	@media screen and (max-width: 1024px) {
 		height: calc(500px + (100vw - 768px) * 0.1085);
-		
+	}
+	@media screen and (max-width: 450px) {
+		padding-inline: 4rem;
 	}
 
 }
@@ -513,6 +515,12 @@ a {
 		color: var(--text-semi-light);
 		margin-block: 1.5rem;
 		line-height: 1.5em;
+	}
+
+	@media screen and (max-width: 450px) {
+		&>.content-container-metas {
+			font-size: 0.65rem;
+		}
 	}
 }
 
