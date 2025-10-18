@@ -44,3 +44,24 @@
 .question {
 	cursor: help;
 }
+
+
+.flex-container {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+
+.circled-symbol {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-radius: 50%;
+	background-color: var(--background-info);
+	color: var(--text-light);
+	min-width: 1.15em;
+	min-height: 1.15em;
+	box-sizing: border-box;
+}

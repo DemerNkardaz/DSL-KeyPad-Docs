@@ -92,7 +92,8 @@ class AutoChess {
 			'stalemate': 'Пат! Ничья',
 			'draw': 'Ничья',
 			'pause': 'Пауза',
-			'start': 'Старт'
+			'start': 'Старт',
+			'start_warning': 'Просчёт ходов может вызывать подвисание'
 		},
 		'en-US': {
 			'black': 'Black',
@@ -103,7 +104,8 @@ class AutoChess {
 			'stalemate': 'Stalemate! Draw',
 			'draw': 'Draw',
 			'pause': 'Pause',
-			'start': 'Start'
+			'start': 'Start',
+			'start_warning': 'Calculating moves may cause lag'
 		}
 	}
 
@@ -163,6 +165,7 @@ class AutoChess {
 
 	init() {
 		this.game = new Chess();
+		this.aiEnabled = true;
 		this.createUI();
 		this.renderBoard();
 		this.updateTurnInfo();
@@ -186,30 +189,49 @@ class AutoChess {
 		infoContainer.className = 'chess-info-container';
 
 		this.controlButton = document.createElement('button');
-		this.controlButton.className = 'chess-control-button';
-		this.controlButton.style.fontSize = `${14 * s}px`;
+		this.controlButton.className = 'chess-btn chess-btn-control';
+		this.controlButton.style.fontSize = `${18 * s}px`;
 		this.controlButton.style.padding = `${8 * s}px ${16 * s}px`;
+		this.controlButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['start_warning']);
 		this.updateControlButton();
 		this.controlButton.addEventListener('click', () => this.togglePause());
-
+		
 		this.turnElement = document.createElement('div');
 		this.turnElement.className = 'chess-turn-info';
 		this.turnElement.style.fontSize = `${18 * s}px`;
-
+		
 		const emptyCell = document.createElement('div');
-
+		
 		infoContainer.appendChild(this.controlButton);
 		infoContainer.appendChild(this.turnElement);
 		infoContainer.appendChild(emptyCell);
 
+		const sideButtonsContainer = document.createElement('div');
+		sideButtonsContainer.className = 'chess-side-buttons-container';
+		
+		this.resetButton = document.createElement('button');
+		this.resetButton.className = 'chess-btn chess-side-btn';
+		this.resetButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
+		this.resetButton.addEventListener('click', () => this.reset());
+
+		this.playAIButton = document.createElement('button');
+		this.playAIButton.className = 'chess-btn chess-side-btn chess-side-btn-allowed';
+		this.playAIButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
+		this.playAIButton.addEventListener('click', () => this.playAI());
+		
+		sideButtonsContainer.appendChild(this.resetButton);
+		sideButtonsContainer.appendChild(this.playAIButton);
+		
 		this.container.appendChild(this.boardElement);
 		this.container.appendChild(infoContainer);
+		this.container.appendChild(sideButtonsContainer);
 		this.parentElement.appendChild(this.container);
+		
 	}
 
 	updateControlButton() {
 		const lang = typeof language !== 'undefined' ? language : 'en-US';
-		this.controlButton.textContent = this.isPaused ? this.locales[lang]['start'] : this.locales[lang]['pause'];
+		this.controlButton.innerHTML = `${this.isPaused ? this.locales[lang]['start'] : this.locales[lang]['pause']} <div class="flex-container"><span class="circled-symbol ">i</span></div>`;
 	}
 
 	togglePause() {
@@ -218,6 +240,26 @@ class AutoChess {
 		} else {
 			this.pause();
 		}
+	}
+
+	reset() {
+		this.game = new Chess();
+		this.renderBoard();
+		this.updateTurnInfo();
+	}
+
+	playAI() {
+		if (this.aiEnabled) {
+			this.aiEnabled = false;
+			this.playAIButton.classList.remove('chess-side-btn-allowed');
+			this.playAIButton.classList.add('chess-side-btn-restricted');
+
+		} else {
+			this.aiEnabled = true;
+			this.playAIButton.classList.add('chess-side-btn-allowed');
+			this.playAIButton.classList.remove('chess-side-btn-restricted');
+		}
+		
 	}
 
 	pause() {

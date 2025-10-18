@@ -26,13 +26,19 @@
 	--accent-silver-medium: #b3b8bc;
 	--accent-silver-semilight: #bbc0c4;
 	--accent-silver-light: #ccd0d3;
+	--accent-warm-green: #36e03c;
 	--background-dark: #333333;
 	--background-ultra-dark: #222222;
 	--background-light: #eeeeee;
+	--background-info: #6e6eff;
 	--border-dark: #444444;
 	--border-ultra-dark: #222222;
 	--border-light: #dddddd;
+	--restricted: #c75858;
+	--allowed: #58c758;
+	--accessed: #6e6eff;
 	--fonts-serif: 'Noto Serif', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Noto Sans Samaritan', serif;
+	--fonts-game: 'Noto Sans', 'Noto Sans Symbols', 'Noto Sans Symbols 2', sans-serif;
 }
 
 
