@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	intershowRandomLetterP1.textContent = intershowRandomLetterRandomKey;
 	intershowRandomLetterP2.setAttribute('data-locale', 'random_letter.' + titleRandomLetters[intershowRandomLetterRandomKey]);
 
-	if (intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) {
+	if ((intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) && (typeof titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey] === 'function')) {
 		titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey]();
 	} else {
 		scatterText(randomLetters, "random-letters");

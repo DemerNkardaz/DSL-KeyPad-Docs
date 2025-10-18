@@ -1,0 +1,88 @@
+.chess-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background: var(--background-dark);
+	border: 1px solid var(--border-ultra-dark);
+	color: var(--text-light);
+	border-radius: 15px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+	z-index: 10;
+}
+
+.chess-info-container {
+	display: grid;
+	grid-template-columns: 25% 1fr 25%;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.chess-turn-info {
+	text-align: center;
+}
+
+.chess-control-button {
+	background-color: var(--accent-silver-semilight);
+	border: 2px solid var(--accent-silver-light);
+	padding-inline: 2em;
+	cursor: pointer;
+	border-radius: 2.5px;
+}
+
+.chess-board {
+	display: grid;
+	grid-template-columns: repeat(8, 60px);
+	grid-template-rows: repeat(8, 60px);
+	gap: 0;
+	border: 1px solid var(--border-ultra-dark);
+	border-radius: 15px;
+	overflow: hidden;
+	margin-bottom: 15px;
+}
+
+.chess-cell {
+	width: 60px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 40px;
+	transition: background-color 0.3s;
+}
+
+.chess-cell-light {
+	background-color: #929292;
+}
+
+.chess-cell-dark {
+	background-color: #333;
+}
+
+.chess-cell-highlight {
+	background-color: color-mix(in srgb, var(--accent-gold) 80%, transparent) !important;
+}
+
+.chess-piece {
+	pointer-events: none;
+}
+
+.chess-piece-white {
+	color: var(--text-light);
+	filter: drop-shadow(0 0px 10px black);
+}
+
+.chess-piece-black {
+	color: #111;
+	filter: drop-shadow(0 0px 10px white);
+}
+
+.chess-turn-info {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

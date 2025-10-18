@@ -6,6 +6,7 @@
 @import './dropdown.css';
 @import './lambda_logo.css';
 @import './generated_rings.css';
+@import './chess.css';
 :root {
   interpolate-size: allow-keywords;
 	--border-color: #e0e0e0;
@@ -21,6 +22,10 @@
 	--accent-gold: #ffd700;
 	--accent-pale-gold: #ffe761;
 	--accent-dark-gold: #aa6b39;
+	--accent-silver: #a8b0b3;
+	--accent-silver-medium: #b3b8bc;
+	--accent-silver-semilight: #bbc0c4;
+	--accent-silver-light: #ccd0d3;
 	--background-dark: #333333;
 	--background-ultra-dark: #222222;
 	--background-light: #eeeeee;
@@ -361,6 +366,12 @@ a {
 		height: 100%;
 		font-family: var(--fonts-serif);
 		color: color-mix(in srgb, var(--text-light), var(--text-dark) 80%);
+
+		& .chess-container {
+				position: absolute;
+				top: 0.25rem;
+				right: 27rem;
+		}
 	}
 
 	&>.content-intershow-header {
