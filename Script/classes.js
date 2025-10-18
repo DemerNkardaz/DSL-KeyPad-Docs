@@ -217,18 +217,18 @@ class AutoChess {
 		
 		this.resetButton = document.createElement('button');
 		this.resetButton.className = 'chess-btn chess-side-btn';
-		this.resetButton.innerHTML = `<img class="invert" src="/Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
+		this.resetButton.innerHTML = `<img class="invert" src="./Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
 		this.resetButton.addEventListener('click', () => this.reset());
 
 		this.playAIButton = document.createElement('button');
 		this.playAIButton.className = 'chess-btn chess-side-btn chess-side-btn-allowed';
-		this.playAIButton.innerHTML = `<img class="invert" src="/Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
+		this.playAIButton.innerHTML = `<img class="invert" src="./Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
 		this.playAIButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['ai_battleground']);
 		this.playAIButton.addEventListener('click', () => this.playAI());
 
 		this.unicodePageButton = document.createElement('a');
 		this.unicodePageButton.className = 'chess-btn chess-side-btn chess-side-btn-squared';
-		this.unicodePageButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/unicode_logo.svg"></img>`;
+		this.unicodePageButton.innerHTML = `<img src="./Media/SVG/Flat_Icons/unicode_logo.svg"></img>`;
 		this.unicodePageButton.setAttribute('href', 'https://home.unicode.org');
 		this.unicodePageButton.setAttribute('target', '_blank');
 		this.unicodePageButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['unicode']);
