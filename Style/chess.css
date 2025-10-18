@@ -134,15 +134,87 @@
 	}
 }
 
+.chess-board-wrapper {
+	position: relative;
+	display: inline-block;
+	margin-bottom: 15px;
+	border-radius: 15px;
+}
+
 .chess-board {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(8, 60px);
 	grid-template-rows: repeat(8, 60px);
 	gap: 0;
 	border: 1px solid var(--border-ultra-dark);
-	border-radius: 15px;
+	/* border-radius: 15px; */
 	overflow: hidden;
-	margin-bottom: 15px;
+	/* margin-bottom: 15px; */
+	z-index: 1;
+
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transition: opacity 250ms ease, box-shadow 250ms ease;
+	}
+
+	&::before {
+		background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, transparent 90%);
+		opacity: 0;
+		z-index: 2;
+	}
+
+	&.game-finished::before {
+		opacity: 1;
+	}
+
+	&::after {
+		box-shadow: inset 0 0 10px 5px transparent;
+		z-index: 3;
+	}
+	
+	&.won::after {
+		box-shadow: inset 0 0 10px 5px var(--accent-warm-green);
+	}
+	
+	&.won-blue::after {
+		box-shadow: inset 0 0 10px 5px var(--accent-blue);
+	}
+	
+	&.won-white::after {
+		box-shadow: inset 0 0 10px 5px var(--accent-silver-light);
+	}
+
+	&.lost::after {
+		box-shadow: inset 0 0 10px 5px var(--accent-red);
+	}
+
+	&.draw::after {
+		box-shadow: inset 0 0 10px 5px var(--accent-gold);
+	}
+}
+
+.chess-on-board-status {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 5rem;
+	font-weight: bold;
+	font-style: italic;
+	filter: drop-shadow(0 0px 4px black);
+	z-index: 2;
 }
 
 .chess-cell {

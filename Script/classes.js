@@ -113,6 +113,46 @@ class AutoChess {
 		}
 	}
 
+	chessBoardClasses = [
+		'game-finished',
+		'won',
+		'won-white',
+		'won-blue',
+		'lost',
+		'draw',
+	];
+
+	restartTime = 10;
+	restartInterval = null;
+
+	setRestartTimer(element, parent) {
+		if (this.restartInterval === null) {
+			parent.style.display = '';
+			element.textContent = `${this.restartTime}…`;
+			this.restartInterval = setInterval(() => {
+				this.restartTime--;
+				if (this.restartTime <= 0) {
+					clearInterval(this.restartInterval);
+					this.restartInterval = null;
+					this.restartTime = 10;
+					parent.style.display = 'none';
+				} else {
+					element.textContent = `${this.restartTime}…`;
+				}
+			}, 1000);
+		}
+	}
+
+	resetRestartTimer(element, parent) {
+		if (this.restartInterval !== null) {
+			clearInterval(this.restartInterval);
+			this.restartInterval = null;
+			this.restartTime = 10;
+			parent.style.display = 'none';
+			element.textContent = '';
+		}
+	}
+
 	constructor(parentElement, options = {}) {
 		this.parentElement = typeof parentElement === 'string'
 			? document.querySelector(parentElement)
@@ -204,7 +244,7 @@ class AutoChess {
 		
 		this.turnElement = document.createElement('div');
 		this.turnElement.className = 'chess-turn-info';
-		this.turnElement.style.fontSize = `${18 * s}px`;
+		this.turnElement.style.fontSize = `${20 * s}px`;
 		
 		const emptyCell = document.createElement('div');
 		
@@ -237,7 +277,28 @@ class AutoChess {
 		sideButtonsContainer.appendChild(this.playAIButton);
 		sideButtonsContainer.appendChild(this.unicodePageButton);
 		
-		this.container.appendChild(this.boardElement);
+		this.boardWrapper = document.createElement('div');
+		this.boardWrapper.className = 'chess-board-wrapper';
+		this.boardWrapper.appendChild(this.boardElement);
+
+		this.chessOnBoardStatus = document.createElement('div');
+		this.chessOnBoardStatus.className = 'chess-on-board-status';
+		this.chessOnBoardStatus.style.display = 'none';
+		this.chessOnBoardStatus.style.fontSize = `${3 * s}rem`;
+		
+		this.restartTimer = document.createElement('div');
+		this.restartTimer.className = 'chess-timer';
+		this.restartTimer.style.fontSize = `${3 * s}rem`;
+		this.chessOnBoardStatus.appendChild(this.restartTimer);
+
+		this.gameOverStatus = document.createElement('div');
+		this.gameOverStatus.className = 'chess-game-over-status';
+		this.gameOverStatus.style.fontSize = `${2 * s}rem`;
+		this.chessOnBoardStatus.appendChild(this.gameOverStatus);
+
+		this.boardWrapper.appendChild(this.chessOnBoardStatus);
+		
+		this.container.appendChild(this.boardWrapper);
 		this.container.appendChild(infoContainer);
 		this.container.appendChild(sideButtonsContainer);
 		this.parentElement.appendChild(this.container);
@@ -263,11 +324,16 @@ class AutoChess {
 		this.selectedPiece = null;
 		this.renderBoard();
 		this.updateTurnInfo();
+
+		this.resetRestartTimer(this.restartTimer, this.chessOnBoardStatus);
+
 		
 		// Если игра была запущена и AI включен, продолжаем
 		if (!this.isPaused && this.aiEnabled) {
 			this.scheduleNextMove(1000);
 		}
+
+		this.boardElement.classList.remove(...this.chessBoardClasses);
 	}
 
 	playAI() {
@@ -722,17 +788,30 @@ class AutoChess {
 		this.gameOver = true;
 		const lang = typeof language !== 'undefined' ? language : 'en-US';
 		let statusText = '';
-
+		this.boardElement.classList.add('game-finished')
+		
 		if (this.game.in_checkmate()) {
-			const winner = this.game.turn() === 'w' ? this.locales[lang]['black'] + ' ♚' : this.locales[lang]['white'] + ' ♔';
+			const winner = this.game.turn() === 'w' ? this.locales[lang]['black'] : this.locales[lang]['white'];
 			statusText = this.locales[lang]['win'] + winner;
+
+		if (this.game.turn() === 'w') {
+			this.boardElement.classList.add(!this.aiEnabled ? 'lost' : 'won-blue');
+		} else {
+			this.boardElement.classList.add(!this.aiEnabled ? 'won' : 'won-white');
+		}
+
 		} else if (this.game.in_stalemate()) {
+			this.boardElement.classList.add('draw')
 			statusText = this.locales[lang]['stalemate'];
+
 		} else if (this.game.in_draw()) {
+			this.boardElement.classList.add('draw')
 			statusText = this.locales[lang]['draw'];
 		}
 
-		this.turnElement.textContent = statusText;
+		this.gameOverStatus.textContent = statusText;
+
+		this.setRestartTimer(this.restartTimer, this.chessOnBoardStatus);
 
 		setTimeout(() => {
 			this.game.reset();
@@ -744,6 +823,8 @@ class AutoChess {
 			if (this.aiEnabled && !this.isPaused) {
 				this.scheduleNextMove(1000);
 			}
+			
+			this.boardElement.classList.remove(...this.chessBoardClasses);
 		}, 10000);
 	}
 
