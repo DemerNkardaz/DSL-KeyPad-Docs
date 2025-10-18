@@ -93,7 +93,9 @@ class AutoChess {
 			'draw': 'Ничья',
 			'pause': 'Пауза',
 			'start': 'Старт',
-			'start_warning': 'Просчёт ходов может вызывать подвисание'
+			'start_warning': 'Просчёт ходов может вызывать подвисание',
+			'ai_battleground': '[Зелёный] обеими командами управляет бот, [Красный] белыми управляет игрок',
+			'unicode': 'Все фигуры на доске представлены символами Unicode'
 		},
 		'en-US': {
 			'black': 'Black',
@@ -105,7 +107,9 @@ class AutoChess {
 			'draw': 'Draw',
 			'pause': 'Pause',
 			'start': 'Start',
-			'start_warning': 'Calculating moves may cause lag'
+			'start_warning': 'Calculating moves may cause lag',
+			'ai_battleground': '[Green] both teams control the bot, [Red] white controls the player',
+			'unicode': 'All pieces on the board are represented by Unicode characters'
 		}
 	}
 
@@ -211,16 +215,25 @@ class AutoChess {
 		
 		this.resetButton = document.createElement('button');
 		this.resetButton.className = 'chess-btn chess-side-btn';
-		this.resetButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
+		this.resetButton.innerHTML = `<img class="invert" src="/Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
 		this.resetButton.addEventListener('click', () => this.reset());
 
 		this.playAIButton = document.createElement('button');
 		this.playAIButton.className = 'chess-btn chess-side-btn chess-side-btn-allowed';
-		this.playAIButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
+		this.playAIButton.innerHTML = `<img class="invert" src="/Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
+		this.playAIButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['ai_battleground']);
 		this.playAIButton.addEventListener('click', () => this.playAI());
+
+		this.unicodePageButton = document.createElement('a');
+		this.unicodePageButton.className = 'chess-btn chess-side-btn chess-side-btn-squared';
+		this.unicodePageButton.innerHTML = `<img src="/Media/SVG/Flat_Icons/unicode_logo.svg"></img>`;
+		this.unicodePageButton.setAttribute('href', 'https://home.unicode.org');
+		this.unicodePageButton.setAttribute('target', '_blank');
+		this.unicodePageButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['unicode']);
 		
 		sideButtonsContainer.appendChild(this.resetButton);
 		sideButtonsContainer.appendChild(this.playAIButton);
+		sideButtonsContainer.appendChild(this.unicodePageButton);
 		
 		this.container.appendChild(this.boardElement);
 		this.container.appendChild(infoContainer);
