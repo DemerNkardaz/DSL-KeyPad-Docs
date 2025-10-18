@@ -139,6 +139,8 @@ class AutoChess {
 		this.controlButton = null;
 		
 		this.moveTimeout = null;
+		this.selectedSquare = null;
+		this.selectedPiece = null;
 
 		this.loadChessLibrary().then(() => {
 			this.init();
@@ -239,7 +241,6 @@ class AutoChess {
 		this.container.appendChild(infoContainer);
 		this.container.appendChild(sideButtonsContainer);
 		this.parentElement.appendChild(this.container);
-		
 	}
 
 	updateControlButton() {
@@ -256,23 +257,46 @@ class AutoChess {
 	}
 
 	reset() {
-		this.game = new Chess();
+		this.game.reset();
+		this.gameOver = false;
+		this.selectedSquare = null;
+		this.selectedPiece = null;
 		this.renderBoard();
 		this.updateTurnInfo();
+		
+		// Если игра была запущена и AI включен, продолжаем
+		if (!this.isPaused && this.aiEnabled) {
+			this.scheduleNextMove(1000);
+		}
 	}
 
 	playAI() {
 		if (this.aiEnabled) {
+			// Переключаемся в режим "человек vs бот"
 			this.aiEnabled = false;
 			this.playAIButton.classList.remove('chess-side-btn-allowed');
 			this.playAIButton.classList.add('chess-side-btn-restricted');
-
+			
+			// Очищаем выделение
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
 		} else {
+			// Переключаемся в режим "бот vs бот"
 			this.aiEnabled = true;
 			this.playAIButton.classList.add('chess-side-btn-allowed');
 			this.playAIButton.classList.remove('chess-side-btn-restricted');
+			
+			// Очищаем выделение
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
+			
+			// Если игра запущена и сейчас ход белых (которые теперь бот), продолжаем
+			if (!this.isPaused && this.game.turn() === 'w') {
+				this.scheduleNextMove(100);
+			}
 		}
-		
 	}
 
 	pause() {
@@ -310,6 +334,252 @@ class AutoChess {
 		return this.unicodePieces[color + type] || '';
 	}
 
+	getCellIndex(row, col) {
+		return row * 8 + col;
+	}
+
+	getSquareNotation(row, col) {
+		const file = String.fromCharCode(97 + col); // a-h
+		const rank = 8 - row; // 8-1
+		return file + rank;
+	}
+
+	handleCellClick(row, col, cell) {
+		// Игрок может ходить только когда:
+		// 1. AI выключен (режим игрока)
+		// 2. Игра не окончена
+		// 3. Сейчас ход белых
+		if (this.aiEnabled || this.gameOver || this.game.turn() !== 'w') return;
+		
+		const square = this.getSquareNotation(row, col);
+		const piece = this.game.get(square);
+		
+		// Если ничего не выбрано, пытаемся выбрать белую фигуру
+		if (!this.selectedSquare) {
+			if (piece && piece.color === 'w') {
+				this.selectedSquare = square;
+				this.selectedPiece = piece;
+				
+				// Перерисовываем доску с подсветками
+				this.renderBoardWithHighlights();
+			}
+		} else {
+			// Пытаемся сделать ход
+			const move = this.game.move({
+				from: this.selectedSquare,
+				to: square,
+				promotion: 'q'
+			});
+			
+			if (move) {
+				// Ход успешен
+				this.selectedSquare = null;
+				this.selectedPiece = null;
+				
+				this.highlightMove(move.from, move.to);
+				
+				setTimeout(() => {
+					this.renderBoard();
+					this.updateTurnInfo();
+					
+					// Проверяем окончание игры
+					if (this.game.game_over()) {
+						this.handleGameOver();
+					} else if (!this.isPaused) {
+						// Теперь ход чёрных (бот)
+						setTimeout(() => this.makeAiMove(), this.options.moveDelay);
+					}
+				}, 300);
+			} else {
+				// Неверный ход или переключение на другую фигуру
+				if (piece && piece.color === 'w') {
+					// Переключаемся на другую белую фигуру
+					this.selectedSquare = square;
+					this.selectedPiece = piece;
+					
+					this.renderBoardWithHighlights();
+				} else {
+					// Снимаем выделение
+					this.selectedSquare = null;
+					this.selectedPiece = null;
+					this.renderBoard();
+				}
+			}
+		}
+	}
+
+	// Получаем все клетки, которые атакуют чёрные фигуры (простая проверка без симуляции)
+	getBlackAttackedSquares() {
+		const attackedSquares = new Set();
+		const board = this.game.board();
+		
+		// Проходим по всем чёрным фигурам
+		for (let row = 0; row < 8; row++) {
+			for (let col = 0; col < 8; col++) {
+				const piece = board[row][col];
+				if (!piece || piece.color !== 'b') continue;
+				
+				switch (piece.type) {
+					case 'p': // Пешка
+						// Чёрные пешки атакуют вниз по диагоналям
+						if (row < 7) {
+							if (col > 0) attackedSquares.add(this.getSquareNotation(row + 1, col - 1));
+							if (col < 7) attackedSquares.add(this.getSquareNotation(row + 1, col + 1));
+						}
+						break;
+						
+					case 'n': // Конь
+						const knightMoves = [
+							[-2, -1], [-2, 1], [-1, -2], [-1, 2],
+							[1, -2], [1, 2], [2, -1], [2, 1]
+						];
+						knightMoves.forEach(([dr, dc]) => {
+							const newRow = row + dr;
+							const newCol = col + dc;
+							if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+								attackedSquares.add(this.getSquareNotation(newRow, newCol));
+							}
+						});
+						break;
+						
+					case 'b': // Слон
+						this.addDiagonalAttacks(row, col, attackedSquares, board);
+						break;
+						
+					case 'r': // Ладья
+						this.addStraightAttacks(row, col, attackedSquares, board);
+						break;
+						
+					case 'q': // Ферзь
+						this.addDiagonalAttacks(row, col, attackedSquares, board);
+						this.addStraightAttacks(row, col, attackedSquares, board);
+						break;
+						
+					case 'k': // Король
+						const kingMoves = [
+							[-1, -1], [-1, 0], [-1, 1],
+							[0, -1], [0, 1],
+							[1, -1], [1, 0], [1, 1]
+						];
+						kingMoves.forEach(([dr, dc]) => {
+							const newRow = row + dr;
+							const newCol = col + dc;
+							if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+								attackedSquares.add(this.getSquareNotation(newRow, newCol));
+							}
+						});
+						break;
+				}
+			}
+		}
+		
+		return attackedSquares;
+	}
+	
+	// Добавляем атаки по диагоналям
+	addDiagonalAttacks(row, col, attackedSquares, board) {
+		const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+		directions.forEach(([dr, dc]) => {
+			let r = row + dr;
+			let c = col + dc;
+			while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+				attackedSquares.add(this.getSquareNotation(r, c));
+				// Останавливаемся если встретили любую фигуру
+				if (board[r][c]) break;
+				r += dr;
+				c += dc;
+			}
+		});
+	}
+	
+	// Добавляем атаки по прямым линиям
+	addStraightAttacks(row, col, attackedSquares, board) {
+		const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+		directions.forEach(([dr, dc]) => {
+			let r = row + dr;
+			let c = col + dc;
+			while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+				attackedSquares.add(this.getSquareNotation(r, c));
+				// Останавливаемся если встретили любую фигуру
+				if (board[r][c]) break;
+				r += dr;
+				c += dc;
+			}
+		});
+	}
+
+	renderBoardWithHighlights() {
+		this.boardElement.innerHTML = '';
+		const boardState = this.game.board();
+		const s = this.options.scale;
+		
+		// Получаем возможные ходы выбранной фигуры
+		const possibleMoves = this.selectedSquare 
+			? this.game.moves({ square: this.selectedSquare, verbose: true })
+			: [];
+		
+		// Создаём Set для быстрого поиска
+		const possibleMovesSet = new Set(possibleMoves.map(m => m.to));
+		
+		// Получаем все атакуемые чёрными клетки (один раз)
+		const blackAttackedSquares = this.getBlackAttackedSquares();
+
+		for (let row = 0; row < 8; row++) {
+			for (let col = 0; col < 8; col++) {
+				const cell = document.createElement('div');
+				const isLight = (row + col) % 2 === 0;
+				cell.className = `chess-cell chess-cell-${isLight ? 'light' : 'dark'}`;
+				cell.style.width = `${60 * s}px`;
+				cell.style.height = `${60 * s}px`;
+				cell.style.fontSize = `${40 * s}px`;
+
+				const square = this.getSquareNotation(row, col);
+				const piece = boardState[row][col];
+				
+				if (!this.aiEnabled) {
+					cell.style.cursor = 'pointer';
+					cell.addEventListener('click', () => this.handleCellClick(row, col, cell));
+				}
+				
+				if (this.selectedSquare) {
+					if (square === this.selectedSquare) {
+						const isUnderAttack = blackAttackedSquares.has(square);
+						if (isUnderAttack) {
+							cell.classList.add('chess-cell-selected-under-attack');
+						} else {
+							cell.classList.add('chess-cell-selected');
+						}
+					} else if (possibleMovesSet.has(square)) {
+						const isAttack = piece && piece.color === 'b';
+						const isHazardous = blackAttackedSquares.has(square);
+						
+						if (isAttack && isHazardous) {
+							cell.classList.add('chess-cell-attackable-hazardous');
+						} else if (isAttack) {
+							cell.classList.add('chess-cell-attackable');
+						} else if (isHazardous) {
+							cell.classList.add('chess-cell-hazardous');
+						} else {
+							cell.classList.add('chess-cell-highlight');
+						}
+					} else {
+						cell.classList.add('chess-cell-unreachable');
+					}
+				}
+
+				if (piece) {
+					const pieceSpan = document.createElement('span');
+					pieceSpan.className = `chess-piece chess-piece-${piece.color === 'w' ? 'white' : 'black'}`;
+					pieceSpan.style.fontSize = `${40 * s}px`;
+					pieceSpan.textContent = this.pieceToUnicode(piece);
+					cell.appendChild(pieceSpan);
+				}
+
+				this.boardElement.appendChild(cell);
+			}
+		}
+	}
+
 	renderBoard() {
 		this.boardElement.innerHTML = '';
 		const boardState = this.game.board();
@@ -323,6 +593,11 @@ class AutoChess {
 				cell.style.width = `${60 * s}px`;
 				cell.style.height = `${60 * s}px`;
 				cell.style.fontSize = `${40 * s}px`;
+
+				if (!this.aiEnabled) {
+					cell.style.cursor = 'pointer';
+					cell.addEventListener('click', () => this.handleCellClick(row, col, cell));
+				}
 
 				const piece = boardState[row][col];
 				if (piece) {
@@ -443,32 +718,43 @@ class AutoChess {
 		return bestMove;
 	}
 
+	handleGameOver() {
+		this.gameOver = true;
+		const lang = typeof language !== 'undefined' ? language : 'en-US';
+		let statusText = '';
+
+		if (this.game.in_checkmate()) {
+			const winner = this.game.turn() === 'w' ? this.locales[lang]['black'] + ' ♚' : this.locales[lang]['white'] + ' ♔';
+			statusText = this.locales[lang]['win'] + winner;
+		} else if (this.game.in_stalemate()) {
+			statusText = this.locales[lang]['stalemate'];
+		} else if (this.game.in_draw()) {
+			statusText = this.locales[lang]['draw'];
+		}
+
+		this.turnElement.textContent = statusText;
+
+		setTimeout(() => {
+			this.game.reset();
+			this.gameOver = false;
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
+			this.updateTurnInfo();
+			if (this.aiEnabled && !this.isPaused) {
+				this.scheduleNextMove(1000);
+			}
+		}, 10000);
+	}
+
 	makeAiMove() {
 		if (this.gameOver || this.isPaused) return;
 
+		// В режиме игрока бот ходит только за чёрных
+		if (!this.aiEnabled && this.game.turn() === 'w') return;
+
 		if (this.game.game_over()) {
-			this.gameOver = true;
-			const lang = typeof language !== 'undefined' ? language : 'en-US';
-			let statusText = '';
-
-			if (this.game.in_checkmate()) {
-				const winner = this.game.turn() === 'w' ? this.locales[lang]['black'] + ' ♚' : this.locales[lang]['white'] + ' ♔';
-				statusText = this.locales[lang]['win'] + winner;
-			} else if (this.game.in_stalemate()) {
-				statusText = this.locales[lang]['stalemate'];
-			} else if (this.game.in_draw()) {
-				statusText = this.locales[lang]['draw'];
-			}
-
-			this.turnElement.textContent = statusText;
-
-			setTimeout(() => {
-				this.game.reset();
-				this.gameOver = false;
-				this.renderBoard();
-				this.updateTurnInfo();
-				this.scheduleNextMove(1000);
-			}, 10000);
+			this.handleGameOver();
 			return;
 		}
 
@@ -481,7 +767,15 @@ class AutoChess {
 			setTimeout(() => {
 				this.renderBoard();
 				this.updateTurnInfo();
-				this.scheduleNextMove(this.options.moveDelay);
+				if (!this.game.game_over()) {
+					// В режиме "бот vs бот" продолжаем автоматически
+					// В режиме "игрок vs бот" ждём хода игрока (белые)
+					if (this.aiEnabled) {
+						this.scheduleNextMove(this.options.moveDelay);
+					}
+				} else {
+					this.handleGameOver();
+				}
 			}, 300);
 		}
 	}

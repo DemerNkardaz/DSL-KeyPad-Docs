@@ -173,8 +173,51 @@
 	box-shadow: inset 0 0 5px 1px var(--accent-warm-green) !important;
 }
 
+.chess-cell-selected-under-attack {
+	animation: pulse-attack 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-attack {
+	0% {
+		border-color: var(--accent-red);
+		box-shadow: inset 0 0 6px 2px var(--accent-red);
+	}
+
+	50% {
+		border-color: transparent;
+		box-shadow: inset 0 0 6px 2px transparent;
+	}
+
+	100% {
+		border-color: var(--accent-red);
+		box-shadow: inset 0 0 6px 2px var(--accent-red);
+	}
+}
+
+.chess-cell-attackable {
+	border: 1px solid var(--accent-purple) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-purple) !important;
+}
+
+.chess-cell-attackable-hazardous {
+	border: 1px solid var(--accent-red-pink) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-red-pink) !important;
+}
+
+.chess-cell-unreachable {
+	/* border: 1px solid var(--border-ultra-dark) !important; */
+	/* box-shadow: inset 0 0 5px 1px var(--border-ultra-dark) !important; */
+	opacity: 0.5;
+}
+
+.chess-cell-hazardous {
+	border: 1px solid var(--accent-red) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-red) !important;
+}
+
 .chess-piece {
 	pointer-events: none;
+	user-select: none;
 }
 
 .chess-piece-white {

@@ -12,7 +12,6 @@ const deviceIsMobile = (() => {
   return isMobileUA || (isTouch && isSmallScreen);
 })();
 
-
 function detectLanguage() {
 	const urlLang = urlParams.get('tl');
 	if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang)) {
@@ -41,6 +40,9 @@ function detectLanguage() {
 }
 
 const language = detectLanguage();
+const urlGame = urlParams.get('play');
+
+
 const randomLetters = [
 	"\u01F7\u00DE\uA768\u00D8\u016E\u00C7\u01E2\uA728\u1E9E\uA7D5\u01B1\u1EB3\u1D76\u1F86\u1F23\u03DE\u046C\uA64A\u0518\uA650\u0466\u040F\uA65E\uA68E\uD83D\uDF0D\u2645\u2BE0\u2BE1\u263F\uD83D\uDF7B\u262F\u2630\u2636\u16D7\u16DF\u16C9\u2625\u269A\u2624\u2E19\u2627", // Random
 	"\uD83D\uDF01\uD83D\uDF03\uD83D\uDF02\uD83D\uDF04\uD83D\uDF47\uD83D\uDF5E\uD83D\uDF32\uD83D\uDF05\uD83D\uDF06\uD83D\uDF09\uD83D\uDF0A\uD83D\uDF0D\uD83D\uDF0F\uD83D\uDF14\uD83D\uDF41\uD83D\uDF3F\uD83D\uDF36\uD83D\uDF58\uD83D\uDF57\uD83D\uDF5B\uD83D\uDF29\uD83D\uDF2A\uD83D\uDF3E\uD83D\uDF20\uD83D\uDF11\u263F\u2609\u263E\u2641\uD83D\uDF6A\uD83D\uDF69\uD83D\uDF2F\uD83D\uDF25\uD83D\uDF39\uD83D\uDF18\uD83D\uDF1B", // Alchemy
@@ -62,48 +64,48 @@ const randomLetters = [
 ];
 
 const titleRandomLetters = {
-	// "\u046C": "big_yus_iotified",
-	// "\u262F\uFE0E": "yin_yang",
-	// "\u2631": "trigram_dui",
-	// "\u2634": "trigram_xun",
-	// "\u2635": "trigram_kan",
-	// "\u4DCA": "hexagram_tai",
-	// "\u4DDD": "hexagram_li",
-	// "\uD834\uDF0C": "tetragram_shang",
-	// "\uD834\uDF1D": "tetragram_le",
-	// "\u2640\uFE0E": "copper_venus",
-	// "\u2642\uFE0E": "iron_mars",
-	// "\uD83D\uDF0D": "sulfur",
-	// "\u2BE1": "hades",
-	// "\u2BE0": "cupido",
-	// "\u2BE6": "vulcanus",
-	// "\u2625": "ankh",
-	// "\u269A\u2624": "caduceus",
-	// "\u20A9": "korean_won",
-	// "\u00A5": "japanese_yen",
-	// "\u232C": "benzene_ring",
-	// "\uA68E": "abkhazian_tswe",
-	// "\uA65E": "romanian_yn",
-	// "\u00DE": "thorn",
-	// "\uA7BC": "egyptological_yod",
-	// "\u1FAE": "omega_psili_perispomeni_prosgegrammeni",
-	// "\u0800": "samaritan_alaf",
-	// "\u16C9": "algiz",
-	// "\u16A0": "fehu",
-	// "\u16DF": "othala",
-	// "\u16EF": "tvimadur",
-	// "\uD803\uDC0B": "orkhon_aeb",
-	// "\uD803\uDC43": "orkhon_at",
-	// "\uD803\uDC0C": "yenisei_aeb",
-	// "\uD803\uDC44": "yenisei_at",
-	// "\u028A": "ipa_near_close_near_back_rounded_vowel",
-	// "\u02A1": "ipa_epiglottal_polsive",
+	"\u046C": "big_yus_iotified",
+	"\u262F\uFE0E": "yin_yang",
+	"\u2631": "trigram_dui",
+	"\u2634": "trigram_xun",
+	"\u2635": "trigram_kan",
+	"\u4DCA": "hexagram_tai",
+	"\u4DDD": "hexagram_li",
+	"\uD834\uDF0C": "tetragram_shang",
+	"\uD834\uDF1D": "tetragram_le",
+	"\u2640\uFE0E": "copper_venus",
+	"\u2642\uFE0E": "iron_mars",
+	"\uD83D\uDF0D": "sulfur",
+	"\u2BE1": "hades",
+	"\u2BE0": "cupido",
+	"\u2BE6": "vulcanus",
+	"\u2625": "ankh",
+	"\u269A\u2624": "caduceus",
+	"\u20A9": "korean_won",
+	"\u00A5": "japanese_yen",
+	"\u232C": "benzene_ring",
+	"\uA68E": "abkhazian_tswe",
+	"\uA65E": "romanian_yn",
+	"\u00DE": "thorn",
+	"\uA7BC": "egyptological_yod",
+	"\u1FAE": "omega_psili_perispomeni_prosgegrammeni",
+	"\u0800": "samaritan_alaf",
+	"\u16C9": "algiz",
+	"\u16A0": "fehu",
+	"\u16DF": "othala",
+	"\u16EF": "tvimadur",
+	"\uD803\uDC0B": "orkhon_aeb",
+	"\uD803\uDC43": "orkhon_at",
+	"\uD803\uDC0C": "yenisei_aeb",
+	"\uD803\uDC44": "yenisei_at",
+	"\u028A": "ipa_near_close_near_back_rounded_vowel",
+	"\u02A1": "ipa_epiglottal_polsive",
 	"\uD83E\uDE51": "chess_knight_queen",
-	// "\uD83C\uDCBD": "card_queen_of_hearts",
-	// "\uD83C\uDCDC": "card_knight_of_clubs",
-	// "\uD83E\uDE67": "xiangqi_jiang",
-	// "\uD83E\uDE60": "xiangqi_shuai",
-	// "\uD83E\uDE62": "xiangqi_xiang",
+	"\uD83C\uDCBD": "card_queen_of_hearts",
+	"\uD83C\uDCDC": "card_knight_of_clubs",
+	"\uD83E\uDE67": "xiangqi_jiang",
+	"\uD83E\uDE60": "xiangqi_shuai",
+	"\uD83E\uDE62": "xiangqi_xiang",
 }
 
 const YiJingRing = () => generateRings(
@@ -140,7 +142,6 @@ const TaiXuanJingRing = () => generateRings(
 ).animate([0, 1, 2], [-120, 120, -120]);
 const ChessInit = deviceIsMobile ? false : () => new AutoChess('#random-letters', {scale: 0.72});
 
-
 const titleRandomLettersAttachedCalls = {
 	"\u262F\uFE0E": YiJingRing,
 	"\u2631": YiJingRing,
@@ -151,6 +152,10 @@ const titleRandomLettersAttachedCalls = {
 	"\uD834\uDF0C": TaiXuanJingRing,
 	"\uD834\uDF1D": TaiXuanJingRing,
 	"\uD83E\uDE51": ChessInit,
+}
+
+const games = {
+	"chess": ChessInit,
 }
 
 const hellenicPairs = {

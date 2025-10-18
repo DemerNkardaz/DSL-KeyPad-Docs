@@ -30,8 +30,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 	const intershowRandomLetterP2 = intershowRandomLetter.querySelector('p:last-child');
 	intershowRandomLetterP1.textContent = intershowRandomLetterRandomKey;
 	intershowRandomLetterP2.setAttribute('data-locale', 'random_letter.' + titleRandomLetters[intershowRandomLetterRandomKey]);
-
-	if ((intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) && (typeof titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey] === 'function')) {
+	
+	if (urlGame && urlGame in games) {
+		games[urlGame]();
+	} else if ((intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) && (typeof titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey] === 'function')) {
 		titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey]();
 	} else {
 		scatterText(randomLetters, "random-letters");
