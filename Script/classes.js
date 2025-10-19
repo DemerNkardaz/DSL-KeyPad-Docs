@@ -659,6 +659,8 @@ class AutoChess {
 				cell.style.width = `${60 * s}px`;
 				cell.style.height = `${60 * s}px`;
 				cell.style.fontSize = `${40 * s}px`;
+				cell.dataset.row = row;
+				cell.dataset.col = col;
 
 				if (!this.aiEnabled) {
 					cell.style.cursor = 'pointer';
@@ -685,13 +687,32 @@ class AutoChess {
 		const toFile = to.charCodeAt(0) - 97;
 		const toRank = 8 - parseInt(to[1]);
 
-		const cells = this.boardElement.querySelectorAll('.chess-cell');
-		cells[fromRank * 8 + fromFile].classList.add('chess-cell-highlight');
-		cells[toRank * 8 + toFile].classList.add('chess-cell-highlight');
+		const fromCell = this.boardElement.children[fromRank * 8 + fromFile];
+		const toCell = this.boardElement.children[toRank * 8 + toFile];
+		const piece = fromCell.querySelector('.chess-piece');
+
+		if (piece) {
+			// Calculate the difference in position
+			const deltaX = (toFile - fromFile) * 60 * this.options.scale;
+			const deltaY = (toRank - fromRank) * 60 * this.options.scale;
+
+			// Animate the piece
+			piece.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+			piece.style.zIndex = '1';
+
+			// After animation, update the board
+			setTimeout(() => {
+				this.renderBoard();
+			}, 300);
+		}
+
+		// Highlight effect
+		fromCell.classList.add('chess-cell-highlight');
+		toCell.classList.add('chess-cell-highlight');
 
 		setTimeout(() => {
-			cells[fromRank * 8 + fromFile].classList.remove('chess-cell-highlight');
-			cells[toRank * 8 + toFile].classList.remove('chess-cell-highlight');
+			fromCell.classList.remove('chess-cell-highlight');
+			toCell.classList.remove('chess-cell-highlight');
 		}, 300);
 	}
 

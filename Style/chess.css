@@ -220,6 +220,7 @@
 }
 
 .chess-cell {
+	position: relative;
 	width: 60px;
 	height: 60px;
 	display: flex;
@@ -290,8 +291,10 @@
 }
 
 .chess-piece {
+	position: absolute;
 	pointer-events: none;
 	user-select: none;
+	transition: transform 0.3s ease-out;
 }
 
 .chess-piece-white {
