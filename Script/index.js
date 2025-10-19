@@ -141,6 +141,7 @@ const TaiXuanJingRing = () => generateRings(
 	0.55
 ).animate([0, 1, 2], [-120, 120, -120]);
 const ChessInit = deviceIsMobile ? false : () => new AutoChess('#random-letters', {scale: 0.72});
+const XiangqiInit = deviceIsMobile ? false : () => new AutoXiangqi('#random-letters', {scale: 0.72});
 
 const titleRandomLettersAttachedCalls = {
 	"\u262F\uFE0E": YiJingRing,
@@ -152,10 +153,14 @@ const titleRandomLettersAttachedCalls = {
 	"\uD834\uDF0C": TaiXuanJingRing,
 	"\uD834\uDF1D": TaiXuanJingRing,
 	"\uD83E\uDE51": ChessInit,
+	"\uD83E\uDE67": XiangqiInit,
+	"\uD83E\uDE60": XiangqiInit,
+	"\uD83E\uDE62": XiangqiInit,
 }
 
 const games = {
 	"chess": ChessInit,
+	"xiangqi": XiangqiInit,
 }
 
 const hellenicPairs = {

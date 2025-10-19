@@ -7,6 +7,7 @@
 @import './lambda_logo.css';
 @import './generated_rings.css';
 @import './chess.css';
+@import './xiangqi.css';
 :root {
   interpolate-size: allow-keywords;
 	--border-color: #e0e0e0;
@@ -378,7 +379,7 @@ a {
 		font-family: var(--fonts-serif);
 		color: color-mix(in srgb, var(--text-light), var(--text-dark) 80%);
 
-		& .chess-container {
+		& .chess-container, & .xiangqi-container {
 				position: absolute;
 				top: 0.25rem;
 				right: 27rem;

@@ -93,7 +93,7 @@ class AutoChess {
 			'draw': 'Ничья',
 			'pause': 'Пауза',
 			'start': 'Старт',
-			'start_warning': 'Просчёт ходов может вызывать подвисание',
+			'start_warning': 'Начать/Приостановить игру. Просчёт ходов может вызывать подвисание',
 			'ai_battleground': '[Зелёный] обеими командами управляет бот, [Красный] белыми управляет игрок',
 			'unicode': 'Все фигуры на доске представлены символами Unicode'
 		},
@@ -107,7 +107,7 @@ class AutoChess {
 			'draw': 'Draw',
 			'pause': 'Pause',
 			'start': 'Start',
-			'start_warning': 'Calculating moves may cause lag',
+			'start_warning': 'Start/Pause game. Calculating moves may cause lag',
 			'ai_battleground': '[Green] both teams control the bot, [Red] white controls the player',
 			'unicode': 'All pieces on the board are represented by Unicode characters'
 		}
@@ -233,14 +233,6 @@ class AutoChess {
 
 		const infoContainer = document.createElement('div');
 		infoContainer.className = 'chess-info-container';
-
-		this.controlButton = document.createElement('button');
-		this.controlButton.className = 'chess-btn chess-btn-control';
-		this.controlButton.style.fontSize = `${18 * s}px`;
-		this.controlButton.style.padding = `${8 * s}px ${16 * s}px`;
-		this.controlButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['start_warning']);
-		this.updateControlButton();
-		this.controlButton.addEventListener('click', () => this.togglePause());
 		
 		this.turnElement = document.createElement('div');
 		this.turnElement.className = 'chess-turn-info';
@@ -248,7 +240,6 @@ class AutoChess {
 		
 		const emptyCell = document.createElement('div');
 		
-		infoContainer.appendChild(this.controlButton);
 		infoContainer.appendChild(this.turnElement);
 		infoContainer.appendChild(emptyCell);
 
@@ -266,6 +257,17 @@ class AutoChess {
 		this.playAIButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['ai_battleground']);
 		this.playAIButton.addEventListener('click', () => this.playAI());
 
+		this.startPauseButton = document.createElement('button');
+		this.startPauseButton.className = 'chess-btn chess-side-btn';
+
+		this.startPauseButtonIcon = document.createElement('img');
+		this.startPauseButtonIcon.className = 'invert';
+		this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_start.svg';
+		this.startPauseButton.appendChild(this.startPauseButtonIcon);
+		
+		this.startPauseButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['start_warning']);
+		this.startPauseButton.addEventListener('click', () => this.togglePause());
+
 		this.unicodePageButton = document.createElement('a');
 		this.unicodePageButton.className = 'chess-btn chess-side-btn chess-side-btn-squared';
 		this.unicodePageButton.innerHTML = `<img src="./Media/SVG/Flat_Icons/unicode_logo.svg"></img>`;
@@ -275,6 +277,7 @@ class AutoChess {
 		
 		sideButtonsContainer.appendChild(this.resetButton);
 		sideButtonsContainer.appendChild(this.playAIButton);
+		sideButtonsContainer.appendChild(this.startPauseButton);
 		sideButtonsContainer.appendChild(this.unicodePageButton);
 		
 		this.boardWrapper = document.createElement('div');
@@ -304,15 +307,12 @@ class AutoChess {
 		this.parentElement.appendChild(this.container);
 	}
 
-	updateControlButton() {
-		const lang = typeof language !== 'undefined' ? language : 'en-US';
-		this.controlButton.innerHTML = `${this.isPaused ? this.locales[lang]['start'] : this.locales[lang]['pause']} <div class="flex-container"><span class="circled-symbol ">i</span></div>`;
-	}
-
 	togglePause() {
 		if (this.isPaused) {
+			this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_pause.svg';
 			this.start();
 		} else {
+			this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_start.svg';
 			this.pause();
 		}
 	}
@@ -368,7 +368,6 @@ class AutoChess {
 	pause() {
 		if (this.isPaused) return;
 		this.isPaused = true;
-		this.updateControlButton();
 		if (this.moveTimeout) {
 			clearTimeout(this.moveTimeout);
 			this.moveTimeout = null;
@@ -378,7 +377,6 @@ class AutoChess {
 	start() {
 		if (!this.isPaused) return;
 		this.isPaused = false;
-		this.updateControlButton();
 		if (!this.gameOver) {
 			this.scheduleNextMove(100);
 		}
@@ -879,6 +877,723 @@ class AutoChess {
 					this.handleGameOver();
 				}
 			}, 300);
+		}
+	}
+
+	destroy() {
+		if (this.moveTimeout) {
+			clearTimeout(this.moveTimeout);
+		}
+		if (this.container && this.container.parentElement) {
+			this.container.parentElement.removeChild(this.container);
+		}
+		this.game = null;
+		this.gameOver = true;
+	}
+}
+
+class AutoXiangqi {
+	locales = {
+		'ru-RU': {
+			'red': 'Красные',
+			'black': 'Чёрные',
+			'turn': 'Ход: ',
+			'check': 'Шах: ',
+			'win': 'Мат! Победа: ',
+			'stalemate': 'Пат! Ничья',
+			'draw': 'Ничья',
+			'pause': 'Пауза',
+			'start': 'Старт',
+			'start_warning': 'Начать/Приостановить игру. Просчёт ходов может вызывать подвисание',
+			'ai_battleground': '[Зелёный] обеими командами управляет бот, [Красный] красными управляет игрок',
+			'unicode': 'Все фигуры на доске представлены символами Unicode'
+		},
+		'en-US': {
+			'red': 'Red',
+			'black': 'Black',
+			'turn': 'Turn: ',
+			'check': 'Check: ',
+			'win': 'Checkmate! Winner: ',
+			'stalemate': 'Stalemate! Draw',
+			'draw': 'Draw',
+			'pause': 'Pause',
+			'start': 'Start',
+			'start_warning': 'Start/Pause game. Calculating moves may cause lag',
+			'ai_battleground': '[Green] both teams control the bot, [Red] red controls the player',
+			'unicode': 'All pieces on the board are represented by Unicode characters'
+		}
+	}
+
+	xiangqiBoardClasses = [
+		'game-finished',
+		'won',
+		'won-red',
+		'won-black',
+		'lost',
+		'draw',
+	];
+
+	restartTime = 10;
+	restartInterval = null;
+
+	setRestartTimer(element, parent) {
+		if (this.restartInterval === null) {
+			parent.style.display = '';
+			element.textContent = `${this.restartTime}…`;
+			this.restartInterval = setInterval(() => {
+				this.restartTime--;
+				if (this.restartTime <= 0) {
+					clearInterval(this.restartInterval);
+					this.restartInterval = null;
+					this.restartTime = 10;
+					parent.style.display = 'none';
+				} else {
+					element.textContent = `${this.restartTime}…`;
+				}
+			}, 1000);
+		}
+	}
+
+	resetRestartTimer(element, parent) {
+		if (this.restartInterval !== null) {
+			clearInterval(this.restartInterval);
+			this.restartInterval = null;
+			this.restartTime = 10;
+			parent.style.display = 'none';
+			element.textContent = '';
+		}
+	}
+
+	constructor(parentElement, options = {}) {
+		this.parentElement = typeof parentElement === 'string'
+			? document.querySelector(parentElement)
+			: parentElement;
+
+		this.options = {
+			moveDelay: options.moveDelay || 800,
+			aiDepth: options.aiDepth || 2,
+			scale: options.scale || 1,
+			...options
+		};
+
+		this.unicodePieces = {
+			'rk': '\uD83E\uDE60', 'ra': '\uD83E\uDE61', 'rb': '\uD83E\uDE62', 'rn': '\uD83E\uDE63', 'rr': '\uD83E\uDE64', 'rc': '\uD83E\uDE65', 'rp': '\uD83E\uDE66',
+			'bk': '\uD83E\uDE67', 'ba': '\uD83E\uDE68', 'bb': '\uD83E\uDE69', 'bn': '\uD83E\uDE6A', 'br': '\uD83E\uDE6B', 'bc': '\uD83E\uDE6C', 'bp': '\uD83E\uDE6D'
+		};
+
+		this.game = null;
+		this.gameOver = false;
+		this.isPaused = true;
+		this.container = null;
+		this.boardElement = null;
+		this.turnElement = null;
+		this.controlButton = null;
+		
+		this.moveTimeout = null;
+		this.selectedSquare = null;
+		this.selectedPiece = null;
+
+		this.loadXiangqiLibrary().then(() => {
+			this.init();
+		});
+	}
+
+	loadXiangqiLibrary() {
+		return new Promise((resolve, reject) => {
+			if (typeof Xiangqi !== 'undefined') {
+				resolve();
+				return;
+			}
+
+			const existingScript = document.querySelector('script[src*="xiangqi"]');
+			if (existingScript) {
+				existingScript.addEventListener('load', resolve);
+				existingScript.addEventListener('error', reject);
+				return;
+			}
+
+			const script = document.createElement('script');
+			script.src = './Script/xiangqi.min.js';
+			script.onload = resolve;
+			script.onerror = reject;
+			document.head.appendChild(script);
+		});
+	}
+
+	init() {
+		this.game = new Xiangqi();
+		this.aiEnabled = true;
+		this.createUI();
+		this.renderBoard();
+		this.updateTurnInfo();
+	}
+
+	createUI() {
+		const s = this.options.scale;
+		
+		this.container = document.createElement('div');
+		this.container.className = 'xiangqi-container';
+		this.container.style.padding = `${20 * s}px`;
+
+		this.boardElement = document.createElement('div');
+		this.boardElement.className = 'xiangqi-board';
+		this.boardElement.style.gridTemplateColumns = `repeat(9, ${55 * s}px)`;
+		this.boardElement.style.gridTemplateRows = `repeat(10, ${55 * s}px)`;
+		this.boardElement.style.borderRadius = `${15 * s}px`;
+		this.boardElement.style.marginBottom = `${15 * s}px`;
+
+		const infoContainer = document.createElement('div');
+		infoContainer.className = 'xiangqi-info-container';
+
+		const sideButtonsContainer = document.createElement('div');
+		sideButtonsContainer.className = 'xiangqi-side-buttons-container';
+		
+		this.resetButton = document.createElement('button');
+		this.resetButton.className = 'xiangqi-btn xiangqi-side-btn';
+		this.resetButton.innerHTML = `<img class="invert" src="./Media/SVG/Flat_Icons/flat_reload.svg"></img>`;
+		this.resetButton.addEventListener('click', () => this.reset());
+
+		this.playAIButton = document.createElement('button');
+		this.playAIButton.className = 'xiangqi-btn xiangqi-side-btn xiangqi-side-btn-allowed';
+		this.playAIButton.innerHTML = `<img class="invert" src="./Media/SVG/Flat_Icons/flat_robot.svg"></img>`;
+		this.playAIButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['ai_battleground']);
+		this.playAIButton.addEventListener('click', () => this.playAI());
+
+		this.startPauseButton = document.createElement('button');
+		this.startPauseButton.className = 'xiangqi-btn xiangqi-side-btn';
+
+		this.startPauseButtonIcon = document.createElement('img');
+		this.startPauseButtonIcon.className = 'invert';
+		this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_start.svg';
+		this.startPauseButton.appendChild(this.startPauseButtonIcon);
+		
+		this.startPauseButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['start_warning']);
+		this.startPauseButton.addEventListener('click', () => this.togglePause());
+
+		this.currentTurnTeam = document.createElement('div');
+		this.currentTurnTeam.className = 'xiangqi-btn xiangqi-side-btn xiangqi-piece-turn-wrapper xiangqi-piece-wrapper-red';
+		
+		this.currentTurnTeamSpan = document.createElement('span');
+		this.currentTurnTeamSpan.className = 'xiangqi-piece';
+		this.currentTurnTeamSpan.style.fontSize = `${42 * s}px`;
+		this.currentTurnTeamSpan.innerHTML = '\uD83E\uDE60';
+		this.currentTurnTeam.appendChild(this.currentTurnTeamSpan);
+
+		this.unicodePageButton = document.createElement('a');
+		this.unicodePageButton.className = 'xiangqi-btn xiangqi-side-btn xiangqi-side-btn-squared';
+		this.unicodePageButton.innerHTML = `<img src="./Media/SVG/Flat_Icons/unicode_logo.svg"></img>`;
+		this.unicodePageButton.setAttribute('href', 'https://home.unicode.org');
+		this.unicodePageButton.setAttribute('target', '_blank');
+		this.unicodePageButton.setAttribute('title', this.locales[typeof language !== 'undefined' ? language : 'en-US']['unicode']);
+		
+		sideButtonsContainer.appendChild(this.resetButton);
+		sideButtonsContainer.appendChild(this.startPauseButton);
+		sideButtonsContainer.appendChild(this.playAIButton);
+		sideButtonsContainer.appendChild(this.currentTurnTeam);
+		sideButtonsContainer.appendChild(this.unicodePageButton);
+		
+		this.boardWrapper = document.createElement('div');
+		this.boardWrapper.className = 'xiangqi-board-wrapper';
+		this.boardWrapper.appendChild(this.boardElement);
+
+		this.xiangqiOnBoardStatus = document.createElement('div');
+		this.xiangqiOnBoardStatus.className = 'xiangqi-on-board-status';
+		this.xiangqiOnBoardStatus.style.display = 'none';
+		this.xiangqiOnBoardStatus.style.fontSize = `${3 * s}rem`;
+		
+		this.restartTimer = document.createElement('div');
+		this.restartTimer.className = 'xiangqi-timer';
+		this.restartTimer.style.fontSize = `${3 * s}rem`;
+		this.xiangqiOnBoardStatus.appendChild(this.restartTimer);
+
+		this.gameOverStatus = document.createElement('div');
+		this.gameOverStatus.className = 'xiangqi-game-over-status';
+		this.gameOverStatus.style.fontSize = `${2 * s}rem`;
+		this.xiangqiOnBoardStatus.appendChild(this.gameOverStatus);
+
+		this.boardWrapper.appendChild(this.xiangqiOnBoardStatus);
+		
+		this.container.appendChild(this.boardWrapper);
+		this.container.appendChild(sideButtonsContainer);
+		this.parentElement.appendChild(this.container);
+	}
+
+	switchCurrentTurnTeam(teamColor) {
+		this.currentTurnTeam.classList.remove(`xiangqi-piece-wrapper-${teamColor === 'r' ? 'black' : 'red'}`);
+		this.currentTurnTeam.classList.add(`xiangqi-piece-wrapper-${teamColor === 'r' ? 'red' : 'black'}`);
+
+		this.currentTurnTeamSpan.innerHTML = teamColor === 'r' ? '\uD83E\uDE60' : '\uD83E\uDE67';
+	}
+
+	togglePause() {
+		if (this.isPaused) {
+			this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_pause.svg';
+			this.start();
+		} else {
+			this.startPauseButtonIcon.src = './Media/SVG/Flat_Icons/flat_start.svg';
+			this.pause();
+		}
+	}
+
+	reset() {
+		this.game.reset();
+		this.gameOver = false;
+		this.selectedSquare = null;
+		this.selectedPiece = null;
+		this.renderBoard();
+		this.updateTurnInfo();
+
+		this.resetRestartTimer(this.restartTimer, this.xiangqiOnBoardStatus);
+
+		if (!this.isPaused && this.aiEnabled) {
+			this.scheduleNextMove(1000);
+		}
+
+		this.boardElement.classList.remove(...this.xiangqiBoardClasses);
+	}
+
+	playAI() {
+		if (this.aiEnabled) {
+			this.aiEnabled = false;
+			this.playAIButton.classList.remove('xiangqi-side-btn-allowed');
+			this.playAIButton.classList.add('xiangqi-side-btn-restricted');
+			
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
+		} else {
+			this.aiEnabled = true;
+			this.playAIButton.classList.add('xiangqi-side-btn-allowed');
+			this.playAIButton.classList.remove('xiangqi-side-btn-restricted');
+			
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
+			
+			if (!this.isPaused && this.game.turn() === 'r') {
+				this.scheduleNextMove(100);
+			}
+		}
+	}
+
+	pause() {
+		if (this.isPaused) return;
+		this.isPaused = true;
+		if (this.moveTimeout) {
+			clearTimeout(this.moveTimeout);
+			this.moveTimeout = null;
+		}
+	}
+
+	start() {
+		if (!this.isPaused) return;
+		this.isPaused = false;
+		if (!this.gameOver) {
+			this.scheduleNextMove(100);
+		}
+	}
+
+	scheduleNextMove(delay) {
+		if (this.moveTimeout) {
+			clearTimeout(this.moveTimeout);
+		}
+		if (!this.isPaused) {
+			this.moveTimeout = setTimeout(() => this.makeAiMove(), delay);
+		}
+	}
+
+	pieceToUnicode(piece) {
+		if (!piece) return '';
+		const color = piece.color === 'r' ? 'r' : 'b';
+		const type = piece.type.toLowerCase();
+		return this.unicodePieces[color + type] || '';
+	}
+
+	getSquareNotation(row, col) {
+		const file = col; // 0-8
+		const rank = row; // 0-9
+		return String.fromCharCode(97 + file) + rank;
+	}
+
+	handleCellClick(row, col, cell) {
+		if (this.aiEnabled || this.gameOver || this.game.turn() !== 'r') return;
+		
+		const square = this.getSquareNotation(row, col);
+		const piece = this.game.get(square);
+		
+		if (!this.selectedSquare) {
+			if (piece && piece.color === 'r') {
+				this.selectedSquare = square;
+				this.selectedPiece = piece;
+				this.renderBoardWithHighlights();
+			}
+		} else {
+			const move = this.game.move({
+				from: this.selectedSquare,
+				to: square
+			});
+			
+			if (move) {
+				this.selectedSquare = null;
+				this.selectedPiece = null;
+				
+				this.highlightMove(move.from, move.to);
+				
+				setTimeout(() => {
+					this.renderBoard();
+					this.updateTurnInfo();
+					
+					if (this.game.game_over()) {
+						this.handleGameOver();
+					} else if (!this.isPaused) {
+						setTimeout(() => this.makeAiMove(), this.options.moveDelay);
+					}
+				}, 400);
+			} else {
+				if (piece && piece.color === 'r') {
+					this.selectedSquare = square;
+					this.selectedPiece = piece;
+					this.renderBoardWithHighlights();
+				} else {
+					this.selectedSquare = null;
+					this.selectedPiece = null;
+					this.renderBoard();
+				}
+			}
+		}
+	}
+
+	getBlackAttackedSquares() {
+		const attackedSquares = new Set();
+		const moves = this.game.moves({ verbose: true });
+		
+		// Сохраняем текущий ход
+		const currentTurn = this.game.turn();
+		
+		// Если сейчас не ход чёрных, временно меняем
+		if (currentTurn !== 'b') {
+			// Делаем пустой ход (через внутренний метод если доступен)
+			// Или просто получаем все возможные атаки чёрных через moves
+		}
+		
+		// Получаем все ходы чёрных
+		const allMoves = this.game.moves({ verbose: true, legal: false });
+		allMoves.forEach(move => {
+			if (this.game.get(move.from)?.color === 'b') {
+				attackedSquares.add(move.to);
+			}
+		});
+		
+		return attackedSquares;
+	}
+
+	renderBoardWithHighlights() {
+		this.boardElement.innerHTML = '';
+		const s = this.options.scale;
+		
+		const possibleMoves = this.selectedSquare 
+			? this.game.moves({ square: this.selectedSquare, verbose: true })
+			: [];
+		
+		const possibleMovesSet = new Set(possibleMoves.map(m => m.to));
+		const blackAttackedSquares = this.getBlackAttackedSquares();
+
+		for (let row = 0; row < 10; row++) {
+			for (let col = 0; col < 9; col++) {
+				const cell = document.createElement('div');
+				cell.className = 'xiangqi-cell';
+				cell.style.width = `${55 * s}px`;
+				cell.style.height = `${55 * s}px`;
+				cell.style.fontSize = `${35 * s}px`;
+
+				const square = this.getSquareNotation(row, col);
+				const piece = this.game.get(square);
+				
+				if (!this.aiEnabled) {
+					cell.style.cursor = 'pointer';
+					cell.addEventListener('click', () => this.handleCellClick(row, col, cell));
+				}
+				
+				if (this.selectedSquare) {
+					if (square === this.selectedSquare) {
+						const isUnderAttack = blackAttackedSquares.has(square);
+						if (isUnderAttack) {
+							cell.classList.add('xiangqi-cell-selected-under-attack');
+						} else {
+							cell.classList.add('xiangqi-cell-selected');
+						}
+					} else if (possibleMovesSet.has(square)) {
+						const isAttack = piece && piece.color === 'b';
+						const isHazardous = blackAttackedSquares.has(square);
+						
+						if (isAttack && isHazardous) {
+							cell.classList.add('xiangqi-cell-attackable-hazardous');
+						} else if (isAttack) {
+							cell.classList.add('xiangqi-cell-attackable');
+						} else if (isHazardous) {
+							cell.classList.add('xiangqi-cell-hazardous');
+						} else {
+							cell.classList.add('xiangqi-cell-highlight');
+						}
+					} else {
+						cell.classList.add('xiangqi-cell-unreachable');
+					}
+				}
+
+				if (piece) {
+					const pieceWrapper = document.createElement('div');
+					pieceWrapper.className = `xiangqi-piece-wrapper xiangqi-piece-wrapper-${piece.color === 'r' ? 'red' : 'black'}`;
+					
+					const pieceSpan = document.createElement('span');
+					pieceSpan.className = `xiangqi-piece xiangqi-piece-${piece.color === 'r' ? 'red' : 'black'}`;
+					pieceSpan.style.fontSize = `${35 * s}px`;
+					pieceSpan.textContent = this.pieceToUnicode(piece);
+					
+					pieceWrapper.appendChild(pieceSpan);
+					cell.appendChild(pieceWrapper);
+				}
+
+				this.boardElement.appendChild(cell);
+			}
+		}
+	}
+
+	renderBoard() {
+		this.boardElement.innerHTML = '';
+		const s = this.options.scale;
+
+		for (let row = 0; row < 10; row++) {
+			for (let col = 0; col < 9; col++) {
+				const cell = document.createElement('div');
+				cell.className = 'xiangqi-cell';
+				cell.style.width = `${55 * s}px`;
+				cell.style.height = `${55 * s}px`;
+				cell.style.fontSize = `${35 * s}px`;
+				cell.dataset.row = row;
+				cell.dataset.col = col;
+
+				if (!this.aiEnabled) {
+					cell.style.cursor = 'pointer';
+					cell.addEventListener('click', () => this.handleCellClick(row, col, cell));
+				}
+
+				const square = this.getSquareNotation(row, col);
+				const piece = this.game.get(square);
+				
+				if (piece) {
+					const pieceWrapper = document.createElement('div');
+					pieceWrapper.className = `xiangqi-piece-wrapper xiangqi-piece-wrapper-${piece.color === 'r' ? 'red' : 'black'}`;
+					
+					const pieceSpan = document.createElement('span');
+					pieceSpan.className = `xiangqi-piece xiangqi-piece-${piece.color === 'r' ? 'red' : 'black'}`;
+					pieceSpan.style.fontSize = `${35 * s}px`;
+					pieceSpan.textContent = this.pieceToUnicode(piece);
+					
+					pieceWrapper.appendChild(pieceSpan);
+					cell.appendChild(pieceWrapper);
+				}
+
+				this.boardElement.appendChild(cell);
+			}
+		}
+	}
+
+	highlightMove(from, to) {
+		const fromCol = from.charCodeAt(0) - 97;
+		const fromRow = parseInt(from.substring(1));
+		const toCol = to.charCodeAt(0) - 97;
+		const toRow = parseInt(to.substring(1));
+
+		const fromCell = this.boardElement.children[fromRow * 9 + fromCol];
+		const toCell = this.boardElement.children[toRow * 9 + toCol];
+		const pieceWrapper = fromCell.querySelector('.xiangqi-piece-wrapper');
+
+
+		if (pieceWrapper) {
+			const deltaX = (toCol - fromCol) * 55 * this.options.scale;
+			const deltaY = (toRow - fromRow) * 55 * this.options.scale;
+
+			pieceWrapper.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+			pieceWrapper.style.zIndex = '1';
+
+			setTimeout(() => {
+				this.renderBoard();
+			}, 400);
+		}
+
+		fromCell.classList.add('xiangqi-cell-highlight');
+		toCell.classList.add('xiangqi-cell-highlight');
+
+		setTimeout(() => {
+			fromCell.classList.remove('xiangqi-cell-highlight');
+			toCell.classList.remove('xiangqi-cell-highlight');
+		}, 400);
+	}
+
+	updateTurnInfo() {
+		const turn = this.game.turn();
+		const lang = typeof language !== 'undefined' ? language : 'en-US';
+		const turnColor = turn === 'r' ? this.locales[lang]['red'] : this.locales[lang]['black'];
+		const turnPiece = turn === 'r' ? '\uD83E\uDE60' : '\uD83E\uDE67';
+		this.currentTurnTeam.setAttribute('title', `${this.locales[lang]['turn']} ${turnColor} ${turnPiece}`);
+		this.switchCurrentTurnTeam(turn);
+	}
+
+	evaluatePosition() {
+		const pieceValues = {
+			p: 1, c: 4.5, n: 4, r: 9, a: 2, b: 2, k: 0
+		};
+
+		let score = 0;
+		
+		for (let row = 0; row < 10; row++) {
+			for (let col = 0; col < 9; col++) {
+				const square = this.getSquareNotation(row, col);
+				const piece = this.game.get(square);
+				
+				if (piece) {
+					const value = pieceValues[piece.type] || 0;
+					score += piece.color === 'r' ? value : -value;
+				}
+			}
+		}
+
+		return score;
+	}
+
+	minimax(depth, alpha, beta, maximizingPlayer) {
+		if (depth === 0 || this.game.game_over()) {
+			return this.evaluatePosition();
+		}
+
+		const moves = this.game.moves();
+
+		if (maximizingPlayer) {
+			let maxEval = -Infinity;
+			for (let move of moves) {
+				this.game.move(move);
+				const evaluation = this.minimax(depth - 1, alpha, beta, false);
+				this.game.undo();
+				maxEval = Math.max(maxEval, evaluation);
+				alpha = Math.max(alpha, evaluation);
+				if (beta <= alpha) break;
+			}
+			return maxEval;
+		} else {
+			let minEval = Infinity;
+			for (let move of moves) {
+				this.game.move(move);
+				const evaluation = this.minimax(depth - 1, alpha, beta, true);
+				this.game.undo();
+				minEval = Math.min(minEval, evaluation);
+				beta = Math.min(beta, evaluation);
+				if (beta <= alpha) break;
+			}
+			return minEval;
+		}
+	}
+
+	getBestMove() {
+		const moves = this.game.moves();
+		if (moves.length === 0) return null;
+
+		let bestMove = null;
+		let bestValue = this.game.turn() === 'r' ? -Infinity : Infinity;
+
+		const shuffledMoves = moves.sort(() => Math.random() - 0.5);
+
+		for (let move of shuffledMoves) {
+			this.game.move(move);
+			const value = this.minimax(this.options.aiDepth - 1, -Infinity, Infinity, this.game.turn() === 'r');
+			this.game.undo();
+
+			if (this.game.turn() === 'r') {
+				if (value > bestValue) {
+					bestValue = value;
+					bestMove = move;
+				}
+			} else {
+				if (value < bestValue) {
+					bestValue = value;
+					bestMove = move;
+				}
+			}
+		}
+
+		return bestMove;
+	}
+
+	handleGameOver() {
+		this.gameOver = true;
+		const lang = typeof language !== 'undefined' ? language : 'en-US';
+		let statusText = '';
+		this.boardElement.classList.add('game-finished')
+		
+		if (this.game.in_checkmate()) {
+			const winner = this.game.turn() === 'r' ? this.locales[lang]['black'] : this.locales[lang]['red'];
+			statusText = this.locales[lang]['win'] + winner;
+
+			if (this.game.turn() === 'r') {
+				this.boardElement.classList.add(!this.aiEnabled ? 'lost' : 'won-black');
+			} else {
+				this.boardElement.classList.add(!this.aiEnabled ? 'won' : 'won-red');
+			}
+
+		} else if (this.game.in_stalemate()) {
+			this.boardElement.classList.add('draw')
+			statusText = this.locales[lang]['stalemate'];
+
+		} else if (this.game.in_draw()) {
+			this.boardElement.classList.add('draw')
+			statusText = this.locales[lang]['draw'];
+		}
+
+		this.gameOverStatus.textContent = statusText;
+
+		this.setRestartTimer(this.restartTimer, this.xiangqiOnBoardStatus);
+
+		setTimeout(() => {
+			this.game.reset();
+			this.gameOver = false;
+			this.selectedSquare = null;
+			this.selectedPiece = null;
+			this.renderBoard();
+			this.updateTurnInfo();
+			if (this.aiEnabled && !this.isPaused) {
+				this.scheduleNextMove(1000);
+			}
+			
+			this.boardElement.classList.remove(...this.xiangqiBoardClasses);
+		}, 10000);
+	}
+
+	makeAiMove() {
+		if (this.gameOver || this.isPaused) return;
+
+		if (!this.aiEnabled && this.game.turn() === 'r') return;
+
+		if (this.game.game_over()) {
+			this.handleGameOver();
+			return;
+		}
+
+		const bestMove = this.getBestMove();
+
+		if (bestMove) {
+			const moveObj = this.game.move(bestMove);
+			this.highlightMove(moveObj.from, moveObj.to);
+
+			setTimeout(() => {
+				this.renderBoard();
+				this.updateTurnInfo();
+				if (!this.game.game_over()) {
+					if (this.aiEnabled) {
+						this.scheduleNextMove(this.options.moveDelay);
+					}
+				} else {
+					this.handleGameOver();
+				}
+			}, 400);
 		}
 	}
 

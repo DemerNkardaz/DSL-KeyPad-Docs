@@ -1,0 +1,352 @@
+:root {
+	--xiangqi-light-grey: #929292;
+}
+
+.xiangqi-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background: var(--background-dark);
+	border: 1px solid var(--border-ultra-dark);
+	color: var(--text-light);
+	border-radius: 15px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+	z-index: 10;
+	font-family: var(--fonts-game);
+}
+
+.xiangqi-info-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.xiangqi-turn-info {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.xiangqi-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 0.35em;
+	background-color: var(--accent-silver-semilight);
+	border: 2px solid var(--accent-silver-light);
+	padding-inline: 2em;
+	cursor: pointer;
+	border-radius: 2.5px;
+	line-height: 1;
+	transition: all 150ms ease;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.xiangqi-btn:hover {
+	background-color: var(--accent-silver-light);
+	border-color: var(--accent-silver-semilight);
+}
+
+.xiangqi-btn:active {
+	background-color: var(--accent-silver-semilight);
+	border-color: var(--accent-silver-light);
+}
+
+.xiangqi-btn>img {
+	width: 100%;
+	height: 100%;
+}
+
+.xiangqi-side-buttons-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+	position: absolute;
+	top: 0px;
+	left: -36px;
+}
+
+.xiangqi-side-btn {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	color: var(--text-gray);
+	padding: 5px;
+	background-color: var(--border-dark);
+	border: 1px solid var(--border-ultra-dark);
+}
+
+.xiangqi-side-btn:hover {
+	background-color: var(--border-ultra-dark);
+	border-color: var(--border-dark);
+}
+
+.xiangqi-side-btn:active {
+	background-color: var(--border-dark);
+	border-color: var(--border-ultra-dark);
+}
+
+.xiangqi-side-btn>img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.xiangqi-side-btn>img.invert {
+	filter: invert(100);
+}
+
+.xiangqi-side-btn.xiangqi-side-btn-squared {
+	border-radius: 7px;
+}
+
+.xiangqi-side-btn-allowed {
+	border-color: var(--allowed);
+}
+
+.xiangqi-side-btn-restricted {
+	border-color: var(--restricted);
+}
+
+.xiangqi-side-btn-restricted::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(-45deg);
+	width: 100%;
+	height: 1px;
+	background-color: var(--restricted);
+	border: 1px solid var(--border-ultra-dark);
+	z-index: 1;
+}
+
+.xiangqi-board-wrapper {
+	position: relative;
+	display: inline-block;
+	border-radius: 15px;
+}
+
+.xiangqi-board {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(9, 55px);
+	grid-template-rows: repeat(10, 55px);
+	gap: 0;
+	background: url('/Media/SVG/Boards/xiangqi.svg') center/cover no-repeat;
+	background-size: 100% 100%;
+	border: 2px solid var(--xiangqi-light-grey);
+	border-radius: 8px;
+	overflow: visible;
+	z-index: 1;
+	box-shadow: inset 0 0 0 0 transparent;
+	transition: box-shadow 250ms ease;
+}
+
+/* .xiangqi-board::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 165px;
+	width: 165px;
+	height: 165px;
+	background:
+		linear-gradient(45deg, transparent 48%, #333 48%, #333 52%, transparent 52%),
+		linear-gradient(-45deg, transparent 48%, #333 48%, #333 52%, transparent 52%);
+	pointer-events: none;
+	z-index: 0;
+} */
+
+/* .xiangqi-board::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 165px;
+	width: 165px;
+	height: 165px;
+	background:
+		linear-gradient(45deg, transparent 48%, #333 48%, #333 52%, transparent 52%),
+		linear-gradient(-45deg, transparent 48%, #333 48%, #333 52%, transparent 52%);
+	pointer-events: none;
+	z-index: 0;
+} */
+
+.xiangqi-board.game-finished {
+	position: relative;
+}
+
+.xiangqi-board.game-finished::before {
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 40%, transparent 90%);
+	opacity: 1;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+
+.xiangqi-board.won {
+	box-shadow: inset 0 0 15px 7px var(--accent-warm-green);
+}
+
+.xiangqi-board.won-red {
+	box-shadow: inset 0 0 15px 7px #DC143C;
+}
+
+.xiangqi-board.won-black {
+	box-shadow: inset 0 0 15px 7px #1a1a1a;
+}
+
+.xiangqi-board.lost {
+	box-shadow: inset 0 0 15px 7px var(--accent-red);
+}
+
+.xiangqi-board.draw {
+	box-shadow: inset 0 0 15px 7px var(--accent-gold);
+}
+
+.xiangqi-on-board-status {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 5rem;
+	font-weight: bold;
+	font-style: italic;
+	color: white;
+	text-shadow:
+		0 0 10px rgba(0, 0, 0, 0.8),
+		0 2px 4px rgba(0, 0, 0, 0.8);
+	pointer-events: none;
+	z-index: 10;
+}
+
+.xiangqi-timer {
+	font-size: 3rem;
+	margin-bottom: 10px;
+}
+
+.xiangqi-game-over-status {
+	font-size: 2rem;
+	text-align: center;
+	padding: 0 20px;
+}
+
+.xiangqi-cell {
+	position: relative;
+	width: 55px;
+	height: 55px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 35px;
+	transition: all 0.2s;
+	z-index: 1;
+}
+
+.xiangqi-cell-highlight {
+	border: 1px solid var(--accent-gold) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-gold) !important;
+}
+
+.xiangqi-cell-selected {
+	border: 1px solid var(--accent-warm-green) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-warm-green) !important;
+}
+
+.xiangqi-cell-selected-under-attack {
+	animation: pulse-attack 1.5s infinite ease-in-out;
+}
+
+.xiangqi-cell-attackable {
+	border: 1px solid var(--accent-purple) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-purple) !important;
+}
+
+.xiangqi-cell-attackable-hazardous {
+	border: 1px solid var(--accent-red-pink) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-red-pink) !important;
+}
+
+.xiangqi-cell-unreachable {
+	/* opacity: 0.4; */
+}
+
+.xiangqi-cell-hazardous {
+	border: 1px solid var(--accent-red) !important;
+	box-shadow: inset 0 0 5px 1px var(--accent-red) !important;
+}
+
+.xiangqi-piece-wrapper {
+	position: absolute;
+	width: 70%;
+	height: 70%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--xiangqi-light-grey);
+	border: 1px solid transparent;
+	transition: transform 0.4s ease-out;
+}
+
+.xiangqi-piece-turn-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--xiangqi-light-grey);
+	border: 1px solid transparent;
+	transition: transform 0.3s ease-out;
+
+	& .xiangqi-piece {
+		padding-block-start: 4.5%;
+	}
+}
+
+.xiangqi-piece-wrapper-red {
+	color: #8c0f28;
+	border-color: #8c0f28;
+	border-radius: 50%;
+}
+
+.xiangqi-piece-wrapper-black {
+	color: #1a1a1a;
+	border-color: #1a1a1a;
+	border-radius: 50%;
+}
+
+.xiangqi-piece {
+	position: absolute;
+	line-height: 0em;
+	inset: 0;
+	top: 42%;
+	pointer-events: none;
+	user-select: none;
+	font-size: 35px;
+	z-index: 2;
+	transition: transform 0.3s ease-out;
+}
+
+.xiangqi-piece-red {
+}
+
+.xiangqi-piece-black {
+}

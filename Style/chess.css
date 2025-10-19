@@ -15,8 +15,7 @@
 }
 
 .chess-info-container {
-	display: grid;
-	grid-template-columns: 25% 1fr 25%;
+	display: flex;
 	gap: 10px;
 	justify-content: center;
 	align-items: center;
@@ -253,20 +252,20 @@
 }
 
 @keyframes pulse-attack {
-	0% {
-		border-color: var(--accent-red);
-		box-shadow: inset 0 0 6px 2px var(--accent-red);
-	}
+		0% {
+			border-color: var(--accent-red);
+			box-shadow: inset 0 0 6px 2px var(--accent-red);
+		}
 
-	50% {
-		border-color: transparent;
-		box-shadow: inset 0 0 6px 2px transparent;
-	}
+		50% {
+			border-color: transparent;
+			box-shadow: inset 0 0 6px 2px transparent;
+		}
 
-	100% {
-		border-color: var(--accent-red);
-		box-shadow: inset 0 0 6px 2px var(--accent-red);
-	}
+		100% {
+			border-color: var(--accent-red);
+			box-shadow: inset 0 0 6px 2px var(--accent-red);
+		}
 }
 
 .chess-cell-attackable {
