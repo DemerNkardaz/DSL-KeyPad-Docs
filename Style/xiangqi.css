@@ -15,7 +15,7 @@
 	border-radius: 15px;
 	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 	z-index: 10;
-	font-family: var(--fonts-game);
+	font-family: 'Noto Sans Symbols 2', sans-serif;
 }
 
 .xiangqi-info-container {
@@ -266,30 +266,30 @@
 .xiangqi-cell-highlight {
 	border: 1px solid var(--accent-gold) !important;
 	box-shadow: inset 0 0 5px 1px var(--accent-gold) !important;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-cell-selected {
 	border: 1px solid var(--accent-warm-green) !important;
 	box-shadow: inset 0 0 5px 1px var(--accent-warm-green) !important;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-cell-selected-under-attack, .xiangqi-cell-attacker-of-selected {
 	animation: pulse-attack 1.5s infinite ease-in-out;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-cell-attackable {
 	border: 1px solid var(--accent-purple) !important;
 	box-shadow: inset 0 0 5px 1px var(--accent-purple) !important;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-cell-attackable-hazardous {
 	border: 1px solid var(--accent-red-pink) !important;
 	box-shadow: inset 0 0 5px 1px var(--accent-red-pink) !important;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-cell-unreachable {
@@ -299,7 +299,7 @@
 .xiangqi-cell-hazardous {
 	border: 1px solid var(--accent-red) !important;
 	box-shadow: inset 0 0 5px 1px var(--accent-red) !important;
-	border-radius: 50%;
+	/* border-radius: 50%; */
 }
 
 .xiangqi-piece-wrapper {
@@ -311,6 +311,7 @@
 	align-items: center;
 	background: var(--xiangqi-light-grey);
 	border: 1px solid transparent;
+	padding-block-start: 6.5px;
 	transition: transform 0.4s ease-out;
 }
 
@@ -320,6 +321,7 @@
 	align-items: center;
 	background: var(--xiangqi-light-grey);
 	border: 1px solid transparent;
+	padding-block-start: 12px;
 	transition: transform 0.3s ease-out;
 
 	& .xiangqi-piece {
@@ -340,11 +342,16 @@
 }
 
 .xiangqi-piece {
-	position: absolute;
-	line-height: 0em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	width: 100%;
+	height: 100%;
+	/* position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -25%); */
 	pointer-events: none;
 	user-select: none;
 	font-size: 35px;

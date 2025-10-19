@@ -981,7 +981,7 @@ class AutoXiangqi {
 			'turn': 'Ход: ',
 			'check': 'Шах: ',
 			'win': 'Мат! Победа: ',
-			'stalemate': 'Пат! Ничья',
+			'stalemate': 'Пат! Победа: ',
 			'draw': 'Ничья',
 			'pause': 'Пауза',
 			'start': 'Старт',
@@ -1919,12 +1919,15 @@ getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
 	handleGameOver() {
 		this.gameOver = true;
 		const lang = typeof language !== 'undefined' ? language : 'en-US';
+		const inCheckmate = this.game.in_checkmate();
+		const inStalemate = this.game.in_stalemate();
+		const inDraw = this.game.in_draw();
 		let statusText = '';
 		this.boardElement.classList.add('game-finished')
 		
-		if (this.game.in_checkmate()) {
+		if (inCheckmate || inStalemate) {
 			const winner = this.game.turn() === 'r' ? this.locales[lang]['black'] : this.locales[lang]['red'];
-			statusText = this.locales[lang]['win'] + winner;
+			statusText = this.locales[lang][inStalemate ? 'stalemate' : 'win'] + winner;
 
 			if (this.game.turn() === 'r') {
 				this.boardElement.classList.add(!this.aiEnabled ? 'lost' : 'won-black');
@@ -1932,11 +1935,7 @@ getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
 				this.boardElement.classList.add(!this.aiEnabled ? 'won' : 'won-red');
 			}
 
-		} else if (this.game.in_stalemate()) {
-			this.boardElement.classList.add('draw')
-			statusText = this.locales[lang]['stalemate'];
-
-		} else if (this.game.in_draw()) {
+		} else if (inDraw) {
 			this.boardElement.classList.add('draw')
 			statusText = this.locales[lang]['draw'];
 		}
