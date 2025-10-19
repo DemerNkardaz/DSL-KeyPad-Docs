@@ -1155,7 +1155,7 @@ class AutoXiangqi {
 		this.currentTurnTeam.className = 'xiangqi-btn xiangqi-side-btn xiangqi-piece-turn-wrapper xiangqi-piece-wrapper-red';
 		
 		this.currentTurnTeamSpan = document.createElement('span');
-		this.currentTurnTeamSpan.className = 'xiangqi-piece';
+		this.currentTurnTeamSpan.className = 'xiangqi-piece xiangqi-piece-red';
 		this.currentTurnTeamSpan.style.fontSize = `${42 * s}px`;
 		this.currentTurnTeamSpan.innerHTML = '\uD83E\uDE60';
 		this.currentTurnTeam.appendChild(this.currentTurnTeamSpan);
@@ -1202,6 +1202,8 @@ class AutoXiangqi {
 	switchCurrentTurnTeam(teamColor) {
 		this.currentTurnTeam.classList.remove(`xiangqi-piece-wrapper-${teamColor === 'r' ? 'black' : 'red'}`);
 		this.currentTurnTeam.classList.add(`xiangqi-piece-wrapper-${teamColor === 'r' ? 'red' : 'black'}`);
+		this.currentTurnTeamSpan.classList.remove(`xiangqi-piece-${teamColor === 'r' ? 'black' : 'red'}`);
+		this.currentTurnTeamSpan.classList.add(`xiangqi-piece-${teamColor === 'r' ? 'red' : 'black'}`);
 
 		this.currentTurnTeamSpan.innerHTML = teamColor === 'r' ? '\uD83E\uDE60' : '\uD83E\uDE67';
 	}

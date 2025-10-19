@@ -1,5 +1,9 @@
 :root {
 	--xiangqi-light-grey: #929292;
+	--xiangqi-piece-red: #ee4040;
+	--xiangqi-piece-black: #1a1a1a;
+	--xiangqi-piece-red-bg: #ffe5d5;
+	--xiangqi-piece-black-bg: #e4e4e4;
 }
 
 .xiangqi-container {
@@ -309,7 +313,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: var(--xiangqi-light-grey);
+	background: var(--xiangqi-piece-red-bg);
 	border: 1px solid transparent;
 	padding-block-start: 6.5px;
 	transition: transform 0.4s ease-out;
@@ -319,29 +323,31 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: var(--xiangqi-light-grey);
+	background: var(--xiangqi-piece-red-bg);
 	border: 1px solid transparent;
 	padding-block-start: 12px;
 	transition: transform 0.3s ease-out;
-
+	
 	& .xiangqi-piece {
 		padding-block-start: 4.5%;
 	}
 }
 
 .xiangqi-piece-wrapper-red {
-	color: #8c0f28;
-	border-color: #8c0f28;
+	color: var(--xiangqi-piece-red);
+	border-color: var(--xiangqi-piece-red);
 	border-radius: 50%;
 }
 
 .xiangqi-piece-wrapper-black {
-	color: #1a1a1a;
-	border-color: #1a1a1a;
+	background: var(--xiangqi-piece-black-bg);
+	color: var(--xiangqi-piece-black);
+	border-color: var(--xiangqi-piece-black);
 	border-radius: 50%;
 }
 
 .xiangqi-piece {
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -363,4 +369,9 @@
 }
 
 .xiangqi-piece-black {
+	color: var(--xiangqi-piece-black-bg);
+	filter: drop-shadow(0 0 1px black);
+	text-shadow:
+		0 0 0 #222222,
+		0 0 1px #000;
 }

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	intershowRandomLetterP1.textContent = intershowRandomLetterRandomKey;
 	intershowRandomLetterP2.setAttribute('data-locale', 'random_letter.' + titleRandomLetters[intershowRandomLetterRandomKey]);
 	
-	if (urlGame && urlGame in games) {
+	if (urlGame && urlGame in games && typeof games[urlGame] === 'function') {
 		games[urlGame]();
 	} else if ((intershowRandomLetterRandomKey in titleRandomLettersAttachedCalls) && (typeof titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey] === 'function')) {
 		titleRandomLettersAttachedCalls[intershowRandomLetterRandomKey]();
