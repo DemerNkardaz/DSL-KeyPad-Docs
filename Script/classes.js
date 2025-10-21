@@ -1347,78 +1347,85 @@ class AutoXiangqi {
 	}
 
 	// Получаем все фигуры, атакующие конкретную клетку (для сянци)
-getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
-	const attackers = [];
-	
-	for (let row = 0; row < 10; row++) {
-		for (let col = 0; col < 9; col++) {
-			const square = this.getSquareNotation(row, col);
-			const piece = this.game.get(square);
-			
-			if (!piece || piece.color !== attackerColor) continue;
-			
-			// Проверяем, атакует ли эта фигура целевую клетку
-			const attacks = this.getSquareAttacksXiangqi(row, col, piece);
-			if (attacks.has(targetSquare)) {
-				attackers.push(square);
+	getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
+		const attackers = [];
+
+		for (let row = 0; row < 10; row++) {
+			for (let col = 0; col < 9; col++) {
+				const square = this.getSquareNotation(row, col);
+				const piece = this.game.get(square);
+
+				if (!piece || piece.color !== attackerColor) continue;
+
+				// Проверяем, атакует ли эта фигура целевую клетку
+				const attacks = this.getSquareAttacksXiangqi(row, col, piece);
+				if (attacks.has(targetSquare)) {
+					attackers.push(square);
+				}
 			}
 		}
-	}
-	
-	return attackers;
-}
 
-	getSquareAttacksXiangqi(row, col, piece) {
+		return attackers;
+	}
+
+		getSquareAttacksXiangqi(row, col, piece) {
 		const attacks = new Set();
 		
 		switch (piece.type) {
-			case 'p': // Пешка
+			case 'p': // Пешка (Soldier)
 				if (piece.color === 'b') {
+					// Чёрная пешка: движется вниз (увеличение row)
 					if (row < 9) {
 						attacks.add(this.getSquareNotation(row + 1, col));
 					}
+					// После перехода реки (row >= 5) может двигаться в стороны
 					if (row >= 5) {
 						if (col > 0) attacks.add(this.getSquareNotation(row, col - 1));
 						if (col < 8) attacks.add(this.getSquareNotation(row, col + 1));
 					}
 				} else {
+					// Красная пешка: движется вверх (уменьшение row)
 					if (row > 0) {
 						attacks.add(this.getSquareNotation(row - 1, col));
 					}
+					// После перехода реки (row <= 4) может двигаться в стороны
 					if (row <= 4) {
 						if (col > 0) attacks.add(this.getSquareNotation(row, col - 1));
 						if (col < 8) attacks.add(this.getSquareNotation(row, col + 1));
 					}
 				}
 				break;
-				
-			case 'c': // Пушка
+
+			case 'c': // Пушка (Cannon)
 				const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 				directions.forEach(([dr, dc]) => {
 					let r = row + dr;
 					let c = col + dc;
 					let foundScreen = false;
-					
+
 					while (r >= 0 && r < 10 && c >= 0 && c < 9) {
 						const square = this.getSquareNotation(r, c);
 						const p = this.game.get(square);
-						
+
 						if (!foundScreen) {
-							if (p) foundScreen = true;
+							if (p) {
+								foundScreen = true; // Нашли экран
+							}
 						} else {
+							// После экрана атакуем только фигуры
 							if (p) {
 								attacks.add(square);
 								break;
 							}
 						}
-						
+
 						r += dr;
 						c += dc;
 					}
 				});
 				break;
-				
-			case 'n': // Конь
+
+			case 'n': // Конь (Horse)
 				const horseMoves = [
 					{ dr: -2, dc: -1, blockR: -1, blockC: 0 },
 					{ dr: -2, dc: 1, blockR: -1, blockC: 0 },
@@ -1429,91 +1436,102 @@ getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
 					{ dr: 2, dc: -1, blockR: 1, blockC: 0 },
 					{ dr: 2, dc: 1, blockR: 1, blockC: 0 }
 				];
-				
+
 				horseMoves.forEach(({ dr, dc, blockR, blockC }) => {
 					const newRow = row + dr;
 					const newCol = col + dc;
-					
+
 					if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 9) {
 						const blockingSquare = this.getSquareNotation(row + blockR, col + blockC);
 						const blocking = this.game.get(blockingSquare);
-						
+
 						if (!blocking) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
 					}
 				});
 				break;
-				
-			case 'r': // Ладья
+
+			case 'r': // Ладья (Chariot)
 				const chariotDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 				chariotDirs.forEach(([dr, dc]) => {
 					let r = row + dr;
 					let c = col + dc;
-					
+
 					while (r >= 0 && r < 10 && c >= 0 && c < 9) {
 						const square = this.getSquareNotation(r, c);
 						attacks.add(square);
-						
+
 						if (this.game.get(square)) break;
-						
+
 						r += dr;
 						c += dc;
 					}
 				});
 				break;
-				
-			case 'a': // Советник
+
+			case 'a': // Советник (Advisor)
 				const advisorMoves = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
 				advisorMoves.forEach(([dr, dc]) => {
 					const newRow = row + dr;
 					const newCol = col + dc;
-					
+
 					if (piece.color === 'b') {
+						// Чёрный советник: дворец в рядах 0-2, колонки 3-5
 						if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
 					} else {
+						// Красный советник: дворец в рядах 7-9, колонки 3-5
 						if (newRow >= 7 && newRow <= 9 && newCol >= 3 && newCol <= 5) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
 					}
 				});
 				break;
-				
-			case 'b': // Слон
+
+			case 'b': // Слон (Elephant)
 				const elephantMoves = [[-2, -2], [-2, 2], [2, -2], [2, 2]];
 				elephantMoves.forEach(([dr, dc]) => {
 					const newRow = row + dr;
 					const newCol = col + dc;
-					
-					const validRange = piece.color === 'b' 
-						? (newRow >= 0 && newRow <= 4)
-						: (newRow >= 5 && newRow <= 9);
-					
+
+					// Проверяем границы в зависимости от цвета
+					let validRange;
+					if (piece.color === 'b') {
+						// Чёрный слон: НЕ может пересечь реку (ряды 0-4)
+						validRange = newRow >= 0 && newRow <= 4;
+					} else {
+						// Красный слон: НЕ может пересечь реку (ряды 5-9)
+						validRange = newRow >= 5 && newRow <= 9;
+					}
+
 					if (validRange && newCol >= 0 && newCol < 9) {
+						// Проверяем блокировку на середине пути
 						const midRow = row + dr / 2;
 						const midCol = col + dc / 2;
 						const blocking = this.game.get(this.getSquareNotation(midRow, midCol));
-						
+
 						if (!blocking) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
 					}
 				});
 				break;
-				
-			case 'k': // Генерал
+
+			case 'k': // Генерал (General)
 				const kingMoves = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 				kingMoves.forEach(([dr, dc]) => {
 					const newRow = row + dr;
 					const newCol = col + dc;
-					
+
 					if (piece.color === 'b') {
+						// Чёрный генерал: дворец в рядах 0-2, колонки 3-5
 						if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
 					} else {
+						// Красный генерал: дворец в рядах 7-9, колонки 3-5
 						if (newRow >= 7 && newRow <= 9 && newCol >= 3 && newCol <= 5) {
 							attacks.add(this.getSquareNotation(newRow, newCol));
 						}
@@ -1521,84 +1539,26 @@ getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
 				});
 				break;
 		}
-		
+
 		return attacks;
 	}
-
+	
 	getBlackAttackedSquares() {
 		const attackedSquares = new Set();
-		
+
 		for (let row = 0; row < 10; row++) {
 			for (let col = 0; col < 9; col++) {
 				const square = this.getSquareNotation(row, col);
 				const piece = this.game.get(square);
-				
+
 				if (!piece || piece.color !== 'b') continue;
-				
-				switch (piece.type) {
-					case 'p':
-						if (row < 9) {
-							attackedSquares.add(this.getSquareNotation(row + 1, col));
-						}
-						if (row >= 5) {
-							if (col > 0) attackedSquares.add(this.getSquareNotation(row, col - 1));
-							if (col < 8) attackedSquares.add(this.getSquareNotation(row, col + 1));
-						}
-						break;
-						
-					case 'c':
-						this.addCannonAttacks(row, col, attackedSquares);
-						break;
-						
-					case 'n': // Конь (horse)
-						this.addHorseAttacks(row, col, attackedSquares);
-						break;
-						
-					case 'r':
-						this.addChariotAttacks(row, col, attackedSquares);
-						break;
-						
-					case 'a':
-						const advisorMoves = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-						advisorMoves.forEach(([dr, dc]) => {
-							const newRow = row + dr;
-							const newCol = col + dc;
-							if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
-								attackedSquares.add(this.getSquareNotation(newRow, newCol));
-							}
-						});
-						break;
-						
-					case 'b':
-						const elephantMoves = [[-2, -2], [-2, 2], [2, -2], [2, 2]];
-						elephantMoves.forEach(([dr, dc]) => {
-							const newRow = row + dr;
-							const newCol = col + dc;
-							if (newRow >= 0 && newRow <= 4 && newCol >= 0 && newCol < 9) {
-								const midRow = row + dr / 2;
-								const midCol = col + dc / 2;
-								const blocking = this.game.get(this.getSquareNotation(midRow, midCol));
-								if (!blocking) {
-									attackedSquares.add(this.getSquareNotation(newRow, newCol));
-								}
-							}
-						});
-						break;
-						
-					case 'k':
-						const kingMoves = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-						kingMoves.forEach(([dr, dc]) => {
-							const newRow = row + dr;
-							const newCol = col + dc;
-							if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
-								attackedSquares.add(this.getSquareNotation(newRow, newCol));
-							}
-						});
-						break;
-				}
+
+				// Используем единый метод для всех фигур
+				const attacks = this.getSquareAttacksXiangqi(row, col, piece);
+				attacks.forEach(sq => attackedSquares.add(sq));
 			}
 		}
-		
+
 		return attackedSquares;
 	}
 	
@@ -1932,7 +1892,7 @@ getAttackersOfSquareXiangqi(targetSquare, attackerColor) {
 			statusText = this.locales[lang][inStalemate ? 'stalemate' : 'win'] + winner;
 
 			if (this.game.turn() === 'r') {
-				this.boardElement.classList.add(!this.aiEnabled ? 'lost' : 'won-black');
+				this.boardElement.classList.add(!this.aiEnabled ? 'lost' : 'won-blue');
 			} else {
 				this.boardElement.classList.add(!this.aiEnabled ? 'won' : 'won-red');
 			}
