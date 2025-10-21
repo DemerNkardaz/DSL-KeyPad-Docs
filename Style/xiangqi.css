@@ -19,7 +19,7 @@
 	border-radius: 15px;
 	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 	z-index: 10;
-	font-family: 'Noto Sans Symbols 2', sans-serif;
+	font-family: var(--fonts-game);
 }
 
 .xiangqi-info-container {
@@ -33,7 +33,6 @@
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .xiangqi-btn {
@@ -208,10 +207,7 @@
 	font-size: 5rem;
 	font-weight: bold;
 	font-style: italic;
-	color: white;
-	text-shadow:
-		0 0 10px rgba(0, 0, 0, 0.8),
-		0 2px 4px rgba(0, 0, 0, 0.8);
+	filter: drop-shadow(0 0px 4px black);
 	pointer-events: none;
 	z-index: 10;
 }
@@ -282,6 +278,7 @@
 	border: 1px solid transparent;
 	padding-block-start: 6.5px;
 	transition: transform 0.4s ease-out;
+	font-family: 'Noto Sans Symbols 2', sans-serif;
 }
 
 .xiangqi-piece-turn-wrapper {
@@ -292,6 +289,7 @@
 	border: 1px solid transparent;
 	padding-block-start: 12px;
 	transition: transform 0.3s ease-out;
+	font-family: 'Noto Sans Symbols 2', sans-serif;
 	
 	& .xiangqi-piece {
 		padding-block-start: 4.5%;

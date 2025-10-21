@@ -215,6 +215,7 @@
 	font-weight: bold;
 	font-style: italic;
 	filter: drop-shadow(0 0px 4px black);
+	pointer-events: none;
 	z-index: 2;
 }
 
@@ -310,5 +311,4 @@
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
