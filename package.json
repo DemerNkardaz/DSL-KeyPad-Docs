@@ -8,7 +8,7 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "deploy": "node deploy.js",
-    "theme": "node convert-theme.mjs"
+    "theme": "node tmThemeToShiki.ts ./src/assets/themes/DSL-KeyPad.tmTheme"
   },
   "dependencies": {
     "@mdx-js/vue": "^3.1.1",

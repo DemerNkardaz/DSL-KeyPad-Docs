@@ -149,3 +149,13 @@
 .rotate-180 {
 	transform: rotate(180deg);
 }
+
+.flex {
+	display: flex;
+	gap: 0.15rem;
+
+	&-center {
+		justify-content: center;
+		align-items: center;
+	}
+}

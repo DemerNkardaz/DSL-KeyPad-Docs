@@ -14,18 +14,36 @@ import vue from '@vitejs/plugin-vue'
 import rehypeShiki from '@shikijs/rehype'
 
 import remarkReadingTime from 'remark-reading-time'
-import { remarkReadingTimeExport } from './remarkReadingTimeExport'
-import { remarkTypography } from './remarkTypography'
 import { transformerRenderIndentGuides } from '@shikijs/transformers'
 
-import ahk2Grammar from './ahk2.tmLanguage.json'
+import { remarkReadingTimeExport } from './modules/remarkReadingTimeExport'
+import { remarkTypography } from './modules/remarkTypography'
+import { tmThemeToShiki } from './modules/tmThemeToShiki'
 
-import theme from './DSL-KeyPad.json'
+import ahk2Grammar from './src/assets/grammars/ahk2.tmLanguage.json'
+const themePath = './src/assets/themes/DSL-KeyPad.tmTheme'
 
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
-		{ enforce: 'pre', ...mdx({
+		{
+			name: 'watch-tm-theme',
+			configureServer(server) {
+				server.watcher.add('**/*.tmTheme')
+
+				let timer: ReturnType<typeof setTimeout> | null = null
+				server.watcher.on('change', (file) => {
+					if (!file.endsWith('.tmTheme')) return
+					if (timer) clearTimeout(timer)
+					timer = setTimeout(() => {
+						timer = null
+						server.restart()
+					}, 300)
+				})
+			}
+		},
+		{
+			enforce: 'pre', ...mdx({
 			jsxImportSource: 'vue',
 			remarkPlugins: [
 				remarkFrontmatter,
@@ -41,7 +59,7 @@ export default defineConfig({
 				rehypeAutolinkHeadings,
 				[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
 				[rehypeShiki, {
-					theme: theme,
+					theme: tmThemeToShiki(themePath),
 					transformers: [
 						transformerRenderIndentGuides(),
 					],
