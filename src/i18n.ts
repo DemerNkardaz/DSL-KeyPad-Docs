@@ -3,7 +3,7 @@ import { messages, getBrowserLocale } from './i18n/locales'
 import { urlParams } from './scripts/constants'
 
 const supportedLocales = Object.keys(messages)
-const urlLocale = urlParams.get('locale')
+const urlLocale = urlParams.get('t')
 
 export const i18n = createI18n({
   legacy: false,

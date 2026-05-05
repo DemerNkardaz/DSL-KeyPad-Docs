@@ -68,7 +68,7 @@ export function resolveImage(image: string | undefined, lang?: string, finisher?
 
 export function createArticleUrl(locale: string, article: string, section?: string, header?: string): string {
 	const params = new URLSearchParams()
-	params.set('locale', locale)
+	params.set('t', locale)
 	params.set('a', article.replace(/\s+/g, '+'))
 	if (section) params.set('s', section.replace(/\s+/g, '+'))
 	if (header) params.set('h', header.replace(/\s+/g, '+'))
