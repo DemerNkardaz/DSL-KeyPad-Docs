@@ -1,3 +1,4 @@
+// TODO: ДОБАВИТЬ ВЕБВОРКЕРЫ ДЛЯ ШАХМАТ И СЯНЦИ
 import { createApp } from 'vue'
 import './styles/main.scss'
 import './styles/auxiliary.scss'

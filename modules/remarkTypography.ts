@@ -1,42 +1,63 @@
-import { visit } from 'unist-util-visit'
-import { typographyRules } from './typographyRules'
-import type { Root, Text, Parent } from 'mdast'
+import { visit } from 'unist-util-visit';
+import { typographyRules, type Rule } from './typographyRules';
+import type { Root, Text, Parent } from 'mdast';
 
-export function remarkTypography() {
-	return (tree: Root, file: any) => {
-		const filePath: string = file.history?.[0] ?? ''
-		const locale = filePath.includes('/ru.') ? 'ru' : filePath.includes('/en.') ? 'en' : null
+const NODE_MARKER = '\uE000\uEDFD\uF43E';
 
-		if (!locale) return
-		const rules = typographyRules[locale]
-		if (!rules || rules.length === 0) return
+export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: 'ru' }) {
+	return (tree: Root) => {
+		const locale = options.locale as keyof typeof typographyRules;
+		const rules = [...(typographyRules.common || []), ...(typographyRules[locale] || [])];
+
+		if (rules.length === 0) return;
 
 		function applyRules(text: string): string {
-			let value = text
+			let value = text;
 			for (const [pattern, replacement] of rules) {
-				value = value.replace(pattern, replacement)
+				if (pattern instanceof RegExp) {
+					value = value.replace(pattern, replacement);
+				} else if (typeof pattern === 'function') {
+					value = pattern(value);
+				}
 			}
-			return value
+			return value;
 		}
 
-		visit(tree, 'paragraph', (node: Parent) => {
-			node.children.forEach((child, i) => {
-				if (child.type !== 'text') return
+		const isExcluded = (node: any) =>
+			node.type === 'code' ||
+			node.type === 'fence' ||
+			node.type === 'codeBlock' ||
+			node.type === 'pre' ||
+			node.type === 'inlineCode' ||
+			node.type === 'math';
 
-				const prev = node.children[i - 1]
-				const next = node.children[i + 1]
+		visit(tree, (node) => {
+			if (!('children' in node)) return;
 
-				const prefix = prev ? '\x00' : ''
-				const suffix = next ? '\x00' : ''
+			const parent = node as Parent;
+			if (isExcluded(node) || (parent && isExcluded(parent))) return;
 
-				let value = prefix + (child as Text).value + suffix
-				value = applyRules(value)
+			const textNodes: Text[] = [];
 
-				if (prefix) value = value.replace(/^\x00/, '')
-				if (suffix) value = value.replace(/\x00$/, '')
+			parent.children.forEach((child) => {
+				if (child.type === 'text') {
+					textNodes.push(child as Text);
+				}
+			});
 
-				;(child as Text).value = value
-			})
-		})
-	}
+			if (textNodes.length === 0) return;
+
+			const combinedText = textNodes.map((n) => n.value).join(NODE_MARKER);
+
+			const transformedText = applyRules(combinedText);
+
+			const segments = transformedText.split(NODE_MARKER);
+
+			textNodes.forEach((node, i) => {
+				if (segments[i] !== undefined) {
+					node.value = segments[i];
+				}
+			});
+		});
+	};
 }
