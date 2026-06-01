@@ -1,5 +1,5 @@
 // Символы
-const E = {
+export const E = {
 	emdash: '\u2014',
 	endash: '\u2013',
 	minus: '\u2212',
@@ -11,12 +11,12 @@ const E = {
 	space: ' ',
 };
 
-const punctuation = {
+export const punctuation = {
 	leftSided: '\u00A1\u00BF\u2E18\u2E2E',
 	rightSided: '\u203C\u2049\u2047\u2048\u203D.,!?\u2026',
 };
 
-const wallet = '\\$\u20AC\u00A3\u00A5\u20BD\u20B4\u20A3\u20A4';
+export const wallet = '\\$\u20AC\u00A3\u00A5\u20BD\u20B4\u20A3\u20A4';
 
 type BaseRule = {
 	weight?: number;
@@ -93,50 +93,89 @@ interface QuoteSettings {
 function smartQuotes(
 	text: string,
 	quotes: QuoteSettings = {
-		outer: ['«', '»'],
-		inner: ['„', '“'],
+		outer: ['\u00AB', '\u00BB'],
+		inner: ['\u201E', '\u201C'],
 	}
 ): string {
 	let result = '';
-	let level = 0;
+	// Stack tracks which quote char opened each level: '"' or "'"
+	const stack: Array<'"' | "'"> = [];
 
 	for (let i = 0; i < text.length; i++) {
 		const char = text[i];
-
-		if (char !== '"') {
-			result += char;
-			continue;
-		}
-
 		const prev = text[i - 1] ?? '';
 		const next = text[i + 1] ?? '';
 
-		const afterSpace = prev === '' || /\s/.test(prev);
-		const beforeSpace = next === '' || /\s/.test(next);
+		if (char === '"') {
+			const afterSpace = prev === '' || /\s/.test(prev);
+			const beforeSpace = next === '' || /\s/.test(next);
 
-		let isOpen: boolean;
+			let isOpen: boolean;
+			if (stack.length === 0) {
+				isOpen = true;
+			} else if (afterSpace && !beforeSpace) {
+				isOpen = true;
+			} else if (!afterSpace && beforeSpace) {
+				isOpen = false;
+			} else if (!afterSpace && !beforeSpace) {
+				isOpen = false;
+			} else {
+				isOpen = false;
+			}
 
-		if (level === 0) {
-			isOpen = true;
-		} else if (afterSpace && !beforeSpace) {
-			isOpen = true;
-		} else if (!afterSpace && beforeSpace) {
-			isOpen = false;
-		} else if (!afterSpace && !beforeSpace) {
-			isOpen = false;
-		} else {
-			isOpen = level === 0;
+			if (isOpen) {
+				const q = stack.length === 0 ? quotes.outer : quotes.inner;
+				result += q[0];
+				stack.push('"');
+			} else {
+				// Find the matching '"' on the stack and pop it
+				const matchIdx = [...stack].reverse().indexOf('"');
+				if (matchIdx !== -1) {
+					stack.splice(stack.length - 1 - matchIdx, 1);
+				}
+				const q = stack.length === 0 ? quotes.outer : quotes.inner;
+				result += q[1];
+			}
+			continue;
 		}
 
-		if (isOpen) {
-			const q = level === 0 ? quotes.outer : quotes.inner;
-			result += q[0];
-			level++;
-		} else {
-			level = Math.max(0, level - 1);
-			const q = level === 0 ? quotes.outer : quotes.inner;
-			result += q[1];
+		if (char === "'") {
+			const insideDoubleQuotes = stack.includes('"');
+
+			// Apostrophe: letter directly before AND letter/digit directly after
+			// e.g. it's, don't, o'clock — not a quote
+			const isApostrophe =
+				/[a-zA-Z\u0430-\u044F\u0410-\u042F\u0451\u0401]/.test(prev) &&
+				/[a-zA-Z\u0430-\u044F\u0410-\u042F\u0451\u04010-9]/.test(next);
+
+			if (isApostrophe || !insideDoubleQuotes) {
+				// Pass through; the common apostrophe rule handles ' \u2192 \u2019
+				result += char;
+				continue;
+			}
+
+			// Inside double quotes: treat as inner quote
+			const lastDoubleIdx = stack.lastIndexOf('"');
+			const hasOpenSingle = stack.slice(lastDoubleIdx + 1).includes("'");
+
+			// If no open single quote yet inside this double-quote level → opening.
+			// If one is already open → closing (regardless of spacing).
+			const isOpen = !hasOpenSingle;
+
+			if (isOpen) {
+				result += quotes.inner[0];
+				stack.push("'");
+			} else {
+				const matchIdx = [...stack].reverse().indexOf("'");
+				if (matchIdx !== -1) {
+					stack.splice(stack.length - 1 - matchIdx, 1);
+				}
+				result += quotes.inner[1];
+			}
+			continue;
 		}
+
+		result += char;
 	}
 
 	return result;
@@ -162,8 +201,8 @@ export const typographyRules: Record<string, Rule[]> = {
 		newRule(/--/g, E.emdash),
 		newRule(/\.\.\./g, E.ellipsis),
 
-		// Apostrophe
-		newRule(/'/g, '\u2019'),
+		// Apostrophe — runs after smartQuotes (weight 100) so only untouched ' remain
+		newRule(/'/g, '\u2019', 200),
 	],
 
 	ru: [
@@ -172,10 +211,11 @@ export const typographyRules: Record<string, Rule[]> = {
 		newRule(smartQuotes, [], 100),
 		newRule(
 			new RegExp(
-				`(?<=[${punctuation.leftSided}«„\\(\\[])\\s+|(?<!\\s)\\s(?=[${punctuation.rightSided}»"'\\)\\]])`,
+				`(?<=[${punctuation.leftSided}«„\\(\\[])\\s+|(?<!\\s)\\s(?=[${punctuation.rightSided}»“\\)\\]])`,
 				'g'
 			),
-			''
+			'',
+			1000
 		),
 		newRule(/\.»/g, '».'),
 		newRule(
@@ -231,8 +271,26 @@ export const typographyRules: Record<string, Rule[]> = {
 
 	en: [
 		newRule(smartQuotes, [{ outer: ['“', '”'], inner: ['‘', '’'] }], 100),
+		newRule(
+			new RegExp(
+				`(?<=[${punctuation.leftSided}“‘\\(\\[])\\s+|(?<!\\s)\\s(?=[${punctuation.rightSided}”’\\)\\]])`,
+				'g'
+			),
+			'',
+			1000
+		),
 		newRule(new RegExp(`([${wallet}])\\s?(\\d+)`, 'g'), `$1$2`),
 		newRule(/fi/g, '\uFB01'),
 		newRule(/fl/g, '\uFB02'),
+		newRule(/ffi/g, '\uFB03'),
+		newRule(/ffl/g, '\uFB04'),
 	],
 };
+
+export function registerRule(locale: string, rule: Rule) {
+	if (!typographyRules[locale]) {
+		typographyRules[locale] = [];
+	}
+
+	typographyRules[locale].push(rule);
+}

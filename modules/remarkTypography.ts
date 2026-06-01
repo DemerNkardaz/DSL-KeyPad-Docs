@@ -16,7 +16,7 @@ export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: '
 	return (tree: Root) => {
 		const locale = options.locale as keyof typeof typographyRules;
 		const rules = [...(typographyRules.common || []), ...(typographyRules[locale] || [])].sort(
-			(a, b) => (a.weight ?? 0) + (b.weight ?? 0)
+			(a, b) => (a.weight ?? 0) - (b.weight ?? 0)
 		);
 
 		if (rules.length === 0) return;
@@ -31,7 +31,14 @@ export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: '
 					return PROTECTION_MARKER;
 				});
 			});
-
+			console.log(
+				'RULES ORDER:',
+				rules.map((r) => ({
+					kind: r.kind,
+					weight: r.weight,
+					rule: r.kind === 'function' ? r.rule.name : String(r.rule).slice(0, 30),
+				}))
+			);
 			for (const item of rules) {
 				if (!item || !item.kind) continue;
 
