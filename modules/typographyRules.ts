@@ -255,7 +255,7 @@ export const typographyRules: Record<string, Rule[]> = {
 			'',
 			1000
 		),
-		newRule(/\.»/g, '».', 10),
+		newRule(/\.»/g, '».', 1000),
 		newRule(
 			new RegExp(`(?<!\\d\\s)([${wallet}])\\s(\\d{1,3}(?:\\d{3})*(?:,\\d+)?|\\d+(?:,\\d+)?)`, 'g'),
 			`$2${E.no_break_space}$1`
