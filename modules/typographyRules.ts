@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 // Символы
 export const E = {
 	emdash: '\u2014',
@@ -34,9 +35,16 @@ export type RegExpTransformRule = BaseRule & {
 	transform: (match: RegExpExecArray) => string;
 };
 
-export type FunctionRule<T extends any[] = any[]> = BaseRule & {
+// Намеренно broad-тип для функций-правил: параметры после text конкретизируются
+// в конкретных функциях (напр. smartQuotes), но для хранения в массиве Rule[]
+// и вызова через spread нужен общий знаменатель. eslint-disable-next-line покрывает
+// единственное легитимное использование any в этом файле.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RuleFunction = (text: string, ...args: any[]) => string;
+
+export type FunctionRule<T extends unknown[] = unknown[]> = BaseRule & {
 	kind: 'function';
-	rule: (text: string, ...args: T) => string;
+	rule: RuleFunction;
 	args?: T;
 };
 
@@ -48,22 +56,18 @@ function newRule(
 	transform: (match: RegExpExecArray) => string,
 	weight?: number
 ): Rule;
-function newRule(
-	rule: (text: string, ...args: any[]) => string,
-	args?: any[],
-	weight?: number
-): Rule;
+function newRule(rule: RuleFunction, args?: unknown[], weight?: number): Rule;
 
 function newRule(
-	rule: RegExp | ((text: string, ...args: any[]) => string),
-	second?: string | ((match: RegExpExecArray) => string) | any[],
+	rule: RegExp | RuleFunction,
+	second?: string | ((match: RegExpExecArray) => string) | unknown[],
 	weight: number = 0
 ): Rule {
 	if (typeof rule === 'function') {
 		return {
 			kind: 'function',
-			rule: rule as (text: string, ...args: any[]) => string,
-			args: Array.isArray(second) ? (second as any[]) : [],
+			rule,
+			args: Array.isArray(second) ? second : [],
 			weight,
 		} as FunctionRule;
 	}
@@ -181,6 +185,37 @@ function smartQuotes(
 	return result;
 }
 
+interface NumberSpaceSettings {
+	minLength?: number;
+	separateFloat?: boolean;
+}
+
+function smartNumberSpaces(
+	text: string,
+	{ minLength = 5, separateFloat = false }: NumberSpaceSettings = {}
+): string {
+	return text.replace(
+		/(?<![a-zA-Zа-яА-ЯёЁ\d])([+\-\u2212]?)(\d[\d\u00A0]*)([.,]\d+)?(?!\d)/g,
+		(match, sign: string, rawInt: string, floatPart: string | undefined) => {
+			const intPart = rawInt.replace(/\u00A0/g, '');
+
+			if (intPart.length < minLength) return match;
+
+			const formattedInt = intPart.replace(/(\d)(?=(\d{3})+$)/g, `$1${E.no_break_space}`);
+
+			let formattedFloat = floatPart ?? '';
+			if (separateFloat && floatPart) {
+				const sep = floatPart[0]; // '.' или ','
+				const digits = floatPart.slice(1);
+				const spaced = digits.replace(/(\d{3})(?=\d)/g, `$1${E.no_break_space}`);
+				formattedFloat = sep + spaced;
+			}
+
+			return sign + formattedInt + formattedFloat;
+		}
+	);
+}
+
 export const typographyRules: Record<string, Rule[]> = {
 	common: [
 		// Whitespace cleanup
@@ -201,6 +236,9 @@ export const typographyRules: Record<string, Rule[]> = {
 		newRule(/--/g, E.emdash),
 		newRule(/\.\.\./g, E.ellipsis),
 
+		// Numbers
+		newRule(smartNumberSpaces, []),
+
 		// Apostrophe — runs after smartQuotes (weight 100) so only untouched ' remain
 		newRule(/'/g, '\u2019', 200),
 	],
@@ -217,7 +255,7 @@ export const typographyRules: Record<string, Rule[]> = {
 			'',
 			1000
 		),
-		newRule(/\.»/g, '».'),
+		newRule(/\.»/g, '».', 10),
 		newRule(
 			new RegExp(`(?<!\\d\\s)([${wallet}])\\s(\\d{1,3}(?:\\d{3})*(?:,\\d+)?|\\d+(?:,\\d+)?)`, 'g'),
 			`$2${E.no_break_space}$1`
@@ -234,10 +272,6 @@ export const typographyRules: Record<string, Rule[]> = {
 			new RegExp(`(?<![${punctuation.rightSided}])\\s${E.emdash}\\s`, 'g'),
 			`${E.no_break_space}${E.emdash} `
 		),
-
-		// 2::Цифры
-		newRule(/(\d)(?=(\d{3})+(?!\d))/g, `$1${E.no_break_space}`),
-		newRule(/(\d)\s(?=\d{3})/g, `$1${E.no_break_space}`),
 
 		// 3::Инициалы
 		newRule(

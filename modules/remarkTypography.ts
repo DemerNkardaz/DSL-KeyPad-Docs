@@ -31,14 +31,6 @@ export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: '
 					return PROTECTION_MARKER;
 				});
 			});
-			console.log(
-				'RULES ORDER:',
-				rules.map((r) => ({
-					kind: r.kind,
-					weight: r.weight,
-					rule: r.kind === 'function' ? r.rule.name : String(r.rule).slice(0, 30),
-				}))
-			);
 			for (const item of rules) {
 				if (!item || !item.kind) continue;
 
@@ -51,7 +43,7 @@ export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: '
 
 					case 'transform': {
 						const transformItem = item as RegExpTransformRule;
-						value = value.replace(transformItem.rule, (match: string, ...groups: any[]) => {
+						value = value.replace(transformItem.rule, (match: string, ...groups: unknown[]) => {
 							const regexArray = [match, ...groups] as unknown as RegExpExecArray;
 							return transformItem.transform(regexArray);
 						});
@@ -81,7 +73,7 @@ export function remarkTypography(options: { locale?: 'ru' | 'en' } = { locale: '
 			return nodes;
 		}
 
-		const isExcluded = (node: any) =>
+		const isExcluded = (node: { type: string }) =>
 			['code', 'fence', 'codeBlock', 'pre', 'inlineCode', 'math'].includes(node.type);
 
 		visit(tree, (node) => {
